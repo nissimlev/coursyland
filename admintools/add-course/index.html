@@ -214,6 +214,26 @@
     pointer-events: none;
   }
 
+  .img-input-row {
+    display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;
+  }
+  .img-input-row input[type="url"] { flex: 1; min-width: 180px; }
+  .btn-upload-img {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--grad-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.68rem 1rem;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.85rem; font-weight: 700; color: var(--purple);
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-upload-img:hover { background: rgba(155,48,232,0.15); border-color: var(--border-focus); }
+  #img-upload-status {
+    font-size: 0.8rem; font-weight: 600; margin-top: 0.4rem;
+    display: none;
+  }
   .img-preview {
     width: 100%; max-width: 240px;
     height: 130px; object-fit: cover;
@@ -403,8 +423,16 @@
         </div>
 
         <div class="form-group full">
-          <label>קישור לתמונה <span class="opt">(URL — ריק = תמונה ברירת מחדל)</span></label>
-          <input type="url" id="img" placeholder="https://images.unsplash.com/...">
+          <label>תמונה <span class="opt">(URL או העלאה מהמחשב — ריק = ברירת מחדל)</span></label>
+          <div class="img-input-row">
+            <input type="url" id="img" placeholder="https://images.unsplash.com/...">
+            <label class="btn-upload-img" for="img-file">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              העלה מהמחשב
+            </label>
+            <input type="file" id="img-file" accept="image/*" style="display:none">
+          </div>
+          <div id="img-upload-status"></div>
           <img id="img-preview" class="img-preview" alt="תצוגה מקדימה">
         </div>
 
@@ -479,6 +507,33 @@ async function ghPut(token, sha, encodedContent, message) {
     throw new Error(body.message || `GitHub API שגיאה ${res.status}`);
   }
   return res.json();
+}
+
+/* ── Image upload to GitHub ── */
+async function uploadImage(token, file) {
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+  const filename = `${Date.now()}.${ext}`;
+  const path = `images/courses/${filename}`;
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message: `Upload course image: ${filename}`, content: base64 })
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || `שגיאה בהעלאת התמונה ${res.status}`);
+  }
+  return `https://raw.githubusercontent.com/${REPO}/main/${path}`;
 }
 
 /* ── Courses array manipulation ── */
@@ -569,7 +624,7 @@ document.getElementById('category').addEventListener('change', function () {
   if (this.value === '__new__') document.getElementById('new-category').focus();
 });
 
-/* ── Image preview ── */
+/* ── Image preview (URL input) ── */
 document.getElementById('img').addEventListener('input', function () {
   const preview = document.getElementById('img-preview');
   const url = this.value.trim();
@@ -580,6 +635,29 @@ document.getElementById('img').addEventListener('input', function () {
   } else {
     preview.style.display = 'none';
   }
+  // Clear file selection when URL is typed manually
+  document.getElementById('img-file').value = '';
+  document.getElementById('img-upload-status').style.display = 'none';
+});
+
+/* ── Image file picker ── */
+let pendingImageFile = null;
+document.getElementById('img-file').addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+  pendingImageFile = file;
+  // Clear URL field
+  document.getElementById('img').value = '';
+  // Show local preview
+  const preview = document.getElementById('img-preview');
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  preview.onerror = () => { preview.style.display = 'none'; };
+  // Status hint
+  const status = document.getElementById('img-upload-status');
+  status.textContent = `נבחר: ${file.name} — התמונה תועלה ל-GitHub בעת שמירת הקורס`;
+  status.style.display = 'block';
+  status.style.color = 'var(--muted)';
 });
 
 /* ── Toast ── */
@@ -625,21 +703,29 @@ document.getElementById('course-form').addEventListener('submit', async function
 
   setLoading(true);
   try {
-    // 1. Fetch file + sha
+    // 1. Upload image file to GitHub if one was selected
+    let resolvedImg = imgVal || DEFAULT_IMG;
+    if (pendingImageFile) {
+      document.getElementById('img-upload-status').textContent = 'מעלה תמונה ל-GitHub...';
+      document.getElementById('img-upload-status').style.display = 'block';
+      resolvedImg = await uploadImage(token, pendingImageFile);
+    }
+
+    // 2. Fetch index.html + sha
     const fileData = await ghGet(token);
     const html = b64Decode(fileData.content);
 
-    // 2. Parse courses, compute next ID
+    // 3. Parse courses, compute next ID
     const { courses, insertAt } = extractCourses(html);
     const maxId = courses.reduce((m, c) => Math.max(m, c.id || 0), 0);
 
-    // 3. Build course object
+    // 4. Build course object
     const newCourse = {
       id: maxId + 1,
       title, desc, category,
       price: '₪' + priceNum,
       duration, instructor,
-      img: imgVal || DEFAULT_IMG
+      img: resolvedImg
     };
     if (link) newCourse.link = link;
 
@@ -652,7 +738,9 @@ document.getElementById('course-form').addEventListener('submit', async function
 
     showToast('הקורס נוסף בהצלחה. האתר יתעדכן תוך מספר שניות.');
     this.reset();
+    pendingImageFile = null;
     document.getElementById('img-preview').style.display = 'none';
+    document.getElementById('img-upload-status').style.display = 'none';
     document.getElementById('new-category-wrap').style.display = 'none';
     loadCategories();
   } catch (err) {
