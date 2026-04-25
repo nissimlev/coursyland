@@ -31,7 +31,6 @@
     direction: rtl;
   }
 
-  /* NAV */
   nav {
     background: rgba(255,255,255,0.9);
     backdrop-filter: blur(20px);
@@ -64,12 +63,11 @@
   }
   .back-link:hover { color: var(--purple); }
 
-  /* LAYOUT */
   .page {
     max-width: 860px; margin: 0 auto;
     padding: 2.5rem 1.5rem 5rem;
   }
-  .page-header { margin-bottom: 2rem; }
+  .page-header { margin-bottom: 1.5rem; }
   .page-header h1 {
     font-size: 1.9rem; font-weight: 900;
     background: var(--grad);
@@ -79,32 +77,94 @@
   }
   .page-header p { font-size: 0.9rem; color: var(--muted); }
 
-  /* CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 2rem 2rem;
+    padding: 1.6rem 2rem;
     box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
   }
 
-  /* SERVER STATUS */
-  #server-status {
-    display: none;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--error);
-    font-size: 0.88rem;
-    line-height: 1.6;
+  /* TOKEN CARD */
+  .token-card { border-color: rgba(155,48,232,0.25); }
+  .token-row {
+    display: flex; gap: 0.75rem; align-items: center;
+    margin-top: 0.9rem; flex-wrap: wrap;
   }
-  #server-status code {
-    background: #fee2e2; border-radius: 6px;
-    padding: 0.1rem 0.4rem; font-family: monospace;
-    font-size: 0.9em;
+  .token-input-wrap {
+    position: relative; flex: 1; min-width: 220px;
   }
+  .token-input-wrap input {
+    width: 100%; padding-left: 2.6rem;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.9rem; color: var(--text);
+    padding-top: 0.65rem; padding-bottom: 0.65rem;
+    padding-right: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    direction: ltr; letter-spacing: 0.04em;
+  }
+  .token-input-wrap input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(155,48,232,0.1);
+    background: #fff;
+  }
+  .token-eye {
+    position: absolute; left: 0.7rem; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); padding: 0;
+    display: flex; align-items: center;
+    transition: color 0.2s;
+  }
+  .token-eye:hover { color: var(--purple); }
+  .btn-save-token {
+    background: var(--grad); color: #fff;
+    border: none; cursor: pointer;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.88rem; font-weight: 700;
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    white-space: nowrap;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 3px 12px rgba(155,48,232,0.25);
+  }
+  .btn-save-token:hover { opacity: 0.88; transform: translateY(-1px); }
+  #token-status {
+    font-size: 0.83rem; font-weight: 600;
+    color: var(--muted); white-space: nowrap;
+  }
+  .token-hint {
+    margin-top: 1rem;
+    background: var(--grad-soft);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.82rem; color: var(--muted); line-height: 1.7;
+  }
+  .token-hint .hint-title {
+    font-weight: 700; color: var(--text);
+    margin-bottom: 0.2rem; font-size: 0.83rem;
+  }
+  .token-hint .path {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem;
+    font-size: 0.8rem;
+  }
+  .token-hint .path-sep { color: var(--purple); font-weight: 700; }
+  .token-hint .path-step {
+    background: rgba(155,48,232,0.1);
+    border-radius: 5px; padding: 0.05rem 0.4rem;
+    font-size: 0.78rem; color: var(--text); font-weight: 600;
+  }
+  .token-hint .privacy-note {
+    margin-top: 0.55rem;
+    font-size: 0.78rem; color: var(--muted);
+    display: flex; align-items: flex-start; gap: 0.3rem;
+  }
+  .token-hint .privacy-note svg { flex-shrink: 0; margin-top: 1px; }
 
   /* FORM */
   .form-grid {
@@ -116,11 +176,11 @@
   .form-group.full { grid-column: 1 / -1; }
 
   label {
-    font-size: 0.82rem; font-weight: 700;
+    font-size: 0.8rem; font-weight: 700;
     color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px;
   }
   label .req { color: var(--purple); margin-right: 2px; }
-  label .opt { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.8rem; }
+  label .opt { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
 
   input[type="text"],
   input[type="url"],
@@ -146,9 +206,7 @@
   }
   textarea { resize: vertical; min-height: 90px; }
 
-  /* Price wrapper */
   .price-wrap { position: relative; }
-  .price-wrap input { padding-right: 2.2rem; }
   .price-prefix {
     position: absolute; right: 0.85rem; top: 50%;
     transform: translateY(-50%);
@@ -156,26 +214,17 @@
     pointer-events: none;
   }
 
-  /* Image preview */
   .img-preview {
     width: 100%; max-width: 240px;
     height: 130px; object-fit: cover;
     border-radius: 10px; border: 1.5px solid var(--border);
-    margin-top: 0.6rem;
-    display: none;
-    background: var(--bg);
+    margin-top: 0.6rem; display: none; background: var(--bg);
   }
+  #new-category-wrap { display: none; margin-top: 0.5rem; }
 
-  /* New category input */
-  #new-category-wrap {
-    display: none; margin-top: 0.5rem;
-  }
-
-  /* SUBMIT */
   .submit-row {
     margin-top: 2rem;
-    display: flex; align-items: center; gap: 1rem;
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
   }
   .btn-submit {
     display: inline-flex; align-items: center; gap: 0.5rem;
@@ -193,7 +242,7 @@
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
   .btn-submit .spinner {
     width: 18px; height: 18px;
-    border: 2.5px solid rgba(255,255,255,0.4);
+    border: 2.5px solid rgba(255,255,255,0.35);
     border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
@@ -201,7 +250,6 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* TOAST */
   #toast {
     display: none;
     position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
@@ -214,14 +262,13 @@
     box-shadow: 0 8px 30px rgba(22,163,74,0.35);
     animation: slideUp 0.3s ease;
     text-align: center;
-    white-space: nowrap;
+    max-width: 90vw;
   }
   #toast.error { background: var(--error); box-shadow: 0 8px 30px rgba(220,38,38,0.35); }
   @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 2rem; opacity: 1; } }
 
-  /* SECTION DIVIDER */
   .section-title {
-    font-size: 0.75rem; font-weight: 700; color: var(--purple);
+    font-size: 0.73rem; font-weight: 700; color: var(--purple);
     text-transform: uppercase; letter-spacing: 1.5px;
     margin: 1.8rem 0 1rem;
     padding-bottom: 0.5rem;
@@ -233,7 +280,9 @@
     .form-grid { grid-template-columns: 1fr; }
     .form-group.full { grid-column: 1; }
     .page { padding: 1.5rem 1rem 4rem; }
-    .card { padding: 1.5rem 1.2rem; }
+    .card { padding: 1.4rem 1.2rem; }
+    .token-row { flex-direction: column; align-items: stretch; }
+    .btn-save-token { text-align: center; }
   }
 </style>
 </head>
@@ -255,20 +304,49 @@
 <div class="page">
   <div class="page-header">
     <h1>📚 הוספת קורס לקטלוג</h1>
-    <p>מלא את הפרטים ולחץ "הוסף קורס" — הקורס יתווסף ויועלה לגיטהאב אוטומטית</p>
+    <p>מלא את הפרטים ולחץ "הוסף קורס" — הקורס יתווסף ל-GitHub ישירות</p>
   </div>
 
-  <div id="server-status">
-    ⚠️ השרת המקומי אינו פועל.<br>
-    הפעל אותו בטרמינל עם הפקודה:<br><br>
-    <code>node admintools/add-course/server.js</code><br><br>
-    לאחר מכן פתח: <code>http://localhost:3131</code>
+  <!-- TOKEN CARD -->
+  <div class="card token-card">
+    <div class="section-title" style="margin-top:0">חיבור GitHub</div>
+    <div class="token-row">
+      <div class="token-input-wrap">
+        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+        <button type="button" class="token-eye" id="token-eye-btn" title="הצג/הסתר טוקן">
+          <svg id="eye-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <button type="button" class="btn-save-token" id="save-token-btn">שמור טוקן</button>
+      <span id="token-status"></span>
+    </div>
+    <div class="token-hint">
+      <div class="hint-title">כיצד להשיג טוקן:</div>
+      <div class="path">
+        <span class="path-step">GitHub</span>
+        <span class="path-sep">←</span>
+        <span class="path-step">Settings</span>
+        <span class="path-sep">←</span>
+        <span class="path-step">Developer Settings</span>
+        <span class="path-sep">←</span>
+        <span class="path-step">Personal Access Tokens</span>
+        <span class="path-sep">←</span>
+        <span class="path-step">Tokens (classic)</span>
+        <span class="path-sep">←</span>
+        <span>צור טוקן עם הרשאת <strong style="color:var(--purple)">repo</strong></span>
+      </div>
+      <div class="privacy-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        הטוקן נשמר רק בדפדפן שלך (localStorage) ולא נשלח לאף שרת חיצוני.
+      </div>
+    </div>
   </div>
 
+  <!-- FORM CARD -->
   <div class="card">
     <form id="course-form" novalidate>
 
-      <div class="section-title">פרטי הקורס</div>
+      <div class="section-title" style="margin-top:0">פרטי הקורס</div>
       <div class="form-grid">
 
         <div class="form-group full">
@@ -284,7 +362,7 @@
         <div class="form-group">
           <label>קטגוריה <span class="req">*</span></label>
           <select id="category" required>
-            <option value="">טוען קטגוריות...</option>
+            <option value="">הזן טוקן תחילה...</option>
           </select>
           <div id="new-category-wrap">
             <input type="text" id="new-category" placeholder="שם קטגוריה חדשה...">
@@ -311,7 +389,7 @@
 
         <div class="form-group">
           <label>מספר שיעורים <span class="req">*</span></label>
-          <input type="text" id="duration" placeholder='למשל: 10 שיעורים' required>
+          <input type="text" id="duration" placeholder="למשל: 10 שיעורים" required>
         </div>
 
       </div>
@@ -346,41 +424,158 @@
 <div id="toast"></div>
 
 <script>
-const API = 'http://localhost:3131';
+const REPO    = 'nissimlev/coursyland';
+const FILE    = 'index.html';
+const GH_API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80';
 
+/* ── Base64 ↔ Unicode ── */
+function b64Decode(b64) {
+  const binary = atob(b64.replace(/\s/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+function b64Encode(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => (binary += String.fromCharCode(b)));
+  return btoa(binary);
+}
+
+/* ── Token helpers ── */
+function getToken() { return localStorage.getItem('gh_token') || ''; }
+
+function setTokenStatus(ok, msg) {
+  const el = document.getElementById('token-status');
+  el.textContent = msg;
+  el.style.color = ok ? 'var(--success)' : 'var(--error)';
+}
+
+/* ── GitHub API ── */
+async function ghGet(token) {
+  const res = await fetch(GH_API, {
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (res.status === 401) throw new Error('הטוקן שגוי או פג תוקפו');
+  if (res.status === 404) throw new Error('הקובץ לא נמצא ב-GitHub');
+  if (!res.ok)            throw new Error(`GitHub API שגיאה ${res.status}`);
+  return res.json(); // { content: base64, sha }
+}
+
+async function ghPut(token, sha, encodedContent, message) {
+  const res = await fetch(GH_API, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message, content: encodedContent, sha })
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || `GitHub API שגיאה ${res.status}`);
+  }
+  return res.json();
+}
+
+/* ── Courses array manipulation ── */
+function extractCourses(html) {
+  const marker = 'const courses = [';
+  const mi = html.indexOf(marker);
+  if (mi === -1) throw new Error('לא נמצא מערך courses בקובץ');
+
+  const arrStart = mi + marker.length - 1;
+  let depth = 0, i = arrStart;
+  while (i < html.length) {
+    const c = html[i];
+    if (c === '[' || c === '{') depth++;
+    else if (c === ']' || c === '}') { depth--; if (depth === 0) break; }
+    i++;
+  }
+  // eslint-disable-next-line no-new-func
+  const courses = Function('return ' + html.substring(arrStart, i + 1))();
+  return { courses, arrStart, arrEnd: i + 1 };
+}
+
+function formatEntry(course) {
+  const pairs = Object.entries(course).filter(([, v]) => v !== undefined && v !== '');
+  const inner = pairs.map(([k, v]) => {
+    const val = typeof v === 'string'
+      ? `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
+      : v;
+    return `    ${k}: ${val}`;
+  }).join(',\n');
+  return `  {\n${inner}\n  }`;
+}
+
+function insertCourse(html, course, arrStart, arrEnd) {
+  const seg = html.substring(arrStart, arrEnd);
+  const lastBrace = seg.lastIndexOf('}');
+  if (lastBrace === -1) {
+    return html.slice(0, arrStart + 1) + '\n' + formatEntry(course) + '\n' + html.slice(arrStart + 1);
+  }
+  const at = arrStart + lastBrace + 1;
+  return html.slice(0, at) + ',\n' + formatEntry(course) + '\n' + html.slice(at);
+}
+
+/* ── Category dropdown ── */
 async function loadCategories() {
+  const token = getToken();
+  const sel = document.getElementById('category');
+  if (!token) { sel.innerHTML = '<option value="">הזן טוקן תחילה...</option>'; return; }
+
+  sel.innerHTML = '<option value="">טוען קטגוריות...</option>';
   try {
-    const res = await fetch(`${API}/api/courses`);
-    if (!res.ok) throw new Error();
-    const courses = await res.json();
+    const data = await ghGet(token);
+    const html = b64Decode(data.content);
+    const { courses } = extractCourses(html);
     const cats = [...new Set(courses.map(c => c.category).filter(Boolean))].sort();
 
-    const sel = document.getElementById('category');
     sel.innerHTML = '<option value="">בחר קטגוריה...</option>';
     cats.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat;
-      opt.textContent = cat;
-      sel.appendChild(opt);
+      const o = document.createElement('option');
+      o.value = o.textContent = cat;
+      sel.appendChild(o);
     });
     const newOpt = document.createElement('option');
     newOpt.value = '__new__';
     newOpt.textContent = '➕ הוסף קטגוריה חדשה';
     sel.appendChild(newOpt);
-  } catch {
-    document.getElementById('server-status').style.display = 'block';
-    const sel = document.getElementById('category');
-    sel.innerHTML = '<option value="">שרת לא זמין</option>';
+  } catch (e) {
+    sel.innerHTML = '<option value="">שגיאה בטעינה</option>';
+    showToast('❌ ' + e.message, true);
   }
 }
 
+/* ── Token UI ── */
+document.getElementById('save-token-btn').addEventListener('click', () => {
+  const val = document.getElementById('gh-token').value.trim();
+  if (!val) { setTokenStatus(false, '⚠️ הזן טוקן'); return; }
+  localStorage.setItem('gh_token', val);
+  setTokenStatus(true, '✅ טוקן נשמר');
+  loadCategories();
+});
+
+document.getElementById('token-eye-btn').addEventListener('click', () => {
+  const inp = document.getElementById('gh-token');
+  const isPass = inp.type === 'password';
+  inp.type = isPass ? 'text' : 'password';
+  document.getElementById('eye-icon').innerHTML = isPass
+    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+});
+
+/* ── Category select ── */
 document.getElementById('category').addEventListener('change', function () {
   const wrap = document.getElementById('new-category-wrap');
   wrap.style.display = this.value === '__new__' ? 'block' : 'none';
   if (this.value === '__new__') document.getElementById('new-category').focus();
 });
 
+/* ── Image preview ── */
 document.getElementById('img').addEventListener('input', function () {
   const preview = document.getElementById('img-preview');
   const url = this.value.trim();
@@ -393,71 +588,76 @@ document.getElementById('img').addEventListener('input', function () {
   }
 });
 
+/* ── Toast ── */
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = isError ? 'error' : '';
   t.style.display = 'block';
-  setTimeout(() => { t.style.display = 'none'; }, 4500);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.display = 'none'; }, 5000);
 }
 
 function setLoading(on) {
   const btn = document.getElementById('submit-btn');
-  const spinner = document.getElementById('spinner');
-  const text = document.getElementById('btn-text');
+  document.getElementById('spinner').style.display = on ? 'block' : 'none';
+  document.getElementById('btn-text').textContent = on ? 'מעלה ל-GitHub...' : 'הוסף קורס ⬆️';
   btn.disabled = on;
-  spinner.style.display = on ? 'block' : 'none';
-  text.textContent = on ? 'מעלה לגיטהאב...' : 'הוסף קורס ⬆️';
 }
 
+/* ── Form submit ── */
 document.getElementById('course-form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const title = document.getElementById('title').value.trim();
+  const token = getToken();
+  if (!token) { showToast('⚠️ יש להזין ולשמור GitHub Token תחילה', true); return; }
+
+  const title    = document.getElementById('title').value.trim();
   const instructor = document.getElementById('instructor').value.trim();
-  const desc = document.getElementById('desc').value.trim();
+  const desc     = document.getElementById('desc').value.trim();
   const priceNum = document.getElementById('price').value.trim();
   const duration = document.getElementById('duration').value.trim();
-  const link = document.getElementById('link').value.trim();
-  const imgVal = document.getElementById('img').value.trim();
+  const link     = document.getElementById('link').value.trim();
+  const imgVal   = document.getElementById('img').value.trim();
 
   const catSel = document.getElementById('category');
   let category = catSel.value;
-  if (category === '__new__') {
-    category = document.getElementById('new-category').value.trim();
-  }
+  if (category === '__new__') category = document.getElementById('new-category').value.trim();
 
   if (!title || !instructor || !desc || !priceNum || !duration || !category) {
     showToast('⚠️ יש למלא את כל השדות הנדרשים', true);
     return;
   }
 
-  const course = {
-    title,
-    desc,
-    category,
-    price: '₪' + priceNum,
-    duration,
-    instructor,
-    img: imgVal || DEFAULT_IMG
-  };
-  if (link) course.link = link;
-
   setLoading(true);
   try {
-    const res = await fetch(`${API}/api/add-course`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(course)
-    });
-    const data = await res.json();
+    // 1. Fetch file + sha
+    const fileData = await ghGet(token);
+    const html = b64Decode(fileData.content);
 
-    if (!res.ok || data.error) {
-      throw new Error(data.error || 'שגיאה לא ידועה');
-    }
+    // 2. Parse courses, compute next ID
+    const { courses, arrStart, arrEnd } = extractCourses(html);
+    const maxId = courses.reduce((m, c) => Math.max(m, c.id || 0), 0);
 
-    showToast(`✅ הקורס "${title}" נוסף בהצלחה! (ID: ${data.id})`);
-    document.getElementById('course-form').reset();
+    // 3. Build course object
+    const newCourse = {
+      id: maxId + 1,
+      title, desc, category,
+      price: '₪' + priceNum,
+      duration, instructor,
+      img: imgVal || DEFAULT_IMG
+    };
+    if (link) newCourse.link = link;
+
+    // 4. Insert into HTML & encode
+    const updated = insertCourse(html, newCourse, arrStart, arrEnd);
+    const encoded = b64Encode(updated);
+
+    // 5. Push to GitHub
+    await ghPut(token, fileData.sha, encoded, `Add course: ${title} by ${instructor}`);
+
+    showToast('הקורס נוסף בהצלחה. האתר יתעדכן תוך מספר שניות.');
+    this.reset();
     document.getElementById('img-preview').style.display = 'none';
     document.getElementById('new-category-wrap').style.display = 'none';
     loadCategories();
@@ -468,7 +668,15 @@ document.getElementById('course-form').addEventListener('submit', async function
   }
 });
 
-loadCategories();
+/* ── Init ── */
+(function init() {
+  const saved = getToken();
+  if (saved) {
+    document.getElementById('gh-token').value = saved;
+    setTokenStatus(true, '✅ טוקן שמור');
+    loadCategories();
+  }
+})();
 </script>
 </body>
 </html>
