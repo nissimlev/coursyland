@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>כלי אדמין – קורסילנד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #9B30E8;
+    --blue: #3B6FF0;
+    --pink: #C040D8;
+    --grad: linear-gradient(135deg, #9B30E8 0%, #5B52F0 50%, #3B6FF0 100%);
+    --grad-soft: linear-gradient(135deg, rgba(155,48,232,0.12) 0%, rgba(59,111,240,0.12) 100%);
+    --bg: #F7F6FD;
+    --surface: #FFFFFF;
+    --text: #1A1330;
+    --muted: #7A6E99;
+    --border: rgba(155,48,232,0.15);
+    --shadow: 0 8px 32px rgba(91,82,240,0.12);
+    --shadow-hover: 0 16px 48px rgba(91,82,240,0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* NAV */
+  nav {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: var(--grad);
+    color: #fff;
+    padding: 0.2rem 0.55rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+  }
+
+  .back-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--purple); }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .hero-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--grad);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 8px 24px rgba(155,48,232,0.3);
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* GRID */
+  .grid-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.4rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--grad-soft);
+    opacity: 0;
+    transition: opacity 0.25s;
+    border-radius: inherit;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(155,48,232,0.35);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(155,48,232,0.25);
+    position: relative;
+  }
+
+  .card-body {
+    flex: 1;
+    position: relative;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 0.45rem;
+    letter-spacing: -0.3px;
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: var(--grad);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.7rem 1.4rem;
+    border-radius: 50px;
+    transition: opacity 0.2s, transform 0.2s;
+    position: relative;
+    align-self: flex-start;
+  }
+
+  .card-btn:hover {
+    opacity: 0.88;
+    transform: scale(1.03);
+  }
+
+  .card-btn svg {
+    transform: rotate(180deg);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.7rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .hero { padding: 2.5rem 1.2rem 1.5rem; }
+    .grid-section { padding: 1.5rem 1.2rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-text">קורסילנד</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:0.8rem;">
+      <span class="nav-badge">ADMIN</span>
+      <a href="../index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        חזרה לאתר
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon">⚙️</div>
+  <h1>כלי אדמין</h1>
+  <p>ניהול פנימי – בחר כלי להתחיל</p>
+</section>
+
+<section class="grid-section">
+  <div class="section-label">כלים זמינים</div>
+  <div class="cards-grid">
+
+    <!-- כלי 1: הוספת קורס -->
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <div class="card-body">
+        <div class="card-title">הוספת קורס לקטלוג</div>
+        <div class="card-desc">הוסף קורס חדש לפורטל הקורסים במהירות וללא מגע בקוד</div>
+      </div>
+      <a href="./add-course/index.html" class="card-btn">
+        כניסה לכלי
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+    <!-- כלי 2: יצירת דף נחיתה -->
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <div class="card-body">
+        <div class="card-title">יצירת דף נחיתה</div>
+        <div class="card-desc">בנה דף מכירה מקצועי לקורס חדש או מוצר קיים</div>
+      </div>
+      <a href="./landing-page/index.html" class="card-btn">
+        כניסה לכלי
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer>קורסילנד · כלי אדמין פנימי</footer>
+
+</body>
+</html>
