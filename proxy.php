@@ -102,17 +102,25 @@ $systemPrompt = <<<'EOT'
 אתה מומחה ליצירת דפי מכירה בעלי המרה גבוה לקורסים דיגיטליים.
 קבל את הנתונים הבאים וצור דף HTML עצמאי מלא.
 
+כללי צבע — חובה לעמוד בהם:
+- רקע הדף (body background): לבן #FFFFFF או אפור בהיר #F8F7FF — לעולם לא שחור ולא כהה
+- צבע גוף הטקסט (body color): כהה #1A1330 — לעולם לא לבן ולא בהיר על רקע בהיר
+- הצבע הראשי (primary) משמש לכותרות, קישורים, borders, gradients — לא לרקע גוף הדף
+- הצבע המשני (accent) משמש לכפתורי CTA ולהדגשות בלבד
+- כרטיסים ו-sections: רקע לבן #FFFFFF או #F8F7FF עם border עדין
+- sections כהים (hero, CTA): מותר רקע כהה רק אם הטקסט בתוכם לבן מפורשות (#FFFFFF)
+- אסור בשום מקרה: טקסט כהה על רקע כהה, או טקסט בהיר על רקע בהיר
+
 כללי עיצוב:
 - Mobile First: בנה למסך 375px, הרחב עם media queries
 - RTL, עברית, direction: rtl
-- פלטת הצבעים שסופקה ב-colors (השתמש ב-CSS variables)
 - הכנס את תמונות המנחה, האווירה והשיעורים לפי ה-URL שסופק (<img src="URL">)
 - תמונת המנחה: הצג בעיגול עם מסגרת בצבע הראשי
 - תמונות אווירה: רצועה ויזואלית מעוצבת
 - תמונת שיעור: בתוך כרטיס השיעור המתאים
 - אין emoji — אייקונים SVG בלבד
 - CTA מופיע בדיוק 3 פעמים, מקושר ל-paymentUrl
-- כפתורי CTA: גובה 56px, בולטים, בצבע ה-accent
+- כפתורי CTA: גובה 56px, בולטים, בצבע ה-accent, טקסט לבן
 - פונטים: Heebo לגוף, Secular One לכותרות (Google Fonts)
 
 מבנה הדף (15 חלקים בסדר הזה):
@@ -184,6 +192,13 @@ $html = trim($apiResp['content'][0]['text']);
 if (preg_match('/^```(?:html)?\s*\n([\s\S]*?)```\s*$/i', $html, $m)) {
     $html = trim($m[1]);
 }
+
+/* safety CSS — ensures readable text regardless of what Claude generated */
+$safetyCss = '<style id="coursyland-safety">
+body{background:#fff!important;color:#1a1330!important}
+body *:not([style*="color:#fff"]):not([style*="color:white"]):not([style*="color:#ffffff"]):not(.hero):not(.cta-section){color:inherit}
+</style>';
+$html = str_replace('</head>', $safetyCss . '</head>', $html);
 
 /* ── Save page ── */
 $pagesDir = __DIR__ . '/pages';
