@@ -483,42 +483,36 @@ async function ghPut(token, sha, encodedContent, message) {
 
 /* ── Courses array manipulation ── */
 function extractCourses(html) {
-  const marker = 'const courses = [';
-  const mi = html.indexOf(marker);
-  if (mi === -1) throw new Error('לא נמצא מערך courses בקובץ');
+  const START_MARKER = 'const courses = [';
+  const END_MARKER   = '\n];';
 
-  const arrStart = mi + marker.length - 1;
-  let depth = 0, i = arrStart;
-  while (i < html.length) {
-    const c = html[i];
-    if (c === '[' || c === '{') depth++;
-    else if (c === ']' || c === '}') { depth--; if (depth === 0) break; }
-    i++;
-  }
+  const startIdx = html.indexOf(START_MARKER);
+  if (startIdx === -1) throw new Error('לא נמצא מערך courses בקובץ');
+
+  const contentStart = startIdx + START_MARKER.length; // right after '['
+  const endIdx = html.indexOf(END_MARKER, contentStart);
+  if (endIdx === -1) throw new Error('לא נמצאה סגירת המערך בקובץ');
+
+  const arrayLiteral = '[' + html.substring(contentStart, endIdx) + '\n]';
   // eslint-disable-next-line no-new-func
-  const courses = Function('return ' + html.substring(arrStart, i + 1))();
-  return { courses, arrStart, arrEnd: i + 1 };
+  const courses = Function('return ' + arrayLiteral)();
+
+  return { courses, insertAt: endIdx }; // insertAt = position of '\n];'
 }
 
 function formatEntry(course) {
   const pairs = Object.entries(course).filter(([, v]) => v !== undefined && v !== '');
   const inner = pairs.map(([k, v]) => {
     const val = typeof v === 'string'
-      ? `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
+      ? `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '')}"`
       : v;
     return `    ${k}: ${val}`;
   }).join(',\n');
   return `  {\n${inner}\n  }`;
 }
 
-function insertCourse(html, course, arrStart, arrEnd) {
-  const seg = html.substring(arrStart, arrEnd);
-  const lastBrace = seg.lastIndexOf('}');
-  if (lastBrace === -1) {
-    return html.slice(0, arrStart + 1) + '\n' + formatEntry(course) + '\n' + html.slice(arrStart + 1);
-  }
-  const at = arrStart + lastBrace + 1;
-  return html.slice(0, at) + ',\n' + formatEntry(course) + '\n' + html.slice(at);
+function insertCourse(html, course, insertAt) {
+  return html.slice(0, insertAt) + ',\n' + formatEntry(course) + '\n' + html.slice(insertAt);
 }
 
 /* ── Category dropdown ── */
@@ -636,7 +630,7 @@ document.getElementById('course-form').addEventListener('submit', async function
     const html = b64Decode(fileData.content);
 
     // 2. Parse courses, compute next ID
-    const { courses, arrStart, arrEnd } = extractCourses(html);
+    const { courses, insertAt } = extractCourses(html);
     const maxId = courses.reduce((m, c) => Math.max(m, c.id || 0), 0);
 
     // 3. Build course object
@@ -650,7 +644,7 @@ document.getElementById('course-form').addEventListener('submit', async function
     if (link) newCourse.link = link;
 
     // 4. Insert into HTML & encode
-    const updated = insertCourse(html, newCourse, arrStart, arrEnd);
+    const updated = insertCourse(html, newCourse, insertAt);
     const encoded = b64Encode(updated);
 
     // 5. Push to GitHub
