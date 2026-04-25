@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root {
   --bg: #0C0C15;
@@ -458,13 +459,13 @@ input[type="color"]{
 
       <div class="form-group">
         <label class="field-label">
-          העלאת קובץ <span class="opt">(txt / docx — אופציונלי)</span>
+          העלאת קובץ <span class="opt">(txt / docx / pdf — אופציונלי)</span>
         </label>
         <label class="upload-btn" for="content-file">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          בחר קובץ txt / docx
+          בחר קובץ txt / docx / pdf
         </label>
-        <input type="file" id="content-file" accept=".txt,.docx,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        <input type="file" id="content-file" accept=".txt,.docx,.pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
         <div id="file-info">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           <span id="file-name"></span>
@@ -769,6 +770,22 @@ document.getElementById('content-file').addEventListener('change', async functio
       ta.value = result.value;
     } catch (e) {
       alert('שגיאה בקריאת קובץ DOCX: ' + e.message);
+    }
+  } else if (ext === 'pdf') {
+    try {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      let text = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += content.items.map(item => item.str).join(' ') + '\n';
+      }
+      ta.value = text.trim();
+    } catch (e) {
+      alert('שגיאה בקריאת קובץ PDF: ' + e.message);
     }
   }
 });
