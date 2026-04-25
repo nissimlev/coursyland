@@ -402,6 +402,9 @@
 <div id="toast"></div>
 
 <script>
+/* ── Auth guard ── */
+if (sessionStorage.getItem('admin_auth') !== '1') { location.replace('../index.html'); }
+
 const REPO   = 'nissimlev/coursyland';
 const FILE   = 'index.html';
 const GH_API = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
