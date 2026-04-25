@@ -150,7 +150,7 @@ $userMessage = "שם הקורס: {$input['courseName']}\n\n"
 /* ── Call Anthropic API ── */
 $body = json_encode([
     'model'      => 'claude-sonnet-4-6',
-    'max_tokens' => 8000,
+    'max_tokens' => 16000,
     'system'     => $systemPrompt,
     'messages'   => [['role' => 'user', 'content' => $userMessage]]
 ]);
@@ -189,6 +189,11 @@ if ($httpCode !== 200 || empty($apiResp['content'][0]['text'])) {
 }
 
 $html = trim($apiResp['content'][0]['text']);
+
+/* warn if Claude stopped due to token limit */
+if (($apiResp['stop_reason'] ?? '') === 'max_tokens') {
+    $html .= "\n<!-- אזהרה: הדף נחתך עקב הגעה לגבול הטוקנים -->";
+}
 
 /* strip accidental markdown fences */
 if (preg_match('/^```(?:html)?\s*\n([\s\S]*?)```\s*$/i', $html, $m)) {
