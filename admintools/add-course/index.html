@@ -214,6 +214,12 @@
     pointer-events: none;
   }
 
+  .duration-wrap { display: flex; align-items: center; gap: 0.5rem; }
+  .duration-wrap input { width: 110px; flex-shrink: 0; }
+  .duration-suffix {
+    font-size: 0.95rem; font-weight: 600; color: var(--muted); white-space: nowrap;
+  }
+
   .img-input-row {
     display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;
   }
@@ -409,7 +415,10 @@
 
         <div class="form-group">
           <label>מספר שיעורים <span class="req">*</span></label>
-          <input type="text" id="duration" placeholder="למשל: 10 שיעורים" required>
+          <div class="duration-wrap">
+            <input type="number" id="duration" placeholder="10" min="1" required>
+            <span class="duration-suffix">שיעורים</span>
+          </div>
         </div>
 
       </div>
@@ -688,7 +697,8 @@ document.getElementById('course-form').addEventListener('submit', async function
   const instructor = document.getElementById('instructor').value.trim();
   const desc     = document.getElementById('desc').value.trim();
   const priceNum = document.getElementById('price').value.trim();
-  const duration = document.getElementById('duration').value.trim();
+  const durationNum = document.getElementById('duration').value.trim();
+  const duration = durationNum ? `${durationNum} שיעורים` : '';
   const link     = document.getElementById('link').value.trim();
   const imgVal   = document.getElementById('img').value.trim();
 
