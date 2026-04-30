@@ -2,3 +2,4 @@
 *.zip
 pages/*.html
 pages/assets/
+jobs/*.json

@@ -902,46 +902,88 @@ function buildSummary() {
 
 /* ════════════════ PROGRESS BAR ════════════════ */
 const STATUS_MSGS = [
-  'מכין נתונים...',
-  'שולח תוכן לקלוד...',
-  'קלוד בונה את הדף...',
-  'מעבד עיצוב ותמונות...',
-  'כותב HTML...',
-  'שומר קובץ בשרת...',
+  { at:   0, msg: 'שולח נתונים לשרת...' },
+  { at:   5, msg: 'קלוד מנתח את התוכן...' },
+  { at:  20, msg: 'בונה את מבנה הדף...' },
+  { at:  40, msg: 'כותב עיצוב ו-CSS...' },
+  { at:  60, msg: 'מוסיף תוכן לכל חלק...' },
+  { at:  80, msg: 'מסיים ושומר...' },
+  { at:  95, msg: 'רגע אחרון...' },
 ];
 
-let progressTimer = null;
+let progressTimer  = null;
+let pollingTimer   = null;
+let elapsedSeconds = 0;
 
 function startProgress() {
   const fill = document.getElementById('progress-fill');
   const msg  = document.getElementById('progress-msg');
   document.getElementById('progress-wrap').style.display = 'block';
-  document.getElementById('error-box').style.display = 'none';
-  document.getElementById('result-box').style.display = 'none';
-
-  let pct = 0;
-  let msgIdx = 0;
-  msg.textContent = STATUS_MSGS[0];
+  document.getElementById('error-box').style.display    = 'none';
+  document.getElementById('result-box').style.display   = 'none';
+  elapsedSeconds = 0;
+  fill.style.background = '';
+  fill.style.width = '0%';
+  msg.textContent = STATUS_MSGS[0].msg;
 
   progressTimer = setInterval(() => {
-    if (pct < 88) {
-      pct += (pct < 30) ? 3 : (pct < 60) ? 1.5 : 0.6;
-      fill.style.width = Math.min(pct, 88) + '%';
-    }
-    const nextMsgAt = Math.floor((msgIdx + 1) * (88 / STATUS_MSGS.length));
-    if (pct >= nextMsgAt && msgIdx < STATUS_MSGS.length - 1) {
-      msgIdx++;
-      msg.textContent = STATUS_MSGS[msgIdx];
-    }
-  }, 600);
+    elapsedSeconds++;
+    /* slow logarithmic fill — reaches ~95% at 3 minutes */
+    const pct = Math.min(95, Math.log(elapsedSeconds + 1) / Math.log(180) * 95);
+    fill.style.width = pct + '%';
+
+    const current = STATUS_MSGS.slice().reverse().find(s => elapsedSeconds >= s.at);
+    if (current) msg.textContent = current.msg;
+  }, 1000);
 }
 
 function finishProgress(ok) {
   clearInterval(progressTimer);
+  clearInterval(pollingTimer);
   const fill = document.getElementById('progress-fill');
+  fill.style.transition = 'width .6s ease';
   fill.style.width = ok ? '100%' : '0%';
   if (ok) fill.style.background = 'linear-gradient(135deg,#16a34a,#22c55e)';
   document.getElementById('progress-msg').textContent = ok ? 'הושלם!' : '';
+}
+
+function showResult(url) {
+  finishProgress(true);
+  setTimeout(() => {
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.getElementById('result-url').textContent = url;
+    document.getElementById('result-link').href       = url;
+    document.getElementById('result-box').style.display  = 'block';
+    document.getElementById('new-btn').style.display     = 'inline-flex';
+  }, 600);
+}
+
+function showError(msg) {
+  finishProgress(false);
+  const errBox = document.getElementById('error-box');
+  errBox.textContent = '❌ ' + msg;
+  errBox.style.display = 'block';
+  document.getElementById('submit-btn').disabled  = false;
+  document.getElementById('back-btn-4').disabled  = false;
+}
+
+/* ════════════════ POLLING ════════════════ */
+function startPolling(jobId) {
+  pollingTimer = setInterval(async () => {
+    try {
+      const res  = await fetch('/status.php?job_id=' + encodeURIComponent(jobId));
+      const data = await res.json();
+
+      if (data.status === 'done') {
+        showResult(data.url);
+      } else if (data.status === 'error') {
+        showError(data.error || 'שגיאה לא ידועה');
+      }
+      /* status === 'processing' → keep polling */
+    } catch (e) {
+      /* network hiccup — keep polling silently */
+    }
+  }, 3000);
 }
 
 /* ════════════════ SUBMIT ════════════════ */
@@ -950,57 +992,38 @@ async function submitForm() {
   const slug    = document.getElementById('course-slug').value.trim();
   if (!content || !slug) { alert('חסרים פרטים. חזור לשלבים הקודמים.'); return; }
 
-  const primary    = document.getElementById('hex-primary').value;
-  const accent     = document.getElementById('hex-accent').value;
-  const paymentUrl = document.getElementById('payment-url').value.trim();
-
   const payload = {
     content,
     courseName: slug,
-    colors: { primary, accent },
-    paymentUrl,
+    colors: {
+      primary: document.getElementById('hex-primary').value,
+      accent:  document.getElementById('hex-accent').value,
+    },
+    paymentUrl: document.getElementById('payment-url').value.trim(),
     images: {
       instructor: images.instructor,
       atmosphere: images.atmosphere.filter(Boolean),
-      lessons: images.lessons.filter(Boolean),
-    }
+      lessons:    images.lessons.filter(Boolean),
+    },
   };
 
-  document.getElementById('submit-btn').disabled = true;
-  document.getElementById('back-btn-4').disabled = true;
+  document.getElementById('submit-btn').disabled  = true;
+  document.getElementById('back-btn-4').disabled  = true;
   startProgress();
 
   try {
-    const res = await fetch('/proxy.php', {
-      method: 'POST',
+    const res  = await fetch('/proxy.php', {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body:    JSON.stringify(payload),
     });
-
     const data = await res.json();
 
-    if (data.success) {
-      finishProgress(true);
-      setTimeout(() => {
-        document.getElementById('progress-wrap').style.display = 'none';
-        const box  = document.getElementById('result-box');
-        const urlEl = document.getElementById('result-url');
-        const link  = document.getElementById('result-link');
-        urlEl.textContent = data.url;
-        link.href = data.url;
-        box.style.display = 'block';
-        document.getElementById('new-btn').style.display = 'inline-flex';
-      }, 500);
-    } else {
-      throw new Error(data.error || 'שגיאה לא ידועה');
-    }
+    if (!data.job_id) throw new Error(data.error || 'שגיאה בהפעלת המשימה');
+
+    startPolling(data.job_id);
   } catch (err) {
-    finishProgress(false);
-    const errBox = document.getElementById('error-box');
-    errBox.textContent = '❌ ' + err.message;
-    errBox.style.display = 'block';
-    document.getElementById('submit-btn').disabled = false;
-    document.getElementById('back-btn-4').disabled = false;
+    showError(err.message);
   }
 }
 
