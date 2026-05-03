@@ -1019,8 +1019,16 @@ async function submitForm() {
     });
     const data = await res.json();
 
-    if (!data.job_id) throw new Error(data.error || 'שגיאה בהפעלת המשימה');
+    if (data.error) throw new Error(data.error);
 
+    /* Synchronous result — proxy already finished */
+    if (data.status === 'done' && data.url) {
+      showResult(data.url);
+      return;
+    }
+
+    /* Async fallback — poll until done */
+    if (!data.job_id) throw new Error('שגיאה בהפעלת המשימה');
     startPolling(data.job_id);
   } catch (err) {
     showError(err.message);
