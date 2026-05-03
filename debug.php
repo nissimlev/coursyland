@@ -102,20 +102,35 @@ if (!empty($apiKey) && $apiKey !== 'your_key_here') {
     echo '<p>' . warn('Skipped — API key not set') . '</p>';
 }
 
-/* ════ 6. exec() test ════ */
-echo '<h2>6. Background Process (exec)</h2><table>';
-if (function_exists('exec') && !in_array('exec', array_map('trim', explode(',', ini_get('disable_functions'))))) {
-    $out = [];
-    exec('echo hello_exec', $out);
-    $works = ($out[0] ?? '') === 'hello_exec';
-    echo '<tr><td>exec() test</td><td>' . ($works ? ok('works') : fail('returned unexpected output: ' . ($out[0] ?? 'empty'))) . '</td></tr>';
-    echo '<tr><td>PHP_BINARY test</td><td>';
-    $phpBin = PHP_BINARY ?: 'php';
-    exec(escapeshellcmd($phpBin) . ' -r "echo \'php_ok\';"', $out2);
-    echo (($out2[0] ?? '') === 'php_ok' ? ok($phpBin . ' works') : fail($phpBin . ' failed: ' . ($out2[0] ?? 'empty')));
-    echo '</td></tr>';
+/* ════ 6. Background process ════ */
+echo '<h2>6. Background Process</h2><table>';
+
+/* PHP CLI binary candidates */
+$phpCandidates = ['/opt/alt/php83/usr/bin/php','/usr/bin/php83','/usr/bin/php8.3','/usr/bin/php',PHP_BINARY];
+$phpCli = '';
+foreach ($phpCandidates as $c) { if (is_executable($c)) { $phpCli = $c; break; } }
+echo '<tr><td>PHP CLI binary</td><td>' . ($phpCli ? ok($phpCli) : fail('none found — curl fallback only')) . '</td></tr>';
+
+/* proc_open spawn test */
+if (function_exists('proc_open') && $phpCli) {
+    $tmpOut = tempnam(sys_get_temp_dir(), 'csl');
+    $cmd    = escapeshellcmd($phpCli) . ' -r ' . escapeshellarg('file_put_contents("'.$tmpOut.'","proc_ok");') . ' > /dev/null 2>&1 &';
+    $desc   = [0 => ['pipe','r'], 1 => ['file','/dev/null','w'], 2 => ['file','/dev/null','w']];
+    $proc   = @proc_open('/bin/sh -c ' . escapeshellarg($cmd), $desc, $pipes);
+    if (is_resource($proc)) {
+        fclose($pipes[0]);
+        proc_close($proc);
+        sleep(2);
+        $result = @file_get_contents($tmpOut);
+        @unlink($tmpOut);
+        echo '<tr><td>proc_open spawn</td><td>' . ($result === 'proc_ok' ? ok('works') : fail('spawned but script did not write output (may still work)')) . '</td></tr>';
+    } else {
+        echo '<tr><td>proc_open spawn</td><td>' . fail('proc_open returned false') . '</td></tr>';
+    }
+} elseif (!function_exists('proc_open')) {
+    echo '<tr><td>proc_open()</td><td>' . fail('disabled') . '</td></tr>';
 } else {
-    echo '<tr><td>exec()</td><td>' . fail('disabled — background spawn will use curl fallback') . '</td></tr>';
+    echo '<tr><td>proc_open spawn</td><td>' . warn('skipped — no CLI PHP binary found') . '</td></tr>';
 }
 echo '</table>';
 
@@ -160,14 +175,31 @@ if (isset($_GET['test_job'])) {
     $testId   = substr($testId, 0, 32);
     $testFile = $jobsDir2 . '/' . $testId . '.json';
     file_put_contents($testFile, json_encode([
-        'status' => 'processing', 'created_at' => time(),
-        'input'  => ['content'=>'test','courseName'=>'test-debug','colors'=>['primary'=>'#000','accent'=>'#000'],'paymentUrl'=>'','images'=>[]],
+        'status'     => 'processing',
+        'created_at' => time(),
+        'slug'       => 'test-debug',
+        'courseName' => 'Test Debug',
+        'content'    => 'test content',
+        'colors'     => ['primary' => '#9B30E8', 'accent' => '#F59E0B'],
+        'paymentUrl' => '',
+        'imgUrls'    => ['instructor' => '', 'atmosphere' => [], 'lessons' => []],
     ]));
-    $phpBin = escapeshellcmd(PHP_BINARY ?: 'php');
-    $script = escapeshellarg(__DIR__ . '/process.php');
-    $arg    = escapeshellarg($testId);
-    exec("$phpBin $script $arg > /dev/null 2>&1 &");
-    echo '<p>' . ok('Test job created: ' . $testId) . '</p>';
+
+    $spawned = false;
+    if (function_exists('proc_open')) {
+        $phpCli2 = '';
+        foreach (['/opt/alt/php83/usr/bin/php','/usr/bin/php83','/usr/bin/php8.3','/usr/bin/php',PHP_BINARY] as $c) {
+            if (is_executable($c)) { $phpCli2 = $c; break; }
+        }
+        if ($phpCli2) {
+            $cmd  = escapeshellcmd($phpCli2) . ' ' . escapeshellarg(__DIR__.'/process.php') . ' ' . escapeshellarg($testId) . ' > /dev/null 2>&1 &';
+            $desc = [0 => ['pipe','r'], 1 => ['file','/dev/null','w'], 2 => ['file','/dev/null','w']];
+            $proc = @proc_open('/bin/sh -c ' . escapeshellarg($cmd), $desc, $pipes);
+            if (is_resource($proc)) { fclose($pipes[0]); proc_close($proc); $spawned = true; }
+        }
+    }
+    echo '<p>' . ($spawned ? ok('Test job spawned via proc_open') : warn('proc_open unavailable — job created but not spawned')) . '</p>';
+    echo '<p>Job ID: <code style="color:#9b6dff">' . $testId . '</code></p>';
     echo '<p>Check job status: <a style="color:#9b6dff" href="?key=csl-debug-2026">reload this page</a></p>';
 }
 

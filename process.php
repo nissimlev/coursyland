@@ -37,51 +37,20 @@ function loadApiKey() {
 $apiKey = loadApiKey();
 if (empty($apiKey)) { failJob($jobFile, $jobData, 'ANTHROPIC_API_KEY חסר'); exit; }
 
-$input = $jobData['input'];
+/* ── Read job fields ── */
+$slug       = $jobData['slug']       ?? '';
+$courseName = $jobData['courseName'] ?? '';
+$content    = $jobData['content']    ?? '';
+$colors     = $jobData['colors']     ?? ['primary' => '#9B30E8', 'accent' => '#F59E0B'];
+$payUrl     = $jobData['paymentUrl'] ?? '';
+$imgUrls    = $jobData['imgUrls']    ?? ['instructor' => '', 'atmosphere' => [], 'lessons' => []];
 
-/* ── Normalize slug ── */
-function makeSlug($name) {
-    $s = strtolower(trim($name));
-    $s = preg_replace('/[^a-z0-9]+/', '-', $s);
-    return trim($s, '-') ?: 'course-' . time();
-}
-$slug = makeSlug($input['courseName']);
-
-/* ── Save base64 image to disk ── */
-function saveImage($dataUri, $basePath, $baseUrl) {
-    if (empty($dataUri)) return '';
-    if (!preg_match('/^data:image\/(\w+);base64,(.+)$/s', $dataUri, $m)) return '';
-    $ext  = ($m[1] === 'jpeg') ? 'jpg' : strtolower($m[1]);
-    $ext  = in_array($ext, ['jpg','png','gif','webp']) ? $ext : 'jpg';
-    $file = basename($basePath) . '.' . $ext;
-    file_put_contents($basePath . '.' . $ext, base64_decode($m[2]));
-    return $baseUrl . '/' . $file;
+if (!$slug || !$courseName || !$content) {
+    failJob($jobFile, $jobData, 'Job data incomplete');
+    exit;
 }
 
-/* ── Save images ── */
-$assetsDir = __DIR__ . '/pages/assets/' . $slug;
-$assetsUrl = 'https://coursyland.com/pages/assets/' . $slug;
-if (!is_dir($assetsDir)) mkdir($assetsDir, 0755, true);
-
-$images  = $input['images'] ?? [];
-$imgUrls = ['instructor' => '', 'atmosphere' => [], 'lessons' => []];
-
-if (!empty($images['instructor']))
-    $imgUrls['instructor'] = saveImage($images['instructor'], $assetsDir . '/instructor', $assetsUrl);
-
-foreach (($images['atmosphere'] ?? []) as $i => $b64) {
-    $u = saveImage($b64, $assetsDir . '/atmosphere-' . ($i+1), $assetsUrl);
-    if ($u) $imgUrls['atmosphere'][] = $u;
-}
-foreach (($images['lessons'] ?? []) as $i => $b64) {
-    $u = saveImage($b64, $assetsDir . '/lesson-' . ($i+1), $assetsUrl);
-    if ($u) $imgUrls['lessons'][] = $u;
-}
-
-/* ── Build prompt ── */
-$colors = $input['colors'] ?? ['primary' => '#9B30E8', 'accent' => '#F59E0B'];
-$payUrl = $input['paymentUrl'] ?? '';
-
+/* ── Build image section for prompt ── */
 $imgSection  = $imgUrls['instructor'] ? "תמונת מנחה: {$imgUrls['instructor']}\n" : '';
 foreach ($imgUrls['atmosphere'] as $i => $u) $imgSection .= "תמונת אווירה " . ($i+1) . ": $u\n";
 foreach ($imgUrls['lessons']    as $i => $u) $imgSection .= "תמונת שיעור "  . ($i+1) . ": $u\n";
@@ -118,8 +87,8 @@ $systemPrompt = loadSkill() . <<<'EOT'
 החזר HTML מלא בלבד — בלי הסברים, בלי markdown backticks.
 EOT;
 
-$userMessage = "שם הקורס: {$input['courseName']}\n\n"
-    . "=== תוכן הדף ===\n{$input['content']}\n\n"
+$userMessage = "שם הקורס: {$courseName}\n\n"
+    . "=== תוכן הדף ===\n{$content}\n\n"
     . "=== עיצוב ===\n"
     . "צבע ראשי: {$colors['primary']}\n"
     . "צבע הדגשה: {$colors['accent']}\n"
@@ -162,7 +131,6 @@ if ($httpCode !== 200 || empty($apiResp['content'][0]['text'])) {
 $html = trim($apiResp['content'][0]['text']);
 if (preg_match('/^```(?:html)?\s*\n([\s\S]*?)```\s*$/i', $html, $m)) $html = trim($m[1]);
 
-/* safety CSS */
 $css  = '<style id="coursyland-safety">body{background:#fff!important;color:#1a1330!important}</style>';
 $html = str_replace('</head>', $css . '</head>', $html);
 
@@ -178,5 +146,5 @@ if (file_put_contents($pagesDir . '/' . $slug . '.html', $html) === false) {
 /* ── Mark done ── */
 $jobData['status'] = 'done';
 $jobData['url']    = 'https://coursyland.com/pages/' . $slug . '.html';
-unset($jobData['input']); /* free space — input no longer needed */
+unset($jobData['content']); /* free space */
 updateJob($jobFile, $jobData);

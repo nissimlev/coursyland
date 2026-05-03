@@ -47,36 +47,6 @@ if (!is_dir($jobsDir)) mkdir($jobsDir, 0755, true);
 $jobId   = bin2hex(random_bytes(16));
 $jobFile = $jobsDir . '/' . $jobId . '.json';
 
-file_put_contents($jobFile, json_encode([
-    'status'     => 'processing',
-    'created_at' => time(),
-]));
-
-/* ════════════════════════════════════════════════
-   Respond to client IMMEDIATELY — before processing
-   ════════════════════════════════════════════════ */
-$responseJson = json_encode(['job_id' => $jobId, 'status' => 'processing']);
-header('Content-Length: ' . strlen($responseJson));
-echo $responseJson;
-
-if (function_exists('fastcgi_finish_request')) {
-    fastcgi_finish_request();   /* PHP-FPM: flush response, keep script alive */
-} else {
-    if (ob_get_level()) { ob_end_flush(); }
-    flush();
-}
-
-/* ════════════════════════════════════════════════
-   Everything below runs AFTER the browser receives
-   its response — client has disconnected
-   ════════════════════════════════════════════════ */
-ignore_user_abort(true);
-set_time_limit(300);
-
-function failJob($file, $error) {
-    file_put_contents($file, json_encode(['status' => 'error', 'error' => $error]));
-}
-
 /* ── Normalize slug ── */
 function makeSlug($name) {
     $s = strtolower(trim($name));
@@ -96,7 +66,7 @@ function saveImage($dataUri, $basePath, $baseUrl) {
     return $baseUrl . '/' . $file;
 }
 
-/* ── Save images ── */
+/* ── Save images now (keeps base64 out of job file) ── */
 $assetsDir = __DIR__ . '/pages/assets/' . $slug;
 $assetsUrl = 'https://coursyland.com/pages/assets/' . $slug;
 if (!is_dir($assetsDir)) mkdir($assetsDir, 0755, true);
@@ -116,103 +86,58 @@ foreach (($images['lessons'] ?? []) as $i => $b64) {
     if ($u) $imgUrls['lessons'][] = $u;
 }
 
-/* ── Build prompt ── */
-$colors = $input['colors'] ?? ['primary' => '#9B30E8', 'accent' => '#F59E0B'];
-$payUrl = $input['paymentUrl'] ?? '';
-
-$imgSection  = $imgUrls['instructor'] ? "תמונת מנחה: {$imgUrls['instructor']}\n" : '';
-foreach ($imgUrls['atmosphere'] as $i => $u) $imgSection .= "תמונת אווירה " . ($i+1) . ": $u\n";
-foreach ($imgUrls['lessons']    as $i => $u) $imgSection .= "תמונת שיעור "  . ($i+1) . ": $u\n";
-
-/* ── Load SKILL.md ── */
-function loadSkill() {
-    $p = __DIR__ . '/admintools/sales-page-builder/SKILL.md';
-    if (!file_exists($p)) return '';
-    return trim(preg_replace('/^---[\s\S]*?---\s*/m', '', file_get_contents($p)));
-}
-
-$systemPrompt = loadSkill() . <<<'EOT'
-
----
-
-## תמונות — עדכון חשוב
-
-בניגוד לכתוב למעלה, בפריסה זו **יש** תמונות אמיתיות — אל תיצור placeholders.
-השתמש ב-URLs שסופקו:
-- תמונת מנחה: `<img src="URL">` בעיגול עם border בצבע הראשי
-- תמונות אווירה: הצג ברצועה ויזואלית מעוצבת
-- תמונות שיעורים: הצג בתוך כרטיס הפרק המתאים
-אם לא סופקה תמונה — השתמש ב-placeholder CSS.
-
----
-
-## כללי צבע — חובה מוחלטת
-
-- רקע הדף (body): לבן #FFFFFF או אפור בהיר — לעולם לא שחור
-- טקסט גוף: כהה #1A1330 — לעולם לא לבן על רקע בהיר
-- sections כהים מותרים רק עם טקסט לבן מפורש
-- אסור: טקסט כהה על רקע כהה, או טקסט בהיר על רקע בהיר
-
-החזר HTML מלא בלבד — בלי הסברים, בלי markdown backticks.
-EOT;
-
-$userMessage = "שם הקורס: {$input['courseName']}\n\n"
-    . "=== תוכן הדף ===\n{$input['content']}\n\n"
-    . "=== עיצוב ===\n"
-    . "צבע ראשי: {$colors['primary']}\n"
-    . "צבע הדגשה: {$colors['accent']}\n"
-    . "URL לתשלום: {$payUrl}\n\n"
-    . "=== תמונות ===\n"
-    . ($imgSection ?: "לא הועלו תמונות.\n");
-
-/* ── Call Anthropic API ── */
-$ch = curl_init('https://api.anthropic.com/v1/messages');
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => json_encode([
-        'model'      => 'claude-sonnet-4-6',
-        'max_tokens' => 64000,
-        'system'     => $systemPrompt,
-        'messages'   => [['role' => 'user', 'content' => $userMessage]],
-    ]),
-    CURLOPT_TIMEOUT        => 290,
-    CURLOPT_HTTPHEADER     => [
-        'Content-Type: application/json',
-        'x-api-key: ' . $apiKey,
-        'anthropic-version: 2023-06-01',
-    ],
-]);
-
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$curlErr  = curl_error($ch);
-curl_close($ch);
-
-if ($curlErr) { failJob($jobFile, 'שגיאת חיבור: ' . $curlErr); exit; }
-
-$apiResp = json_decode($response, true);
-if ($httpCode !== 200 || empty($apiResp['content'][0]['text'])) {
-    failJob($jobFile, $apiResp['error']['message'] ?? "שגיאה מ-Anthropic (HTTP $httpCode)");
-    exit;
-}
-
-$html = trim($apiResp['content'][0]['text']);
-if (preg_match('/^```(?:html)?\s*\n([\s\S]*?)```\s*$/i', $html, $m)) $html = trim($m[1]);
-
-$css  = '<style id="coursyland-safety">body{background:#fff!important;color:#1a1330!important}</style>';
-$html = str_replace('</head>', $css . '</head>', $html);
-
-/* ── Save HTML ── */
-$pagesDir = __DIR__ . '/pages';
-if (!is_dir($pagesDir)) mkdir($pagesDir, 0755, true);
-
-if (file_put_contents($pagesDir . '/' . $slug . '.html', $html) === false) {
-    failJob($jobFile, 'לא ניתן לשמור קובץ HTML'); exit;
-}
-
-/* ── Mark done ── */
+/* ── Write job file ── */
 file_put_contents($jobFile, json_encode([
-    'status' => 'done',
-    'url'    => 'https://coursyland.com/pages/' . $slug . '.html',
+    'status'     => 'processing',
+    'created_at' => time(),
+    'slug'       => $slug,
+    'courseName' => $input['courseName'],
+    'content'    => $input['content'],
+    'colors'     => $input['colors'] ?? ['primary' => '#9B30E8', 'accent' => '#F59E0B'],
+    'paymentUrl' => $input['paymentUrl'] ?? '',
+    'imgUrls'    => $imgUrls,
 ]));
+
+/* ── Respond to browser immediately ── */
+echo json_encode(['job_id' => $jobId, 'status' => 'processing']);
+
+/* ── Spawn process.php as detached background process ── */
+$spawned = false;
+
+if (function_exists('proc_open')) {
+    /* Find a CLI PHP binary (lsphp is the web SAPI, not suitable for CLI) */
+    $phpBin = '';
+    foreach (['/opt/alt/php83/usr/bin/php', '/usr/bin/php83', '/usr/bin/php8.3', '/usr/bin/php'] as $c) {
+        if (is_executable($c)) { $phpBin = $c; break; }
+    }
+    if (!$phpBin && is_executable(PHP_BINARY)) $phpBin = PHP_BINARY;
+
+    if ($phpBin) {
+        $cmd  = escapeshellcmd($phpBin)
+              . ' ' . escapeshellarg(__DIR__ . '/process.php')
+              . ' ' . escapeshellarg($jobId)
+              . ' > /dev/null 2>&1 &';
+        $desc = [0 => ['pipe', 'r'], 1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']];
+        $proc = @proc_open('/bin/sh -c ' . escapeshellarg($cmd), $desc, $pipes);
+        if (is_resource($proc)) {
+            fclose($pipes[0]);
+            proc_close($proc); /* returns immediately — child runs in background */
+            $spawned = true;
+        }
+    }
+}
+
+/* ── Curl fallback: fire-and-forget HTTP request to process.php ── */
+if (!$spawned && function_exists('curl_init')) {
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host   = $_SERVER['HTTP_HOST'] ?? 'coursyland.com';
+    $ch = curl_init($scheme . '://' . $host . '/process.php?job_id=' . urlencode($jobId));
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT_MS     => 500,  /* disconnect after 0.5s; process.php keeps running */
+        CURLOPT_NOSIGNAL       => true,
+        CURLOPT_FOLLOWLOCATION => false,
+    ]);
+    @curl_exec($ch);
+    curl_close($ch);
+}
