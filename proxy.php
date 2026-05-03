@@ -21,7 +21,7 @@ if (!$input || empty($input['content']) || empty($input['courseName'])) {
     exit;
 }
 
-/* ── Validate API key exists before queuing ── */
+/* ── Load API key ── */
 function loadApiKey() {
     $p = __DIR__ . '/.env';
     if (!file_exists($p)) return '';
@@ -32,6 +32,7 @@ function loadApiKey() {
     }
     return '';
 }
+
 $apiKey = loadApiKey();
 if (empty($apiKey) || $apiKey === 'your_key_here') {
     http_response_code(500);
@@ -49,28 +50,169 @@ $jobFile = $jobsDir . '/' . $jobId . '.json';
 file_put_contents($jobFile, json_encode([
     'status'     => 'processing',
     'created_at' => time(),
-    'input'      => $input,
 ]));
 
-/* ── Spawn process.php in background ── */
-$script = __DIR__ . '/process.php';
-$arg    = escapeshellarg($jobId);
+/* ════════════════════════════════════════════════
+   Respond to client IMMEDIATELY — before processing
+   ════════════════════════════════════════════════ */
+$responseJson = json_encode(['job_id' => $jobId, 'status' => 'processing']);
+header('Content-Length: ' . strlen($responseJson));
+echo $responseJson;
 
-if (function_exists('exec')) {
-    $php = PHP_BINARY ?: 'php';
-    exec(escapeshellcmd($php) . ' ' . escapeshellarg($script) . ' ' . $arg . ' > /dev/null 2>&1 &');
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();   /* PHP-FPM: flush response, keep script alive */
 } else {
-    /* Fallback: trigger via HTTP with 1s timeout — process.php keeps running via ignore_user_abort */
-    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host   = $_SERVER['HTTP_HOST'] ?? 'coursyland.com';
-    $ch = curl_init($scheme . '://' . $host . '/process.php?job_id=' . urlencode($jobId));
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 1,
-        CURLOPT_NOSIGNAL       => 1,
-    ]);
-    @curl_exec($ch);
-    curl_close($ch);
+    if (ob_get_level()) { ob_end_flush(); }
+    flush();
 }
 
-echo json_encode(['job_id' => $jobId, 'status' => 'processing']);
+/* ════════════════════════════════════════════════
+   Everything below runs AFTER the browser receives
+   its response — client has disconnected
+   ════════════════════════════════════════════════ */
+ignore_user_abort(true);
+set_time_limit(300);
+
+function failJob($file, $error) {
+    file_put_contents($file, json_encode(['status' => 'error', 'error' => $error]));
+}
+
+/* ── Normalize slug ── */
+function makeSlug($name) {
+    $s = strtolower(trim($name));
+    $s = preg_replace('/[^a-z0-9]+/', '-', $s);
+    return trim($s, '-') ?: 'course-' . time();
+}
+$slug = makeSlug($input['courseName']);
+
+/* ── Save base64 image ── */
+function saveImage($dataUri, $basePath, $baseUrl) {
+    if (empty($dataUri)) return '';
+    if (!preg_match('/^data:image\/(\w+);base64,(.+)$/s', $dataUri, $m)) return '';
+    $ext  = ($m[1] === 'jpeg') ? 'jpg' : strtolower($m[1]);
+    $ext  = in_array($ext, ['jpg','png','gif','webp']) ? $ext : 'jpg';
+    $file = basename($basePath) . '.' . $ext;
+    file_put_contents($basePath . '.' . $ext, base64_decode($m[2]));
+    return $baseUrl . '/' . $file;
+}
+
+/* ── Save images ── */
+$assetsDir = __DIR__ . '/pages/assets/' . $slug;
+$assetsUrl = 'https://coursyland.com/pages/assets/' . $slug;
+if (!is_dir($assetsDir)) mkdir($assetsDir, 0755, true);
+
+$images  = $input['images'] ?? [];
+$imgUrls = ['instructor' => '', 'atmosphere' => [], 'lessons' => []];
+
+if (!empty($images['instructor']))
+    $imgUrls['instructor'] = saveImage($images['instructor'], $assetsDir . '/instructor', $assetsUrl);
+
+foreach (($images['atmosphere'] ?? []) as $i => $b64) {
+    $u = saveImage($b64, $assetsDir . '/atmosphere-' . ($i+1), $assetsUrl);
+    if ($u) $imgUrls['atmosphere'][] = $u;
+}
+foreach (($images['lessons'] ?? []) as $i => $b64) {
+    $u = saveImage($b64, $assetsDir . '/lesson-' . ($i+1), $assetsUrl);
+    if ($u) $imgUrls['lessons'][] = $u;
+}
+
+/* ── Build prompt ── */
+$colors = $input['colors'] ?? ['primary' => '#9B30E8', 'accent' => '#F59E0B'];
+$payUrl = $input['paymentUrl'] ?? '';
+
+$imgSection  = $imgUrls['instructor'] ? "תמונת מנחה: {$imgUrls['instructor']}\n" : '';
+foreach ($imgUrls['atmosphere'] as $i => $u) $imgSection .= "תמונת אווירה " . ($i+1) . ": $u\n";
+foreach ($imgUrls['lessons']    as $i => $u) $imgSection .= "תמונת שיעור "  . ($i+1) . ": $u\n";
+
+/* ── Load SKILL.md ── */
+function loadSkill() {
+    $p = __DIR__ . '/admintools/sales-page-builder/SKILL.md';
+    if (!file_exists($p)) return '';
+    return trim(preg_replace('/^---[\s\S]*?---\s*/m', '', file_get_contents($p)));
+}
+
+$systemPrompt = loadSkill() . <<<'EOT'
+
+---
+
+## תמונות — עדכון חשוב
+
+בניגוד לכתוב למעלה, בפריסה זו **יש** תמונות אמיתיות — אל תיצור placeholders.
+השתמש ב-URLs שסופקו:
+- תמונת מנחה: `<img src="URL">` בעיגול עם border בצבע הראשי
+- תמונות אווירה: הצג ברצועה ויזואלית מעוצבת
+- תמונות שיעורים: הצג בתוך כרטיס הפרק המתאים
+אם לא סופקה תמונה — השתמש ב-placeholder CSS.
+
+---
+
+## כללי צבע — חובה מוחלטת
+
+- רקע הדף (body): לבן #FFFFFF או אפור בהיר — לעולם לא שחור
+- טקסט גוף: כהה #1A1330 — לעולם לא לבן על רקע בהיר
+- sections כהים מותרים רק עם טקסט לבן מפורש
+- אסור: טקסט כהה על רקע כהה, או טקסט בהיר על רקע בהיר
+
+החזר HTML מלא בלבד — בלי הסברים, בלי markdown backticks.
+EOT;
+
+$userMessage = "שם הקורס: {$input['courseName']}\n\n"
+    . "=== תוכן הדף ===\n{$input['content']}\n\n"
+    . "=== עיצוב ===\n"
+    . "צבע ראשי: {$colors['primary']}\n"
+    . "צבע הדגשה: {$colors['accent']}\n"
+    . "URL לתשלום: {$payUrl}\n\n"
+    . "=== תמונות ===\n"
+    . ($imgSection ?: "לא הועלו תמונות.\n");
+
+/* ── Call Anthropic API ── */
+$ch = curl_init('https://api.anthropic.com/v1/messages');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => json_encode([
+        'model'      => 'claude-sonnet-4-6',
+        'max_tokens' => 64000,
+        'system'     => $systemPrompt,
+        'messages'   => [['role' => 'user', 'content' => $userMessage]],
+    ]),
+    CURLOPT_TIMEOUT        => 290,
+    CURLOPT_HTTPHEADER     => [
+        'Content-Type: application/json',
+        'x-api-key: ' . $apiKey,
+        'anthropic-version: 2023-06-01',
+    ],
+]);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr  = curl_error($ch);
+curl_close($ch);
+
+if ($curlErr) { failJob($jobFile, 'שגיאת חיבור: ' . $curlErr); exit; }
+
+$apiResp = json_decode($response, true);
+if ($httpCode !== 200 || empty($apiResp['content'][0]['text'])) {
+    failJob($jobFile, $apiResp['error']['message'] ?? "שגיאה מ-Anthropic (HTTP $httpCode)");
+    exit;
+}
+
+$html = trim($apiResp['content'][0]['text']);
+if (preg_match('/^```(?:html)?\s*\n([\s\S]*?)```\s*$/i', $html, $m)) $html = trim($m[1]);
+
+$css  = '<style id="coursyland-safety">body{background:#fff!important;color:#1a1330!important}</style>';
+$html = str_replace('</head>', $css . '</head>', $html);
+
+/* ── Save HTML ── */
+$pagesDir = __DIR__ . '/pages';
+if (!is_dir($pagesDir)) mkdir($pagesDir, 0755, true);
+
+if (file_put_contents($pagesDir . '/' . $slug . '.html', $html) === false) {
+    failJob($jobFile, 'לא ניתן לשמור קובץ HTML'); exit;
+}
+
+/* ── Mark done ── */
+file_put_contents($jobFile, json_encode([
+    'status' => 'done',
+    'url'    => 'https://coursyland.com/pages/' . $slug . '.html',
+]));
