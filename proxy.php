@@ -14,6 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 set_time_limit(300);
 
+/* Send a single space immediately so LiteSpeed doesn't timeout waiting
+   for the first byte during the long Anthropic API call (~90s).
+   A leading space is valid JSON whitespace per RFC 8259. */
+while (ob_get_level()) @ob_end_flush();
+echo ' ';
+flush();
+
 $raw   = file_get_contents('php://input');
 $input = json_decode($raw, true);
 
