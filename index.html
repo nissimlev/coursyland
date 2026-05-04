@@ -389,6 +389,19 @@
     box-shadow: 0 6px 20px rgba(91,82,240,0.4);
   }
 
+  .sample-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35, #f7c59f);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.22rem 0.75rem;
+    border-radius: 50px;
+    letter-spacing: 0.4px;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(255,107,53,0.35);
+  }
+
   /* EMPTY STATE */
   .empty-state {
     grid-column: 1/-1;
@@ -633,6 +646,7 @@ function renderGrid(list) {
       <img class="card-image" src="${c.img}" alt="${c.title}" loading="lazy" />
       <div class="card-body">
         <span class="card-category">${c.category}</span>
+        ${c.title !== "אומן במיטה" ? '<span class="sample-badge">קורס לדוגמה</span>' : ''}
         <div class="card-title">${c.title}</div>
         <div class="card-instructor">${c.instructor}</div>
         <div class="card-desc">${c.desc}</div>
