@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>לידה מחוברת | שירת הלב – שירן דוויק כהן</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:        #3D9A99;
+      --teal-dark:   #2E7877;
+      --teal-light:  #EBF6F6;
+      --purple:      #4A1942;
+      --purple-light:#7B3A72;
+      --cream:       #FAF7F2;
+      --warm-white:  #FFFDF9;
+      --charcoal:    #2C2C2C;
+      --mid:         #5A5A5A;
+      --light:       #8A8A8A;
+      --border:      #D6EDED;
+      --font-head:   'Secular One', sans-serif;
+      --font-body:   'Heebo', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--warm-white);
+      color: var(--charcoal);
+      font-size: 17px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
+    p { margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    .container { width: 100%; max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    .section   { padding: 72px 0; }
+    .section--cream  { background: var(--cream); }
+    .section--teal   { background: var(--teal); color: #fff; }
+    .section--purple { background: var(--purple); color: #fff; }
+    .section--dark   { background: #140d12; color: #fff; }
+
+    .label {
+      display: inline-block;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+    }
+    .section--teal   .label,
+    .section--purple .label,
+    .section--dark   .label {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border-color: rgba(255,255,255,.3);
+    }
+
+    .divider {
+      width: 56px; height: 4px;
+      background: var(--teal);
+      margin: 16px auto 28px;
+      border-radius: 2px;
+    }
+    .section--purple .divider,
+    .section--dark   .divider { background: rgba(255,255,255,.35); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      font-family: var(--font-head);
+      font-size: 20px;
+      padding: 18px 44px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      min-height: 60px;
+      box-shadow: 0 8px 28px rgba(74,25,66,.3);
+    }
+    .btn:hover { background: #3a1232; transform: translateY(-2px); box-shadow: 0 12px 36px rgba(74,25,66,.4); }
+    .btn--teal  { background: var(--teal); box-shadow: 0 8px 28px rgba(61,154,153,.35); }
+    .btn--teal:hover { background: var(--teal-dark); }
+    .btn--outline {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      box-shadow: none;
+    }
+    .btn--outline:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
+    .cta-wrap { text-align: center; padding: 12px 0; }
+    .cta-sub  { font-size: 14px; color: var(--light); margin-top: 12px; }
+    .section--purple .cta-sub,
+    .section--dark   .cta-sub,
+    .section--teal   .cta-sub { color: rgba(255,255,255,.6); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(155deg, #0c3a39 0%, var(--purple) 100%);
+      color: #fff;
+      padding: 64px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Real logo — white background card so teal+purple colours show correctly */
+    .hero-logo-wrap {
+      display: inline-block;
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px 28px 14px;
+      margin: 0 auto 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.25);
+    }
+    .hero-logo {
+      display: block;
+      max-width: 180px;
+      width: 52vw;
+      height: auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(61,154,153,.3);
+      border: 1px solid rgba(61,154,153,.6);
+      color: #a8e6e5;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      letter-spacing: .05em;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 6vw, 52px);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .hero h1 em { color: #7fe8e7; font-style: normal; }
+    .hero-sub {
+      font-size: clamp(17px, 3vw, 22px);
+      color: rgba(255,255,255,.88);
+      margin-bottom: 12px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .hero-sub2 {
+      font-size: clamp(15px, 2.5vw, 18px);
+      color: rgba(255,255,255,.72);
+      margin-bottom: 36px;
+      line-height: 1.65;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* instructor photo in hero */
+    .hero-photo-wrap {
+      position: relative;
+      margin: 44px auto 0;
+      max-width: 340px;
+    }
+    .hero-photo {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      border: 4px solid rgba(255,255,255,.18);
+      box-shadow: 0 24px 64px rgba(0,0,0,.45);
+    }
+    .hero-photo-caption {
+      position: absolute;
+      bottom: -20px;
+      right: 20px;
+      background: #fff;
+      color: var(--purple);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+
+    /* ── PAIN CARDS ── */
+    .pain-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .pain-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-right: 4px solid var(--teal);
+      border-radius: 12px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .pain-icon {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      background: var(--teal-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pain-icon svg { width: 20px; height: 20px; }
+    .pain-card p { font-size: 16px; color: var(--mid); line-height: 1.65; margin: 0; }
+    .pain-card strong { color: var(--charcoal); }
+
+    /* ── QUOTE BLOCK ── */
+    .mood-quote {
+      background: linear-gradient(135deg, var(--teal-light) 0%, #e4f2f2 100%);
+      border-right: 5px solid var(--teal);
+      border-radius: 0 14px 14px 0;
+      padding: 24px 24px 24px 18px;
+      margin: 32px 0 0;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--teal-dark);
+      font-weight: 600;
+      line-height: 1.6;
+    }
+    .mood-quote p { margin: 0; }
+
+    /* ── DREAM GRID ── */
+    .dream-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .dream-item {
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 16px;
+      padding: 24px 26px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .dream-num {
+      font-family: var(--font-head);
+      font-size: 34px;
+      color: rgba(255,255,255,.25);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .dream-item h4 { font-size: 18px; margin-bottom: 7px; color: #fff; }
+    .dream-item p  { font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.65; margin: 0; }
+
+    /* ── WHY FAILED ── */
+    .why-list {
+      list-style: none;
+      margin-top: 28px;
+      display: grid;
+      gap: 14px;
+    }
+    .why-list li {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 22px 18px 56px;
+      border: 1px solid var(--border);
+      font-size: 16px;
+      line-height: 1.65;
+      position: relative;
+      color: var(--mid);
+    }
+    .why-list li::before {
+      content: attr(data-icon);
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      font-size: 20px;
+    }
+
+    /* ── PILLARS ── */
+    .method-pillars {
+      display: grid;
+      gap: 20px;
+      margin-top: 36px;
+    }
+    .pillar {
+      background: #fff;
+      border-radius: 16px;
+      padding: 26px 26px;
+      border: 1px solid var(--border);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      box-shadow: 0 4px 20px rgba(61,154,153,.07);
+    }
+    .pillar-icon {
+      flex-shrink: 0;
+      width: 54px; height: 54px;
+      background: var(--teal-light);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pillar-icon svg { width: 28px; height: 28px; }
+    .pillar h4 { font-size: 19px; color: var(--teal-dark); margin-bottom: 8px; }
+    .pillar p  { font-size: 15px; color: var(--mid); line-height: 1.65; margin: 0; }
+
+    /* ── SYLLABUS ── */
+    .lesson-grid { display: grid; gap: 20px; margin-top: 36px; }
+    .lesson {
+      background: #fff;
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,.05);
+      display: flex;
+      gap: 20px;
+    }
+    .lesson-num {
+      flex-shrink: 0;
+      width: 52px; height: 52px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 50%;
+      font-family: var(--font-head);
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lesson-body h4 { font-size: 18px; color: var(--purple); margin-bottom: 10px; }
+    .lesson-body p  { font-size: 15px; color: var(--mid); line-height: 1.7; }
+    .lesson-extras {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── BONUSES ── */
+    .bonus-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .bonus-item {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 14px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .bonus-star { flex-shrink: 0; color: #FFD700; font-size: 22px; line-height: 1; }
+    .bonus-item h4 { font-size: 17px; margin-bottom: 5px; }
+    .bonus-item p  { font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.55; margin: 0; }
+
+    /* ── FOR WHOM ── */
+    .for-grid  { display: grid; gap: 14px; margin-top: 28px; }
+    .for-item  {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 18px 20px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .for-check {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: var(--teal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .for-check svg { width: 14px; height: 14px; }
+    .for-item p { font-size: 16px; color: var(--mid); line-height: 1.6; margin: 0; }
+
+    /* ── TESTIMONIALS ── */
+    .testi-grid { display: grid; gap: 24px; }
+    .testi {
+      background: #fff;
+      border-radius: 18px;
+      padding: 28px 28px 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(61,154,153,.08);
+      position: relative;
+    }
+    .testi::before {
+      content: '"';
+      position: absolute;
+      top: 12px;
+      left: 22px;
+      font-size: 80px;
+      color: var(--teal-light);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testi p { font-size: 16px; color: var(--mid); line-height: 1.75; font-style: italic; margin: 0 0 16px; }
+    .testi-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--teal-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .testi-name::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 2px;
+      background: var(--teal);
+      border-radius: 2px;
+    }
+
+    /* atmosphere image strip */
+    .atmo-image-wrap {
+      margin-top: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+      max-height: 380px;
+    }
+    .atmo-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* ── BIO ── */
+    .bio-wrap { display: grid; gap: 40px; align-items: start; }
+    .bio-photo-wrap { position: relative; max-width: 320px; margin: 0 auto; }
+    .bio-photo {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      border: 4px solid var(--teal-light);
+      box-shadow: 0 12px 40px rgba(61,154,153,.15);
+    }
+    .bio-badge {
+      position: absolute;
+      bottom: -18px;
+      left: 20px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(74,25,66,.3);
+    }
+    .bio-text h2 { font-size: clamp(24px, 4vw, 34px); color: var(--purple); margin-bottom: 20px; }
+    .bio-text p  { font-size: 16px; color: var(--mid); line-height: 1.8; }
+    .bio-highlights {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+    }
+    .bio-chip {
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── PRICE ── */
+    .price-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 2px solid var(--teal);
+      max-width: 560px;
+      margin: 40px auto 0;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(61,154,153,.15);
+    }
+    .price-card-head {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      color: #fff;
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .price-card-head h3 { font-size: 22px; margin-bottom: 6px; }
+    .price-main { text-align: center; padding: 36px 32px 24px; }
+    .price-original { font-size: 20px; color: var(--light); text-decoration: line-through; margin-bottom: 4px; }
+    .price-was { font-size: 16px; color: var(--mid); margin-bottom: 4px; }
+    .price-now {
+      font-family: var(--font-head);
+      font-size: 64px;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .price-install { font-size: 15px; color: var(--mid); margin-bottom: 28px; }
+    .price-includes { text-align: right; padding: 0 32px 32px; }
+    .price-includes h4 { font-size: 16px; margin-bottom: 14px; color: var(--charcoal); }
+    .price-includes ul { list-style: none; display: grid; gap: 10px; }
+    .price-includes li {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 15px;
+      color: var(--mid);
+    }
+    .price-includes li::before {
+      content: '';
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+      background: var(--teal);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* ── CLOSING / URGENCY ── */
+    .closing-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      margin-top: 36px;
+    }
+    .closing-box h3 { font-size: 22px; color: var(--purple); margin-bottom: 12px; }
+    .closing-box p  { color: var(--mid); font-size: 16px; line-height: 1.7; }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 32px; display: grid; gap: 12px; }
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 20px 24px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--purple);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .faq-q::-webkit-details-marker { display: none; }
+    .faq-q::after { content: '+'; font-size: 24px; color: var(--teal); flex-shrink: 0; line-height: 1; }
+    details[open] .faq-q::after { content: '−'; }
+    .faq-a { padding: 0 24px 20px; font-size: 15px; color: var(--mid); line-height: 1.75; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0D0B12;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 14px;
+    }
+    footer strong { color: var(--teal); }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 640px) {
+      .pain-grid    { grid-template-columns: 1fr 1fr; }
+      .dream-grid   { grid-template-columns: 1fr 1fr; }
+      .for-grid     { grid-template-columns: 1fr 1fr; }
+      .testi-grid   { grid-template-columns: 1fr 1fr; }
+      .bio-wrap     { grid-template-columns: 1fr 1fr; }
+      .method-pillars { grid-template-columns: 1fr 1fr; }
+      .bonus-grid   { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 768px) {
+      .hero { padding: 88px 0 72px; }
+    }
+
+    /* ── STICKY MOBILE CTA ── */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--purple);
+      padding: 12px 20px;
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.25);
+    }
+    .sticky-cta a { color: #fff; font-family: var(--font-head); font-size: 16px; text-decoration: none; }
+    @media (max-width: 639px) {
+      .sticky-cta { display: block; }
+      body { padding-bottom: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta">
+  <a href="#purchase">הצטרפו עכשיו — 790 ₪</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     1 + 2 · HERO — הוק + כותרת משנה
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="container hero-inner">
+
+    <!-- הלוגו האמיתי -->
+    <div class="hero-logo-wrap">
+      <img
+        src="WhatsApp Image 2026-03-24 at 11.04.16.jpeg"
+        alt="שירת הלב — שירן דוויק כהן"
+        class="hero-logo"
+      >
+    </div>
+
+    <div class="hero-badge">קורס דיגיטלי לזוגות · 4 מפגשי עומק</div>
+
+    <h1>
+      לידה —<br>
+      <em>מה עושים ברגע האמת</em>
+    </h1>
+
+    <p class="hero-sub">מדריך לזוגות לפני לידה וכניסה להורות</p>
+
+    <p class="hero-sub2">
+      להתחיל את ההורות שלכם — כצוות — בקשר מחובר, תמיד יציב ובטוח.<br>
+      לידה יכולה להיות חוויה מחזקת ליולדת ולזוגיות.<br>
+      ההכנה האמיתית היא לא רק ידע וכלים, אלא איך להגיע באמת בתחושת ביטחון כצוות — ללידה טובה, בריאה וטבעית.<br>
+      זוג שיודע למה לצפות ושיש לו כלים של נשימה, מגע ותנועה, יכול להיות רגוע ברגע האמת וללדת בלידה טבעית ונוכחת.<br>
+      ללידה ראשונה או ללידה חוזרת.
+    </p>
+
+    <!-- תמונת המנחה -->
+    <div class="hero-photo-wrap">
+      <img
+        src="shiran pic.jpg"
+        alt="שירן דוויק כהן — מטפלת ברפואה משלימה ומנחת לידה"
+        class="hero-photo"
+      >
+      <div class="hero-photo-caption">שירן דוויק כהן ✦ שירת הלב</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA #1 -->
+<section style="padding:48px 0 36px; background:var(--cream);">
+  <div class="container">
+    <div class="cta-wrap">
+      <a class="btn" href="#purchase">הצטרפות לקורס ← 790 ₪</a>
+      <p class="cta-sub">ניתן לחלק ל-3 תשלומים &nbsp;·&nbsp; גישה מלאה ל-12 חודשים</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     3 · הבעיה / הכאב
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="label">הרגשות שמגיעים לפני לידה</div>
+    <h2 style="font-size:clamp(26px,4vw,38px); text-align:center;">
+      ליוויתי הרבה זוגות...<br>
+      <span style="color:var(--teal);">ואני מכירה אתכם</span>
+    </h2>
+    <div class="divider"></div>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3D9A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <p><strong>את מרגישה מוצפת... מפחדת.</strong><br>
+        לא בטוחה מה יקרה לגוף שלך ברגע האמת.</p>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3D9A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+          </svg>
+        </div>
+        <p><strong>אתם מרגישים אבודים,</strong><br>
+        כאילו אתם הולכים ללא נודע...</p>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3D9A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <p><strong>אתם לא אוהבים</strong><br>
+        את מה שאתם שומעים על לידה ברשת, מהסביבה, מהמערכת.</p>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3D9A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <p><strong>הרבה חוסר ודאות,</strong><br>
+        פחד מהלא נודע, בלבול מרוב המידע שיש ברשת ומעומס הבדיקות והרופאים.</p>
+      </div>
+    </div>
+
+    <div class="mood-quote">
+      <p>בואו נצמצם את הפער בין מה שחושבים ושומעים על לידה — לבין מה היא לידה באמת.</p>
+    </div>
+
+    <div style="margin-top:32px;">
+      <p>אם אתם לפני לידה והפער ביניכם בולט — הרבה זוגות מגיעים אליי עם הרבה שאלות, ולא תמיד עם מספיק ביטחון. היולדת לא תמיד יודעת מה קורה לה בגוף ואיך מתבצע תהליך הלידה. בן הזוג גם כן לא יודע, ורוצה להיות בתמיכה מלאה.</p>
+      <p>בן הזוג גם יקבל כלים לדעת מה עובר עלייך בפן הרגשי והפיזי. כי הפער הזה יוצר לעיתים הרבה בלבול, לחץ וחוסר אונים. הוא יכול להכניס הרבה מתח ותחושת ריחוק, חוסר הסכמה וחוסר חיבור — דווקא ברגע שהכי חשוב להגיע בו בטוחים ומחוברים.</p>
+      <p>זה בהמשך יכול להוביל ללידה עם הרבה התערבויות. וככל שיהיו יותר התערבויות ואתם לא תהיו בתחושת ריבונות על הגוף — על גוף היולדת — עלול להיכנס מקום של טראומה שישפיע בהמשך בפן האישי, הנפשי והזוגי.</p>
+      <p>לידה טובה, טבעית ובריאה משפיעה על תהליך ההחלמה ותומכת באימהות.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     4 · החלום / התוצאה
+══════════════════════════════════════ -->
+<section class="section section--teal">
+  <div class="container">
+    <div class="label">מה אפשר לקרות אחרת</div>
+    <h2 style="font-size:clamp(24px,4vw,38px); text-align:center; color:#fff;">
+      מה אם הייתי אומרת לכם שיש דרך...
+    </h2>
+    <div class="divider"></div>
+    <p style="text-align:center; font-size:20px; color:#fff; font-weight:700; max-width:560px; margin:0 auto 20px; line-height:1.6;">
+      להרגיש מוכנים ולהגיע ללידה בדיוק כמו שחלמתם — ביחד, באהבה, בביטחון ובהתרגשות.
+    </p>
+
+    <div style="font-size:16px; color:rgba(255,255,255,.88); line-height:1.8; max-width:640px; margin:0 auto 36px;">
+      <p>להגיע לתהליך לידה עם ידע מבוסס, עם כלים להתמודד ועם תמיכה טובה — זה המתכון הטוב ביותר להגיע ללידה קשובה, בריאה וטבעית.</p>
+      <p>הכלים האלה והמערך העוטף נותנים לאישה בדיוק את מה שהיא צריכה כדי להתמסר לתהליך הזה, העוצמתי. המקום שבו היא תיוולד להיות מישהי אחרת — היא תיוולד להיות אימא, היא תיוולד מחדש אחרי חוויה מכוננת. תחושות חדשות, עוצמות חדשות שהיא טרם הכירה על עצמה ובגוף שלה.</p>
+      <p>אחרי לידה טובה וטבעית ההחלמה היא קלה — נפשית, רגשית ופיזית. את תהיי פנויה לטפל בילד שלך, תהיי פנויה להיות עם הבייבי בתחושה עילאית. יהיו לכם כלים, קשר וחיבור לדבר אחד עם השני, לתמוך ולעבור את התקופה הראשונה עם בייבי בבית.</p>
+    </div>
+
+    <div class="dream-grid">
+      <div class="dream-item">
+        <div class="dream-num">01</div>
+        <div>
+          <h4>לא מבולבלים, לא מפוחדים</h4>
+          <p>תגיעו ללידה לא תלויים במזל, אלא עם הבנה עמוקה של מה קורה בגוף ועם ריבונות על תהליך הלידה שלכם.</p>
+        </div>
+      </div>
+      <div class="dream-item">
+        <div class="dream-num">02</div>
+        <div>
+          <h4>האישה מובילה, בן הזוג נוכח</h4>
+          <p>האישה תרגיש שמקשיבים לה, שהגוף שלה מוביל את הדרך. ובן הזוג ידע בדיוק איך לגעת, לתמוך, להרגיע ולעזור לה לעבור את הצירים.</p>
+        </div>
+      </div>
+      <div class="dream-item">
+        <div class="dream-num">03</div>
+        <div>
+          <h4>צוות אחד במקום לחץ ובלבול</h4>
+          <p>במקום לחץ ובלבול תהיה תחושה של צוות. במקום פחד — ביטחון. חוויה מחזקת, מחברת ומעצימה שתישאר איתכם כל החיים.</p>
+        </div>
+      </div>
+      <div class="dream-item">
+        <div class="dream-num">04</div>
+        <div>
+          <h4>התחלת הורות מהמקום הנכון</h4>
+          <p>לידה טובה משפיעה על תהליך ההחלמה, על הקשר עם התינוק ועל הקשר ביניכם — גם על התקופה שאחרי הלידה.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     5 · למה זה לא עבד עד עכשיו
+══════════════════════════════════════ -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="label">שורש הבעיה</div>
+    <h2 style="font-size:clamp(24px,4vw,36px); text-align:center;">
+      ההכנה הרגילה לא מספיקה
+    </h2>
+    <div class="divider"></div>
+
+    <p>הרבה זוגות מגיעים אליי לקראת רגע הלידה בלי הכנה נכונה או בלי הכנה בכלל. אולי גם אתם לפני הלידה, או לפני לידה שנייה והלאה, ורוצים להגיע אליה מוכנים יותר — כדי לעבור מסע לידה מחובר יותר, מעצים יותר ופחות עם התערבות רפואית מיותרת.</p>
+    <p>כשמגיעים ללידה בלי ידע נכון, בלי הכנה זוגית ובלי כלים מעשיים, מאוד קל להגיע למצב של התערבויות רפואיות — לא כי זה הכרחי, אלא כי פשוט אין כלים. ואז זה נראה שאין אפשרות אחרת.</p>
+    <p>להגיע נכון ללידה זה להגיע עם ארגז כלים גדול ורחב, ולשלוף לפי הצורך, לפי שלב הלידה, את התשובה הנכונה מתוך ארגז הכלים.</p>
+
+    <ul class="why-list">
+      <li data-icon="📚">בקורס תקבלו גם ידע בווידאו וגם הכול יהיה כתוב לכם, ויהיו דברים שיהיה נכון להדפיס ולשים מול העיניים. הכול יהיה מונגש ובנמצא. נכסה את כל המצבים של חוסר אונים.</li>
+      <li data-icon="💫">התהליך הוא מאוד מאוד עוצמתי. כל התחושות והרגשות הן ברובד הרבה יותר חזק, עוצמתי וגדול. הכאב מצריך מודעות וחיבור גופני, והוא מצריך כלים לעבוד איתו. יש הבדל מאוד משמעותי בלידה אם יש כלים או אין כלים לעבוד עם הכאב.</li>
+      <li data-icon="🌿">הקורס הזה נולד לא רק מחומר תיאורטי על לידה וזוגות — הוא נולד מתוך שנים של עבודה עם נשים, עם גוף–נפש, עם מערכת העצבים ועם הרגעים הכי רגישים של החיים.</li>
+      <li data-icon="🤝">במקום לדבר על לידה, אנחנו לומדים איך להיות בתוך הלידה: איך לעבוד עם הגוף והתודעה כשהצירים מתחילים, איך להניע את מערכת העצבים כשהפחד עולה, איך להשתמש במגע, בנשימה ובתנועה כדי לעזור ללידה להתקדם.</li>
+    </ul>
+
+    <p style="margin-top:24px;">והכי חשוב — אנחנו עובדים על הקשר בין בני הזוג. ובמקום חוויה של מאבק נוצרת חוויה של שיתוף פעולה ביחד עם הגוף.</p>
+    <p>בקורס תלמדו הרבה מאוד ידע פרקטי כדי לעבור את השעות האלה של הלידה. תחסכו לעצמכם חוסר אונים גדול מול המערכת הרפואית, תחסכו לעצמכם המון חוסר ודאות בתוך תהליך הלידה — לאן הוא הולך, לאן הוא מתפתח, מה צריך לדעת ואיך לעבוד עם הגוף. וכך יהיו לכם כלים נכונים להימנע מפרוטוקולים בבתי החולים, ותלמדו גם לתקשר את הרצונות שלכם מול המערך הרפואי.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     6 · הפתרון הייחודי — לידה מחוברת
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="label">השיטה</div>
+    <h2 style="font-size:clamp(24px,4vw,38px); text-align:center; color:var(--purple);">
+      "לידה מחוברת"
+    </h2>
+    <p style="text-align:center; color:var(--teal-dark); font-size:17px; margin-bottom:6px;">שיטת שירת הלב</p>
+    <div class="divider"></div>
+
+    <p>הפתרון שלי — אפשר לקרוא לזה השיטה שלי — נקראת "לידה מחוברת". זה בעצם תולדה של שנים בקליניקה. הקליניקה שלי נקראת שירת הלב. הדגש שלי בשירת הלב הוא למצוא את השיר האישי שלך, שבתוך הלב שלך, שאת מנגנת אותו. זה החיבור האישי שלך לגוף ולנפש, שמזהה את הטראומות, את סיפור החיים ואת כל האמונות שאת בעצם אוספת במהלך החיים.</p>
+    <p>בתוך לידה עוברים מסע מאוד מאוד עוצמתי — מסע פיזי, רוחני, נפשי ורגשי. והקורס הזה, שאני קוראת לו לידה מחוברת, נקרא כך משום שהחיבור שיהיה לך עם עצמך, והחיבור שיהיה לך עם המלווים שלך, הוא זה שיוביל את הלידה להיות הכי בטוחה, הכי טבעית והכי פעילה שיש.</p>
+    <p>ברגע שתסגלי לעצמך כלים של חיבור והקשבה פנימה, תהיה לך לידה טובה. אני רוצה להגיד את זה אפילו באחריות. כשיש חיבור נכון וטוב, הגוף נרגע ובטוח, מערכת העצבים מתאזנת, והלידה מתפתחת בצורה טבעית וקשובה. ובדיוק את זה אנחנו לומדים ליצור — חיבור של האישה לגוף שלה, חיבור של בן הזוג לתהליך שהיא עוברת, וחיבור ביניהם שמייצר מרחב בטוח ללידה.</p>
+
+    <h3 style="font-size:20px; color:var(--purple); margin:32px 0 20px;">שלושת עקרונות לידה מחוברת:</h3>
+    <div class="method-pillars">
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E7877" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div>
+          <h4>חיבור לגוף</h4>
+          <p>להבין את השפה של הגוף בזמן לידה ולעבוד עם הצירים דרך נשימה, תנועה ומודעות.</p>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E7877" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <div>
+          <h4>חיבור דרך מגע</h4>
+          <p>טכניקות מגע ונקודות לחיצה שתומכות בכאב, מרגיעות את מערכת העצבים ומקלות על הצירים.</p>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E7877" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <h4>חיבור זוגי בלידה</h4>
+          <p>בן הזוג לומד איך להיות נוכח, תומך ופעיל — ונוצרת תחושה של צוות וביטחון בלידה.</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:28px; font-style:italic; color:var(--teal-dark); font-weight:600; font-size:17px;">בניתי את הקורס כך שהוא מלמד בדיוק את זה, שלב אחרי שלב.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     7 · סילבוס
+══════════════════════════════════════ -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="label">מה לומדים בקורס</div>
+    <h2 style="font-size:clamp(24px,4vw,36px); text-align:center;">
+      4 מפגשי עומק — שלב אחרי שלב
+    </h2>
+    <div class="divider"></div>
+    <p style="text-align:center; color:var(--mid); max-width:520px; margin:0 auto 8px; line-height:1.7;">
+      הקורס מורכב מארבעה שיעורים עיקריים, ובכל אחד מהם יהיו תתי־שיעורים. בכל שיעור נלמד את כל החומר הרחב בצורה שבה כל שיעור הוא בסיס לשיעור הבא. זאת אומרת שיהיה כאן משהו שהוא תהליכי במובן מסוים.
+    </p>
+
+    <div class="lesson-grid">
+      <div class="lesson">
+        <div class="lesson-num">1</div>
+        <div class="lesson-body">
+          <h4>הגוף שלידה — מה קורה פיזיולוגית</h4>
+          <p>נלמד בו מה קורה פיזיולוגית בגוף, כדי שנוכל לדעת למה לצפות. נראה את השינויים בגוף האישה ונחווה שידע הוא כוח. ניגע גם במערך התודעתי שחשוב לשנות לקראת הלידה.</p>
+          <div class="lesson-extras">
+            <span class="tag">דף עבודה</span>
+            <span class="tag">דף מעקב למקרר</span>
+            <span class="tag">הרפייה מודרכת</span>
+            <span class="tag">סיכום כתוב</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-num">2</div>
+        <div class="lesson-body">
+          <h4>המערך ההורמונלי, הכאב ותפקיד בן הזוג</h4>
+          <p>נלמד מה קורה במערך ההורמונלי בגוף. נראה את הפלא שיש לנו בגוף — מערכת שממש מובילה את הלידה, ובאין מפריע מתפתחת לידה טבעית ובריאה. נלמד איך לתמוך בגוף, לתת לו לעשות את מה שהוא יודע. בפרק הזה ניגע גם בתמיכת בן הזוג, שהיא חלק חשוב מהמערך הזה של זרימת הורמונים תקינה. נלמד גם מהו כאב, מה הוא בא ללמד אותנו ואיך אפשר לעבוד איתו לטובתנו — לשם הנעה והתקדמות הלידה.</p>
+          <div class="lesson-extras">
+            <span class="tag">דף ידע</span>
+            <span class="tag">דף עיון</span>
+            <span class="tag">דמיון מודרך</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-num">3</div>
+        <div class="lesson-body">
+          <h4>כלים מעשיים — תנועה, מגע ונשימה</h4>
+          <p>נלמד הלכה למעשה איך לעבוד עם הגוף — בתנועה, במגע ובנשימה. נשלב את מה שלמדנו עד כה ונראה איך זה נכנס בתוך סדר בנוי של שלבי הלידה, למען קידום הלידה, להיות פעילה ונוכחת עם בן הזוג בתוך חוויה מעצימה ובריאה.</p>
+          <div class="lesson-extras">
+            <span class="tag">טכניקות מגע</span>
+            <span class="tag">נשימות לידה</span>
+            <span class="tag">תנועה עם צירים</span>
+            <span class="tag">נקודות לחיצה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-num">4</div>
+        <div class="lesson-body">
+          <h4>הרגע שאחרי — כניסה להורות</h4>
+          <p>נלמד על הרגע שאחרי — איך להצליח לעצור, ממקום רגוע, את החיים לתוך הפרק החדש שנפתח בחייכם. כיולדת בהחלמה, כמניקה, בתוך השינוי בבית וכמשפחה. והכי חשוב — לשמור ולשמר את כל הכלים שלמדתם בהיריון ובלידה, וגם בזוגיות, בנתינה ובתמיכה.</p>
+          <div class="lesson-extras">
+            <span class="tag">כלים לזוגיות</span>
+            <span class="tag">החלמה אחרי לידה</span>
+            <span class="tag">הנקה ראשונה</span>
+            <span class="tag">כניסה להורות</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#fff; border:1px solid var(--border); border-radius:16px; padding:24px 28px; margin-top:32px;">
+      <p style="font-size:15px; color:var(--mid); line-height:1.75; margin:0 0 12px;">
+        <strong style="color:var(--purple);">בסוף כל שיעור תקבלו:</strong>
+        דף עבודה, דף מעקב למקרר כדי לשים לב לדברים שדיברנו עליהם, דפי תמיכה בתהליך, דפי ידע ודפי עיון, הקלטות של דמיון מודרך והרפיות.
+      </p>
+      <p style="font-size:15px; color:var(--mid); line-height:1.75; margin:0 0 12px;">
+        תקבלו גם סיכום כתוב של כל שיעור, כך שלאט-לאט נשנה את החשיבה והאמונות לקראת לידה פעילה וטבעית.
+      </p>
+      <p style="font-size:15px; color:var(--mid); line-height:1.75; margin:0;">
+        <strong style="color:var(--purple);">בנוסף:</strong> יהיה וידאו של בן הזוג של שירן, שיספר לבן הזוג שלך מה זה להיות תומך לידה קשוב ופעיל, וכמה קורס ההכנה שלקחנו היה משמעותי לקשר ולתמיכה.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     8 · בונוסים
+══════════════════════════════════════ -->
+<section class="section section--purple">
+  <div class="container">
+    <div class="label">בונוסים מיוחדים</div>
+    <h2 style="font-size:clamp(24px,4vw,36px); text-align:center; color:#fff;">
+      מה עוד מקבלים בקורס
+    </h2>
+    <div class="divider"></div>
+
+    <div class="bonus-grid">
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>שיחת זום אישית עם שירן</h4>
+          <p>לשאלות כלליות, ליווי אישי ותמיכה לאורך ההיריון.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>שיחת זום עם שירן ועם בעלה</h4>
+          <p>שיחה מיוחדת לזוג — שמיעה מגוף ראשון על הכנה ללידה.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>רשימות מסודרות להתארגנות ללידה</h4>
+          <p>הכול יהיה כתוב כדי שלא תשכחי כלום.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>זום הכנה לבית החולים</h4>
+          <p>איך לדבר עם הצוות הרפואי, לגייס אותם ולהשיג את מה שאת רוצה.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>זום על שאלון מיון יולדות</h4>
+          <p>נעבור ביחד על השאלון — חיסונים, כל האפשרויות שיש בחדר לידה, נבין ביחד מה חיוני ונחוץ ומה פחות.</p>
+        </div>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-star">★</div>
+        <div>
+          <h4>פלייליסט טקס פתיחת לידה</h4>
+          <p>מוסיקה מיוחדת שתלווה אתכם ברגעים הראשונים של הלידה.</p>
+        </div>
+      </div>
+      <div class="bonus-item" style="grid-column:1/-1;">
+        <div class="bonus-star">♥</div>
+        <div>
+          <h4>מאזור הצפון? 15% הנחה לליווי לידה</h4>
+          <p>תלמידות קורס מאזור הצפון מקבלות הנחה מיוחדת לליווי לידה אישי עם שירן.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA #2 -->
+<section style="padding:52px 0; background:var(--cream);">
+  <div class="container">
+    <div class="cta-wrap">
+      <p style="font-size:19px; font-weight:700; color:var(--purple); margin-bottom:22px; line-height:1.5;">
+        "השקענו בעצמנו — קורס הכנה ללידה בשיטת היפנוברת'ינג"
+      </p>
+      <a class="btn" href="#purchase">הצטרפות לקורס ← 790 ₪</a>
+      <p class="cta-sub">ניתן לחלק ל-3 תשלומים &nbsp;·&nbsp; גישה מלאה ל-12 חודשים</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     9 · למי זה מתאים
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="label">למי מתאים הקורס</div>
+    <h2 style="font-size:clamp(24px,4vw,36px); text-align:center;">
+      הקורס מתאים לכם אם...
+    </h2>
+    <div class="divider"></div>
+    <p style="color:var(--mid); text-align:center; max-width:520px; margin:0 auto 28px; line-height:1.7;">
+      הקורס מתאים לזוגות שרוצים להגיע ללידה מחוברים, בטוחים ועם כלים אמיתיים להתמודד עם הרגעים העוצמתיים של הלידה.
+    </p>
+
+    <div class="for-grid">
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>אתם מרגישים שיש הרבה מידע על לידה — אבל לא באמת ברור לכם איך להיות בתוך זה בזמן אמת.</p>
+      </div>
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>את רוצה להגיע ללידה עם תחושת ביטחון בגוף שלך, ולהבין איך לעבוד עם הצירים ולא להילחם בהם.</p>
+      </div>
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>חשוב לכם שבן הזוג יהיה חלק פעיל בלידה ולא ירגיש חסר אונים בצד.</p>
+      </div>
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>אתם רוצים ללמוד מגע, נשימה וכלים מעשיים שיעזרו לעבור את הצירים בצורה תומכת ומרגיעה.</p>
+      </div>
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>אתם מחפשים הכנה ללידה שלא מתמקדת רק ברפואה — אלא גם בחיבור לגוף, למערכת העצבים ולזוגיות.</p>
+      </div>
+      <div class="for-item">
+        <div class="for-check">
+          <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,7 5,10 12,3"/>
+          </svg>
+        </div>
+        <p>אתם רוצים להגיע ללידה כצוות — לידה ראשונה, שנייה, וגם לידות חוזרות.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:28px; text-align:center; font-size:17px; color:var(--teal-dark); font-weight:600;">
+      אם חשוב לכם להגיע ללידה מחוברים לגוף, אחד לשני ולתהליך — הקורס הזה נבנה בדיוק בשבילכם.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     10 · עדויות
+══════════════════════════════════════ -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="label">זוגות שכבר עשו את הדרך</div>
+    <h2 style="font-size:clamp(22px,4vw,34px); text-align:center; color:var(--teal-dark); margin-bottom:32px; line-height:1.4;">
+      בואו לשמוע מזוגות שכבר עשו איתי הכנה ללידה
+    </h2>
+
+    <div class="testi-grid">
+      <div class="testi">
+        <p>הגענו ללידה כצוות אמיתי. הייתי בתוך הצירים ויודעת בדיוק מה לעשות, ובעלי ידע בדיוק איך לתמוך. זו הייתה חוויה מעצימה שלא ציפיתי אליה.</p>
+        <div class="testi-name">ניצן ואלון</div>
+      </div>
+      <div class="testi">
+        <p>לידה שנייה — אחרת לגמרי מהראשונה. עם הכלים של שירן הרגשתי ריבונות על הגוף שלי. בעלי אמר שהוא סוף סוף הרגיש שהוא שם ועוזר ממש.</p>
+        <div class="testi-name">מיכל ויובל</div>
+      </div>
+      <div class="testi">
+        <p>חששנו מאוד לפני הלידה. הקורס של שירן פשוט הפך את כל זה לביטחון. הידע, הכלים, המגע — הכול עבד בזמן אמת בדיוק כמו שלמדנו.</p>
+        <div class="testi-name">עדי וגל</div>
+      </div>
+      <div class="testi">
+        <p>השקענו בעצמנו — ומשפחה שלנו אמרה "איך הצלחתם להרגיש כל כך רגועים?" התשובה היא שירן והקורס המדהים הזה.</p>
+        <div class="testi-name">רותם וליאור</div>
+      </div>
+    </div>
+
+    <!-- תמונת אווירה במקום שלושת המלבנים -->
+    <div class="atmo-image-wrap">
+      <img
+        src="shiran pic.jpg"
+        alt="שירן דוויק כהן — אנרגיה רגועה ומחברת"
+      >
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     11 · מי אני
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="label">על שירן</div>
+    <div class="bio-wrap">
+      <div class="bio-photo-wrap">
+        <img
+          src="shiran pic.jpg"
+          alt="שירן דוויק כהן"
+          class="bio-photo"
+        >
+        <div class="bio-badge">15+ שנות ניסיון</div>
+      </div>
+
+      <div class="bio-text">
+        <h2>אני שירן,<br>אמא לשלושה ואישה לרוני</h2>
+        <p>המסע שלי לעולם הגוף–נפש התחיל דווקא מתוך משבר. עברתי תאונת דרכים בנערות, ובגיל 20 הבנתי שפיזית החלמתי — אבל משהו בתוכי, בנפש, נשאר שבור ולא לגמרי התאחה. מצאתי את עצמי מחפשת דרך להבין איך מרפאים גם את החלקים הפנימיים.</p>
+        <p>החיפוש הזה פתח עבורי עולם שלם — עולם של גוף–נפש, של חיבור לעצמי ושל הקשבה עמוקה למה שמתרחש בפנים. שם בעצם פגשתי את מה שאני קוראת לו שפת הלב. זו שפה שאין בה מילים. שפה שלא מלמדים בשום מקום. זו שפה של הקשבה.</p>
+        <p>ואז הגיע ההיריון הראשון. כמעט עשור אחרי נכנסתי להיריון הראשון שלי. אני ובעלי התרגשנו מאוד לקראת הלידה. התכוננו, קראנו, סידרנו דברים… אבל בינינו עדיין לא היה את אותו "יחד". לא הייתה לנו עדיין את ההסכמה השקטה שאנחנו באמת הולכים בדרך אחת, ושאנחנו יודעים לקראת מה אנחנו הולכים.</p>
+        <p>אז חיפשנו קורס הכנה ללידה. ומצאנו קורס בשיטת היפנוברת'ינג — ונתנו לעצמנו את זה מתנה. לאט-לאט הפכנו מצופים מהצד לצוות. בעלי ידע בדיוק איך לתמוך בי, ואני ידעתי איך להקשיב לגוף שלי ולהוביל את הלידה. וזכינו ללידה טבעית, בריאה ומעצימה בבית.</p>
+        <p>זכיתי בידע ובכלים האלו, וילדתי את שלושת ילדיי — שלוש לידות בית טבעיות, בריאות ושמחות. חוויה עמוקה של כוח, אמון וחיבור. ומשם נולדה השליחות שלי.</p>
+        <p>היום אני מטפלת ברפואה משלימה כבר מעל 15 שנה, עובדת עם הגוף דרך מגע, ומלמדת רפלקסולוגיה וטכניקות של הקשבה ומגע לגוף–נפש. ומתוך כל השנים האלו נולדה הגישה שלי: לידה מחוברת — גישה שמחברת בין גוף, לב וזוגיות בתוך הלידה.</p>
+        <p>כי לידה היא לא רק תהליך רפואי. זו חוויה עמוקה של גוף, של לב ושל קשר. וכשהחיבור הזה קיים — משהו בגוף נרגע. הלידה יכולה להתפתח בקצב שלה, והזוג עובר את הדרך הזאת יחד.</p>
+        <div class="bio-highlights">
+          <span class="bio-chip">מטפלת ברפואה משלימה</span>
+          <span class="bio-chip">מנחת לידה</span>
+          <span class="bio-chip">רפלקסולוגית</span>
+          <span class="bio-chip">שיטת היפנוברת'ינג</span>
+          <span class="bio-chip">קליניקה: שירת הלב</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     12 · מחיר
+══════════════════════════════════════ -->
+<section class="section section--cream" id="purchase">
+  <div class="container">
+    <div class="label">הצטרפות לקורס</div>
+    <h2 style="font-size:clamp(24px,4vw,36px); text-align:center;">
+      לידה מחוברת — קורס זוגי לפני לידה
+    </h2>
+    <div class="divider"></div>
+
+    <div class="price-card">
+      <div class="price-card-head">
+        <h3>קורס הכנה ללידה בשיטת היפנוברת'ינג</h3>
+        <p style="font-size:14px; opacity:.85;">4 מפגשי עומק + כל הבונוסים</p>
+      </div>
+      <div class="price-main">
+        <div class="price-original">שווי הקורס: 1,950 ₪</div>
+        <div class="price-was">מחיר בשנה הראשונה של השליחות: 950 ₪</div>
+        <div class="price-now">790 ₪</div>
+        <div class="price-install">בהצטרפות עכשיו | ניתן לחלק ל-3 תשלומים</div>
+        <a class="btn" href="#" style="display:block; max-width:360px; margin:0 auto; text-align:center;">
+          הצטרפו לקורס עכשיו
+        </a>
+        <p style="font-size:13px; color:var(--light); margin-top:14px;">
+          הקורס נמצא אצלכם במייל לשנה שלמה, מתי שרק תרצו לחזור אליו
+        </p>
+      </div>
+      <div class="price-includes">
+        <h4>מה כלול:</h4>
+        <ul>
+          <li>4 מפגשי וידאו מעמיקים</li>
+          <li>דפי עבודה, ידע ועיון לכל שיעור</li>
+          <li>הקלטות דמיון מודרך והרפיות</li>
+          <li>שיחת זום אישית עם שירן</li>
+          <li>זום עם שירן ובעלה</li>
+          <li>זום הכנה לבית החולים</li>
+          <li>זום על שאלון מיון יולדות</li>
+          <li>רשימות התארגנות ללידה</li>
+          <li>פלייליסט טקס פתיחת לידה</li>
+          <li>גישה מלאה ל-12 חודשים</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     13 + 14 · CTA סגירה + אלמנטים פסיכולוגיים
+     (CTA #3 — אחד בלבד)
+══════════════════════════════════════ -->
+<section class="section section--dark">
+  <div class="container" style="text-align:center;">
+    <h2 style="font-size:clamp(26px,4vw,42px); color:#fff; margin-bottom:16px;">
+      הלידה שלכם מתקרבת
+    </h2>
+    <p style="font-size:18px; color:rgba(255,255,255,.82); max-width:520px; margin:0 auto 36px; line-height:1.75;">
+      ואתם יכולים להגיע אליה עם ידע, כלים וחיבור ביניכם.<br>
+      בקורס לידה מחוברת תלמדו בדיוק איך לעשות את זה.
+    </p>
+
+    <!-- urgency -->
+    <div style="background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15); border-radius:16px; padding:28px; max-width:500px; margin:0 auto 36px; text-align:right;">
+      <p style="color:rgba(255,255,255,.9); font-size:16px; line-height:1.75; margin:0;">
+        שווי הקורס הוא 1,950 ₪.<br>
+        המחיר בשנה הראשונה של השליחות הוא 950 ₪.<br>
+        <strong style="color:#7fe8e7;">הצטרפות עכשיו — 790 ₪ בלבד.</strong>
+      </p>
+    </div>
+
+    <a class="btn btn--outline" style="font-size:21px; padding:20px 52px;" href="#purchase">
+      אני רוצה את הקורס — 790 ₪
+    </a>
+    <p class="cta-sub" style="margin-top:16px;">4 מפגשי עומק &nbsp;·&nbsp; ניתן לחלק ל-3 תשלומים &nbsp;·&nbsp; גישה ל-12 חודשים</p>
+
+    <!-- שיעור לדוגמה -->
+    <div style="margin-top:40px; padding:24px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:14px; text-align:right;">
+      <p style="color:rgba(255,255,255,.8); font-size:16px; line-height:1.7; margin:0 0 16px;">
+        אם אתם לא בטוחים ואתם רוצים הצצה לשיעור, איך זה מרגיש, איך זה נשמע — אתם מוזמנים ללחוץ ולהתרשם.
+      </p>
+      <a class="btn btn--teal" style="font-size:17px; padding:14px 32px;" href="#">לצפייה בשיעור לדוגמה</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     15 · שאלות ותשובות
+══════════════════════════════════════ -->
+<section class="section section--cream">
+  <div class="container">
+    <div class="label">שאלות נפוצות</div>
+    <h2 style="font-size:clamp(24px,4vw,34px); text-align:center;">
+      יש לכם שאלות? יש לנו תשובות
+    </h2>
+    <div class="divider"></div>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">מתי כדאי להגיע לקורס?</summary>
+        <p class="faq-a">מומלץ להגיע לקורס סביב שבועות 28–34 להיריון, כך שיש מספיק זמן לעכל, לתרגל ולהגיע ללידה עם ביטחון וכלים.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">האם הקורס מתאים גם ללידה בבית חולים?</summary>
+        <p class="faq-a">בהחלט. הקורס נותן כלים שעובדים בכל מקום שבו הלידה מתרחשת — בבית חולים, במרכז לידה או בלידת בית. העקרונות של עבודה עם הגוף, נשימה, מגע וחיבור זוגי רלוונטיים לכל לידה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">האם בן הזוג חייב להגיע?</summary>
+        <p class="faq-a">כן, כדאי. הקורס מיועד לזוגות. בן הזוג הוא חלק משמעותי בתהליך הלידה, ובקורס הוא לומד בדיוק איך לתמוך, איך לגעת ואיך לעזור לך לעבור את הצירים. אבל יש גם שיעורים שהוא יכול לבחור לוותר עליהם. הרבה זוגות מספרים שזו אחת המתנות הגדולות שהם קיבלו מהקורס — להפוך לצוות בלידה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">אין לנו ניסיון במגע או ברפלקסולוגיה — זה עדיין מתאים לנו?</summary>
+        <p class="faq-a">בוודאי. הקורס נבנה כך שכל זוג יכול ללמוד את הכלים בקלות. שירן מלמדת את הטכניקות בצורה פשוטה וברורה, כך שתוכלו להשתמש בהן בזמן אמת בלידה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">מה אם זו לא הלידה הראשונה שלנו?</summary>
+        <p class="faq-a">הקורס מתאים גם ללידות חוזרות. הרבה זוגות מגיעים דווקא אחרי לידה ראשונה מאתגרת ורוצים להגיע ללידה הבאה עם יותר ידע, ביטחון וכלים.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">מה אם הלידה מתפתחת אחרת ממה שתכננו?</summary>
+        <p class="faq-a">לידה היא תהליך דינמי, ולא תמיד הכול מתרחש בדיוק לפי התוכנית. הכלים שנלמד בקורס עוזרים לכם להישאר מחוברים, רגועים ותומכים אחד בשנייה גם כאשר הדברים משתנים.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">אנחנו קצת חוששים מהלידה — זה מתאים גם לנו?</summary>
+        <p class="faq-a">בהחלט. רוב הזוגות מגיעים לקורס עם חששות ושאלות. המטרה של הקורס היא בדיוק לתת לכם ידע, כלים וחוויה שמאפשרים להגיע ללידה עם יותר ביטחון, רוגע וחיבור.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">לכמה זמן הקורס זמין לצפייה?</summary>
+        <p class="faq-a">ברגע שנרשמים לקורס, מקבלים גישה מלאה לתכנים למשך 12 חודשים. כך תוכלו לצפות בשיעורים בקצב שלכם, לחזור על החלקים שחשובים לכם ולהתרענן גם לקראת הלידה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">האם אפשר לצפות בקורס יותר מפעם אחת?</summary>
+        <p class="faq-a">בוודאי. אחת המתנות של קורס דיגיטלי היא שאפשר לחזור אליו שוב ושוב — במיוחד לקראת סוף ההיריון, כשהלידה כבר מתקרבת.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">האם הקורס מתאים גם אם אנחנו צופים בו בבית לבד?</summary>
+        <p class="faq-a">כן. הקורס נבנה בצורה ברורה ומעשית כך שתוכלו ללמוד יחד בבית, לתרגל ביניכם ולהבין בדיוק איך להשתמש בכלים בזמן הלידה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">האם יש אפשרות לשאול שאלות במהלך הקורס?</summary>
+        <p class="faq-a">כן. מי שנרשם לקורס יכול לשלוח לשירן שאלות, והיא שמחה לענות ולעזור במידת הצורך. חשוב לה שתרגישו שאתם לא לבד בתהליך.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">מה קורה אם הלידה מתקרבת ועדיין לא סיימנו את הקורס?</summary>
+        <p class="faq-a">אין לחץ. הקורס בנוי כך שתוכלו לעבור עליו בקצב שלכם, וגם לבחור לצפות רק בחלקים המרכזיים אם הלידה כבר קרובה.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">מה אם אנחנו לא יודעים אם זה מתאים לנו?</summary>
+        <p class="faq-a">אתם מוזמנים לקרוא על הגישה של לידה מחוברת בדף הזה ולהרגיש אם זה מדבר אליכם. אם אתם מחפשים הכנה שמחברת בין הגוף, הלב והזוגיות בלידה — יש סיכוי טוב שהקורס הזה בדיוק בשבילכם.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>נוצר על ידי <strong>קורסילנד</strong></p>
+</footer>
+
+</body>
+</html>
