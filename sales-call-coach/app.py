@@ -21,6 +21,7 @@ load_dotenv(ENV_PATH, override=True)
 
 APP_TITLE = "מאמן שיחות מכירה"
 SCRIPT_PATH = BASE_DIR / "sales_script.txt"
+ANALYSIS_SKILL_PATH = BASE_DIR / "sales_analysis_skill.txt"
 REPORTS_DIR = BASE_DIR / "reports"
 TRANSCRIPTION_MODEL = os.getenv("OPENAI_TRANSCRIPTION_MODEL", "whisper-1")
 TRANSCRIPTION_FALLBACK_MODEL = "whisper-1"
@@ -54,16 +55,13 @@ AUDIO_MIME_TO_EXTENSION = {
     "video/mp4": ".mp4",
 }
 REPORT_SECTION_TITLES = [
-    "סיכום קצר של השיחה",
-    "הערכת סיכוי סגירה",
-    "הכשל המרכזי שבו העסקה נפלה",
-    "סיבת השורש לאובדן העסקה",
-    "הכאב המרכזי של הלקוח",
-    "השאלות שלא נשאלו",
-    "מה איש המכירות עשה טוב",
-    "מה איש המכירות עשה לא טוב",
-    "משפטים חלופיים",
-    "המלצת המשך",
+    "הכשל המרכזי",
+    "למה העסקה לא נסגרה",
+    "ציטוטים קריטיים מהשיחה",
+    "מה איש המכירות עשה במקום",
+    "המשפט שבו העסקה התחילה ליפול",
+    "איך היה נכון להגיב",
+    "סיכום חד",
     "פרטי השיחה",
 ]
 
@@ -204,6 +202,17 @@ def read_sales_script() -> str:
         raise ValueError("הקובץ sales_script.txt ריק. יש להוסיף אליו את תסריט המכירה.")
 
     return script
+
+
+def read_analysis_skill() -> str:
+    if not ANALYSIS_SKILL_PATH.exists():
+        raise FileNotFoundError("הקובץ sales_analysis_skill.txt לא נמצא בתיקיית הפרויקט.")
+
+    skill = ANALYSIS_SKILL_PATH.read_text(encoding="utf-8").strip()
+    if not skill:
+        raise ValueError("הקובץ sales_analysis_skill.txt ריק. יש להוסיף אליו את שיטת הניתוח.")
+
+    return skill
 
 
 def get_audio_extension(uploaded_file) -> str:
@@ -405,14 +414,18 @@ def format_transcript_by_speaker(
 
 def build_analysis_prompt(
     sales_script: str,
+    analysis_skill: str,
     transcript: str,
     salesperson_name: str,
     customer_name: str,
 ) -> str:
     customer_line = customer_name if customer_name else "לא הוזן - יש להסיק מהשיחה אם אפשר"
     return f"""
-נתח שיחת מכירה בעברית כמו מנהל מכירות חד ומנוסה.
-המטרה: לעזור לאיש/אשת המכירות להבין למה העסקה לא נסגרה או איפה היא נחלשה, ומה לעשות אחרת כדי לשפר סגירה.
+השתמש בסקיל הניתוח הבא כמתודת הניתוח היחידה.
+שכח כל מבנה דוח אחר.
+
+סקיל ניתוח:
+{analysis_skill}
 
 שם איש/אשת המכירות שהוזן באפליקציה: {salesperson_name}
 שם הלקוח שהוזן באפליקציה: {customer_line}
@@ -427,83 +440,29 @@ def build_analysis_prompt(
 
 # דוח ניתוח שיחת מכירה
 
-## סיכום קצר של השיחה
-## הערכת סיכוי סגירה
-## הכשל המרכזי שבו העסקה נפלה
-## סיבת השורש לאובדן העסקה
-## הכאב המרכזי של הלקוח
-## השאלות שלא נשאלו
-## מה איש המכירות עשה טוב
-## מה איש המכירות עשה לא טוב
-## משפטים חלופיים
-## המלצת המשך
+## הכשל המרכזי
+## למה העסקה לא נסגרה
+## ציטוטים קריטיים מהשיחה
+## מה איש המכירות עשה במקום
+## המשפט שבו העסקה התחילה ליפול
+## איך היה נכון להגיב
+## סיכום חד
 ## פרטי השיחה
 
-מבנה והנחיות חובה:
-1. ב"סיכום קצר של השיחה" ענה בארבע נקודות:
-   - מי הלקוח
-   - מה הוא רוצה
-   - מה רמת הבשלות שלו
-   - האם היה ליד חם / בינוני / קר
-2. ב"הערכת סיכוי סגירה":
-   - השורה הראשונה חייבת להיות בדיוק בפורמט: סיכוי: 35%
-   - כתוב כמה הלקוח היה קרוב לקנייה.
-   - נמק בקצרה.
-   - כתוב האם המחיר היה הבעיה האמיתית או לא.
-3. ב"הכשל המרכזי שבו העסקה נפלה":
-   - חובה לבחור כשל אחד בלבד. לא לתת רשימה.
-   - הצבע על הרגע המדויק שבו המכירה התחילה לברוח.
-   - חובה לצטט מתוך השיחה את המשפטים הרלוונטיים.
-   - הסבר למה זה היה הכשל הקריטי.
-4. ב"סיבת השורש לאובדן העסקה" ענה על השאלה:
-   מה הדבר הכי חשוב שאיש/אשת המכירות לא הצליח/ה לגרום ללקוח להבין / להרגיש / להגיד בעצמו?
-5. ב"הכאב המרכזי של הלקוח" כתוב:
-   - מה הכאב הגלוי שהוא אמר.
-   - מה הכאב העמוק שמתחת לפני השטח.
-   - איזה פחד / רצון / חסם ניהל אותו.
-6. ב"השאלות שלא נשאלו" כתוב בדיוק 5 שאלות שאיש/אשת המכירות היה/היתה חייב/ת לשאול ולא שאל/ה.
-   השאלות צריכות להיות חדות, מכירתיות ומקדמות סגירה.
-7. ב"מה איש המכירות עשה טוב":
-   - רק דברים אמיתיים.
-   - לא לפרגן סתם.
-   - ציין 2-4 נקודות בלבד.
-8. ב"מה איש המכירות עשה לא טוב" ציין את 3 הטעויות הכי משמעותיות בלבד.
-   לכל טעות כתוב:
-   - מה נאמר בפועל
-   - למה זה החליש את המכירה
-   - מה היה צריך לומר במקום
-9. ב"משפטים חלופיים" כתוב בדיוק 5 משפטים מדויקים שאיש/אשת המכירות היה/היתה יכול/ה לומר בזמן אמת כדי לשפר את הסיכוי לסגירה.
-10. ב"המלצת המשך" כתוב מה צריך לעשות עכשיו מול הלקוח:
-   - האם כדאי לרדוף אחריו
-   - האם לשלוח סיכום
-   - האם לקבוע שיחת המשך
-   - מה לכתוב לו בוואטסאפ
-   בסוף החלק הזה חובה לכתוב משפט שמתחיל בדיוק כך:
-   אם הייתי משנה דבר אחד בשיחה הזאת, הייתי משנה את...
-11. ב"פרטי השיחה" כתוב בסוף הדוח:
+הנחיות נוספות:
+- אל תוסיף כותרות אחרות.
+- אל תכתוב דוח כללי של חוזקות וחולשות.
+- אם אין מספיק מידע, כתוב שחסר מידע ומה היה צריך לשאול.
+- ב"פרטי השיחה" כתוב:
   - שם איש/אשת המכירות: {salesperson_name}
   - שם הלקוח: אם הוזן שם לקוח, השתמש בו. אם לא הוזן, הסק את שם הלקוח מתוך התמלול. אם אי אפשר להסיק, כתוב "לא זוהה מהשיחה".
-
-סגנון כתיבה:
-- עברית פשוטה וישירה.
-- לא שיווקית מדי.
-- לא מחמיאה מדי.
-- בלי קלישאות.
-- בלי "בסך הכל הייתה שיחה טובה" אם זה לא נכון.
-- להיות חד כמו מנהל מכירות.
-- להתמקד בשיפור הסגירה ולא בפידבק כללי.
-
-כללים חשובים:
-- לא להמציא פרטים שלא נאמרו בשיחה.
-- אם חסר מידע, לציין שחסר.
-- חובה לצטט מהשיחה כשמזהים כשל.
-- חובה לבחור כשל מרכזי אחד בלבד.
 """.strip()
 
 
 def analyze_call(
     client: OpenAI,
     sales_script: str,
+    analysis_skill: str,
     transcript: str,
     salesperson_name: str,
     customer_name: str,
@@ -522,6 +481,7 @@ def analyze_call(
                 "role": "user",
                 "content": build_analysis_prompt(
                     sales_script=sales_script,
+                    analysis_skill=analysis_skill,
                     transcript=transcript,
                     salesperson_name=salesperson_name,
                     customer_name=customer_name,
@@ -604,6 +564,14 @@ def extract_score(score_section: str) -> Optional[int]:
     return max(0, min(score, 100))
 
 
+def extract_labeled_score(text: str, label: str) -> Optional[int]:
+    pattern = rf"{re.escape(label)}\s*:?\s*(\d{{1,3}})\s*%"
+    match = re.search(pattern, text)
+    if not match:
+        return None
+    return max(0, min(int(match.group(1)), 100))
+
+
 def score_class(score: Optional[int]) -> str:
     if score is None:
         return ""
@@ -630,9 +598,11 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
     sections = split_report_sections(report_text)
     details = sections.get("פרטי השיחה", "")
     score = extract_score(sections.get("ציון כללי מתוך 100", ""))
-    close_probability = extract_score(
-        sections.get("הערכת סיכוי סגירה", "") or sections.get("סיכוי משוער לסגירת העסקה", "")
+    close_probability = (
+        extract_labeled_score(report_text, "סיכוי סגירה בפועל")
+        or extract_score(sections.get("הערכת סיכוי סגירה", "") or sections.get("סיכוי משוער לסגירת העסקה", ""))
     )
+    improved_close_probability = extract_labeled_score(report_text, "סיכוי סגירה אם הכשל המרכזי היה מטופל נכון")
     leadership_score = extract_score(sections.get("הובלת השיחה", ""))
     customer_name = extract_first_detail_value(details, ["שם הלקוח", "שם הלקוח/ה"]) or "לקוח לא צוין"
     salesperson_name = extract_first_detail_value(
@@ -646,6 +616,7 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
         "date": report_date_from_path(report_path),
         "score": score,
         "close_probability": close_probability,
+        "improved_close_probability": improved_close_probability,
         "leadership_score": leadership_score,
     }
 
@@ -780,6 +751,10 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
     stage_scores = extract_stage_scores(sections.get("ניתוח לפי שלבי תסריט המכירה", ""))
     close_probability = metadata.get("close_probability")
     close_probability_value = f"{close_probability}%" if isinstance(close_probability, int) else "לא זוהה"
+    improved_close_probability = metadata.get("improved_close_probability")
+    improved_close_probability_value = (
+        f"{improved_close_probability}%" if isinstance(improved_close_probability, int) else "לא זוהה"
+    )
     customer_name = html.escape(str(metadata["customer_name"]))
     salesperson_name = html.escape(str(metadata["salesperson_name"]))
     report_date = html.escape(str(metadata["date"]))
@@ -797,16 +772,22 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
         unsafe_allow_html=True,
     )
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         render_metric_card(
-            "סיכוי סגירה",
+            "סיכוי בפועל",
             close_probability_value,
             score_class(close_probability if isinstance(close_probability, int) else None),
         )
     with col2:
-        render_metric_card("לקוח", str(metadata["customer_name"]))
+        render_metric_card(
+            "סיכוי אם הכשל מטופל",
+            improved_close_probability_value,
+            score_class(improved_close_probability if isinstance(improved_close_probability, int) else None),
+        )
     with col3:
+        render_metric_card("לקוח", str(metadata["customer_name"]))
+    with col4:
         render_metric_card("איש מכירות", str(metadata["salesperson_name"]))
 
     render_conversation_axis_chart(stage_scores)
@@ -1005,9 +986,11 @@ def render_analysis_screen(api_key: str) -> None:
 
             with st.spinner("מנתח את השיחה לפי תסריט המכירה..."):
                 sales_script = read_sales_script()
+                analysis_skill = read_analysis_skill()
                 report = analyze_call(
                     client=client,
                     sales_script=sales_script,
+                    analysis_skill=analysis_skill,
                     transcript=transcript,
                     salesperson_name=salesperson_name.strip(),
                     customer_name=customer_name.strip(),
