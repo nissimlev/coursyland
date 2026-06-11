@@ -8,6 +8,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import altair as alt
+import pandas as pd
 import streamlit as st
 from dotenv import dotenv_values, load_dotenv
 from openai import OpenAI, OpenAIError
@@ -453,11 +455,17 @@ def build_analysis_prompt(
   - שם איש/אשת המכירות: {salesperson_name}
   - שם הלקוח: אם הוזן שם לקוח, השתמש בו. אם לא הוזן, הסק את שם הלקוח מתוך התמלול. אם אי אפשר להסיק, כתוב "לא זוהה מהשיחה".
 - ב"סיכוי משוער לסגירת העסקה" כתוב אחוז משוער מתוך 100, למשל 35%, ונמק לפי הרצון, העניין, ההתנגדויות ורמת המחויבות שהלקוח הביע.
+- ב"ציון כללי מתוך 100" השורה הראשונה חייבת להיות בדיוק בפורמט: ציון: 75/100
+- ב"סיכוי משוער לסגירת העסקה" השורה הראשונה חייבת להיות בדיוק בפורמט: סיכוי: 35%
+- ב"ניתוח לפי שלבי תסריט המכירה" חובה לתת לכל שלב שורה בפורמט:
+  - שם השלב | ציון שלב: 75/100 | ניתוח: הסבר קצר
+  השתמש בשלבי התסריט לפי הסדר. אם יש חמישה שלבים, החזר חמש שורות.
 - ב"כאבים שהלקוח העלה בשיחה" פרט את הכאבים/צרכים/קשיים שהלקוח אמר במפורש או רמז עליהם.
 - ב"האם איש המכירות התייחס לכאבים והעמיק אותם" כתוב האם היתה התייחסות, האם היתה העמקה, ומה היה חסר.
 - ב"דבר אחד ממש טוב שהיה בשיחה" כתוב נקודה אחת בלבד, חזקה וברורה.
 - ב"דבר אחד שהכשיל את המכירה" כתוב נקודה אחת בלבד, המרכזית ביותר.
-- ב"הובלת השיחה" תן ציון הובלה מתוך 100 והסבר האם איש המכירות הוביל, איבד הובלה, או נתן ללקוח להוביל.
+- ב"הובלת השיחה" השורה הראשונה חייבת להיות בדיוק בפורמט: ציון הובלה: 70/100
+  לאחר מכן הסבר האם איש המכירות הוביל, איבד הובלה, או נתן ללקוח להוביל.
 - היה ישיר, מעשי ומדויק.
 - אם אין מספיק מידע לחלק מסוים, כתוב זאת במפורש.
 - תן דוגמאות ניסוח בעברית טבעית.
@@ -554,7 +562,13 @@ def extract_first_detail_value(details: str, labels: list[str]) -> str:
 def extract_score(score_section: str) -> Optional[int]:
     match = re.search(r"(\d{1,3})\s*/\s*100", score_section)
     if not match:
+        match = re.search(r"(\d{1,3})\s+מתוך\s+100", score_section)
+    if not match:
         match = re.search(r"(\d{1,3})\s*%", score_section)
+    if not match:
+        match = re.search(r"(?:ציון|סיכוי|הובלה|ציון הובלה)\s*:?\s*(\d{1,3})", score_section)
+    if not match:
+        match = re.search(r"^\s*(\d{1,3})\s*(?:$|\n)", score_section)
     if not match:
         return None
 
@@ -604,6 +618,40 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
         "close_probability": close_probability,
         "leadership_score": leadership_score,
     }
+
+
+def extract_stage_scores(stage_section: str) -> list[dict]:
+    stage_scores = []
+    seen_stages = set()
+
+    line_pattern = re.compile(
+        r"(?:^|\n)\s*(?:[-*]\s*)?(?:\d+\.\s*)?(?:\*\*)?(?P<stage>[^|\n:]+?)(?:\*\*)?\s*"
+        r"(?:\||:).*?ציון(?:\s+שלב)?\s*:?\s*(?P<score>\d{1,3})\s*(?:/|מתוך)?\s*100",
+        flags=re.MULTILINE,
+    )
+    for match in line_pattern.finditer(stage_section):
+        stage = clean_markdown_value(match.group("stage"))
+        score = max(0, min(int(match.group("score")), 100))
+        if stage and stage not in seen_stages:
+            stage_scores.append({"שלב": stage, "ציון": score})
+            seen_stages.add(stage)
+
+    if stage_scores:
+        return stage_scores
+
+    block_pattern = re.compile(
+        r"(?:^|\n)\s*(?:###\s*)?(?:\d+\.\s*)?(?:\*\*)?(?P<stage>[^*\n:]+?)(?:\*\*)?\s*"
+        r"(?:\n|:).*?ציון(?:\s+שלב)?\s*:?\s*(?P<score>\d{1,3})\s*(?:/|מתוך)?\s*100",
+        flags=re.DOTALL,
+    )
+    for match in block_pattern.finditer(stage_section):
+        stage = clean_markdown_value(match.group("stage"))
+        score = max(0, min(int(match.group("score")), 100))
+        if stage and stage not in seen_stages:
+            stage_scores.append({"שלב": stage, "ציון": score})
+            seen_stages.add(stage)
+
+    return stage_scores
 
 
 def format_openai_error(exc: OpenAIError) -> str:
@@ -664,9 +712,43 @@ def render_insight_card(label: str, value: str, tone: str) -> None:
     )
 
 
+def render_conversation_axis_chart(stage_scores: list[dict]) -> None:
+    st.subheader("ציר השיחה לפי שלבי התסריט")
+    if not stage_scores:
+        st.info("בדוח הזה אין עדיין ציוני שלבים לגרף. בניתוחים חדשים האפליקציה תבקש ציון לכל שלב ותציג כאן גרף.")
+        return
+
+    reference_score = 70
+    chart_data = pd.DataFrame(stage_scores)
+    chart_data["קו ייחוס"] = reference_score
+
+    line = (
+        alt.Chart(chart_data)
+        .mark_line(point=True, interpolate="monotone", strokeWidth=3)
+        .encode(
+            x=alt.X("שלב:N", sort=None, title="שלבי תסריט השיחה"),
+            y=alt.Y("ציון:Q", scale=alt.Scale(domain=[0, 100]), title="ציון איש/אשת המכירות"),
+            tooltip=["שלב:N", "ציון:Q"],
+        )
+    )
+    reference = (
+        alt.Chart(chart_data)
+        .mark_rule(color="#dc2626", strokeDash=[6, 4], strokeWidth=2)
+        .encode(y="קו ייחוס:Q")
+    )
+    reference_label = (
+        alt.Chart(pd.DataFrame({"x": [stage_scores[-1]["שלב"]], "y": [reference_score], "label": ["קו ייחוס 70"]}))
+        .mark_text(align="left", dx=8, dy=-8, color="#dc2626", fontWeight="bold")
+        .encode(x=alt.X("x:N", sort=None), y="y:Q", text="label:N")
+    )
+
+    st.altair_chart((reference + line + reference_label).properties(height=320), use_container_width=True)
+
+
 def render_report_dashboard(report: str, report_path: Path) -> None:
     sections = split_report_sections(report)
     metadata = get_report_metadata(report_path, report)
+    stage_scores = extract_stage_scores(sections.get("ניתוח לפי שלבי תסריט המכירה", ""))
     score = metadata["score"]
     score_value = f"{score}/100" if isinstance(score, int) else "לא זוהה"
     close_probability = metadata.get("close_probability")
@@ -711,6 +793,8 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
     if sections.get("תקציר השיחה"):
         st.subheader("תקציר השיחה")
         st.info(sections["תקציר השיחה"])
+
+    render_conversation_axis_chart(stage_scores)
 
     good_one = sections.get("דבר אחד ממש טוב שהיה בשיחה")
     bad_one = sections.get("דבר אחד שהכשיל את המכירה")
