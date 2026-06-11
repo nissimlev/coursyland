@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+work/pycache/
+reports/*.md
+!reports/.gitkeep
+outputs/
