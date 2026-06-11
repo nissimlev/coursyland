@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent
 ENV_PATH = BASE_DIR / ".env"
 load_dotenv(ENV_PATH, override=True)
 
-APP_TITLE = "Sales Call Coach"
+APP_TITLE = "מאמן שיחות מכירה"
 SCRIPT_PATH = BASE_DIR / "sales_script.txt"
 REPORTS_DIR = BASE_DIR / "reports"
 TRANSCRIPTION_MODEL = os.getenv("OPENAI_TRANSCRIPTION_MODEL", "whisper-1")
@@ -466,6 +466,8 @@ def build_analysis_prompt(
 - ב"דבר אחד שהכשיל את המכירה" כתוב נקודה אחת בלבד, המרכזית ביותר.
 - ב"הובלת השיחה" השורה הראשונה חייבת להיות בדיוק בפורמט: ציון הובלה: 70/100
   לאחר מכן הסבר האם איש המכירות הוביל, איבד הובלה, או נתן ללקוח להוביל.
+- ב"משימת אימון אחת לאיש המכירות" כתוב משימה אחת ברורה לתרגול, ואז הוסף 2-3 דוגמאות קונקרטיות איך לבצע אותה טוב.
+  הדוגמאות חייבות לכלול ניסוחים שאיש/אשת המכירות יכול/ה לומר בפועל בשיחה הבאה.
 - היה ישיר, מעשי ומדויק.
 - אם אין מספיק מידע לחלק מסוים, כתוב זאת במפורש.
 - תן דוגמאות ניסוח בעברית טבעית.
