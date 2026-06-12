@@ -2,7 +2,9 @@ import html
 import io
 import json
 import os
+import platform
 import re
+import shutil
 import subprocess
 import tempfile
 from datetime import datetime
@@ -282,6 +284,28 @@ def get_uploaded_file_size(uploaded_file) -> int:
     return len(uploaded_file.getvalue())
 
 
+def is_streamlit_cloud() -> bool:
+    return bool(
+        os.getenv("STREAMLIT_CLOUD")
+        or os.getenv("STREAMLIT_SHARING_MODE")
+        or Path("/mount/src").exists()
+    )
+
+
+def get_conversion_tool() -> str:
+    system_name = platform.system()
+    if is_streamlit_cloud() or system_name == "Linux":
+        return "ffmpeg" if shutil.which("ffmpeg") else ""
+
+    if system_name == "Darwin" and shutil.which("afconvert"):
+        return "afconvert"
+
+    if shutil.which("ffmpeg"):
+        return "ffmpeg"
+
+    return ""
+
+
 def transcribe_openai_audio_file(client: OpenAI, audio_file: io.BytesIO, model: str) -> str:
     result = client.audio.transcriptions.create(
         model=model,
@@ -315,20 +339,9 @@ def transcribe_audio_with_model(client: OpenAI, uploaded_file, model: str) -> st
     return transcribe_audio_file_with_model(client, audio_file, model)
 
 
-def convert_uploaded_audio_to_m4a(uploaded_file, bitrate: str = "32000") -> io.BytesIO:
-    input_suffix = get_audio_extension(uploaded_file)
-    input_path = None
-    output_path = None
-
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=input_suffix) as input_file:
-            input_file.write(uploaded_file.getvalue())
-            input_path = Path(input_file.name)
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".m4a") as output_file:
-            output_path = Path(output_file.name)
-
-        command = [
+def build_conversion_command(tool: str, bitrate: str, input_path: Path, output_path: Path) -> list[str]:
+    if tool == "afconvert":
+        return [
             "afconvert",
             "-f",
             "m4af",
@@ -341,11 +354,51 @@ def convert_uploaded_audio_to_m4a(uploaded_file, bitrate: str = "32000") -> io.B
             str(input_path),
             str(output_path),
         ]
+
+    if tool == "ffmpeg":
+        bitrate_kbps = str(max(8, int(int(bitrate) / 1000)))
+        return [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(input_path),
+            "-vn",
+            "-ac",
+            "1",
+            "-b:a",
+            f"{bitrate_kbps}k",
+            str(output_path),
+        ]
+
+    raise ValueError("לא נמצא כלי המרה נתמך.")
+
+
+def convert_uploaded_audio_to_m4a(uploaded_file, bitrate: str = "32000") -> io.BytesIO:
+    tool = get_conversion_tool()
+    if not tool:
+        raise ValueError(
+            "צריך להמיר את קובץ האודיו, אבל לא נמצא כלי המרה זמין. "
+            "ב-Mac מקומי התקן או הפעל afconvert. ב-Linux/Streamlit Cloud ודא ש-ffmpeg מותקן."
+        )
+
+    input_suffix = get_audio_extension(uploaded_file)
+    input_path = None
+    output_path = None
+
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=input_suffix) as input_file:
+            input_file.write(uploaded_file.getvalue())
+            input_path = Path(input_file.name)
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".m4a") as output_file:
+            output_path = Path(output_file.name)
+
+        command = build_conversion_command(tool, bitrate, input_path, output_path)
         result = subprocess.run(command, capture_output=True, text=True, timeout=180, check=False)
         if result.returncode != 0:
             raise ValueError(
                 "לא הצלחתי להמיר את קובץ האודיו ל-m4a תקין. "
-                "נסה לייצא את ההקלטה מחדש כ-m4a או mp3."
+                "נסה לייצא את ההקלטה מחדש כ-m4a, mp3 או wav."
             )
 
         converted_audio = io.BytesIO(output_path.read_bytes())
