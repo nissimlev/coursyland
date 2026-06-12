@@ -13,7 +13,7 @@ from typing import Optional
 import altair as alt
 import pandas as pd
 import streamlit as st
-from dotenv import dotenv_values, load_dotenv
+from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
 
 
@@ -210,14 +210,23 @@ def setup_page() -> None:
 
 
 def get_configured_api_key() -> str:
-    env_values = dotenv_values(ENV_PATH)
-    api_key = env_values.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY", "")
+    api_key = None
+    try:
+        api_key = st.secrets["OPENAI_API_KEY"]
+    except Exception:
+        api_key = os.getenv("OPENAI_API_KEY")
+
+    if api_key is None:
+        return ""
+
     return api_key.strip()
 
 
 def get_openai_client(api_key: str) -> OpenAI:
     if not api_key:
-        raise ValueError("לא נמצא OPENAI_API_KEY. יש להגדיר אותו בקובץ .env.")
+        raise ValueError(
+            "לא נמצא OPENAI_API_KEY. יש להגדיר אותו ב-Streamlit Secrets או בקובץ .env מקומי."
+        )
     return OpenAI(api_key=api_key)
 
 
