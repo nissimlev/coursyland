@@ -87,9 +87,45 @@ def setup_page() -> None:
         [data-testid="stHorizontalBlock"], [data-testid="stForm"],
         [data-testid="stMarkdownContainer"], [data-testid="stWidgetLabel"],
         [data-testid="stFileUploader"], [data-testid="stTextInput"],
-        [data-testid="stTextArea"], [data-baseweb="select"] {
+        [data-testid="stTextArea"], [data-baseweb="select"],
+        section.main, .main .block-container {
             direction: rtl;
             text-align: right;
+        }
+        [data-testid="stMarkdownContainer"] > *,
+        [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMarkdownContainer"] h1,
+        [data-testid="stMarkdownContainer"] h2,
+        [data-testid="stMarkdownContainer"] h3,
+        [data-testid="stMarkdownContainer"] h4,
+        [data-testid="stMarkdownContainer"] h5,
+        [data-testid="stMarkdownContainer"] h6,
+        [data-testid="stMarkdownContainer"] li {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+        [data-testid="stMarkdownContainer"] ul,
+        [data-testid="stMarkdownContainer"] ol {
+            direction: rtl !important;
+            text-align: right !important;
+            padding-right: 1.6rem !important;
+            padding-left: 0 !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+            list-style-position: outside;
+        }
+        [data-testid="stMarkdownContainer"] blockquote {
+            direction: rtl !important;
+            text-align: right !important;
+            border-right: 4px solid #e5e7eb;
+            border-left: 0;
+            padding-right: 1rem;
+            padding-left: 0;
+        }
+        [data-testid="stMarkdownContainer"] pre,
+        [data-testid="stMarkdownContainer"] code {
+            direction: ltr;
+            text-align: left;
         }
         .stTextInput input, .stTextArea textarea, textarea, input {
             direction: rtl;
@@ -566,7 +602,7 @@ def build_analysis_prompt(
 - אם אין מספיק מידע, כתוב שחסר מידע ומה היה צריך לשאול.
 - ב"סיכום חד" חובה לכלול:
   - רלוונטיות הליד: X%
-  - סיכוי סגירה אם הכשל המרכזי היה מטופל נכון: Y%
+  - סיכוי לסגירה בשיחה: Y%
 - "רלוונטיות הליד" היא מדד של עד כמה הליד מתאים לשירות יצירת קורס דיגיטלי: עד כמה הוא רוצה קורס דיגיטלי, עד כמה הוא בשל לזה עכשיו, ועד כמה הכאבים והחלומות שלו קשורים ליצירת נכס ידע דיגיטלי.
 - ב"פרטי השיחה" כתוב:
   - שם איש/אשת המכירות: {salesperson_name}
@@ -840,7 +876,10 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
         or extract_labeled_score(report_text, "סיכוי סגירה בפועל")
         or extract_score(sections.get("הערכת סיכוי סגירה", "") or sections.get("סיכוי משוער לסגירת העסקה", ""))
     )
-    improved_close_probability = extract_labeled_score(report_text, "סיכוי סגירה אם הכשל המרכזי היה מטופל נכון")
+    improved_close_probability = (
+        extract_labeled_score(report_text, "סיכוי לסגירה בשיחה")
+        or extract_labeled_score(report_text, "סיכוי סגירה אם הכשל המרכזי היה מטופל נכון")
+    )
     leadership_score = extract_score(sections.get("הובלת השיחה", ""))
     customer_name = extract_first_detail_value(details, ["שם הלקוח", "שם הלקוח/ה"]) or "לקוח לא צוין"
     salesperson_name = extract_first_detail_value(
@@ -1020,7 +1059,7 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
         )
     with col2:
         render_metric_card(
-            "סיכוי אם הכשל מטופל",
+            "סיכוי לסגירה בשיחה",
             improved_close_probability_value,
             score_class(improved_close_probability if isinstance(improved_close_probability, int) else None),
         )
