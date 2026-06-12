@@ -1,8 +1,10 @@
 .venv/
 __pycache__/
+.pycache_check/
 *.pyc
 .env
 work/pycache/
 reports/*.md
+reports/*.json
 !reports/.gitkeep
 outputs/

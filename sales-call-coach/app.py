@@ -1,10 +1,12 @@
 import html
 import io
+import json
 import os
 import re
 import subprocess
 import tempfile
 from datetime import datetime
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Optional
 
@@ -23,9 +25,16 @@ APP_TITLE = "מאמן שיחות מכירה"
 SCRIPT_PATH = BASE_DIR / "sales_script.txt"
 ANALYSIS_SKILL_PATH = BASE_DIR / "sales_analysis_skill.txt"
 REPORTS_DIR = BASE_DIR / "reports"
+INSIGHTS_PATH = REPORTS_DIR / "insights.json"
 TRANSCRIPTION_MODEL = os.getenv("OPENAI_TRANSCRIPTION_MODEL", "whisper-1")
 TRANSCRIPTION_FALLBACK_MODEL = "whisper-1"
-ANALYSIS_MODEL = os.getenv("OPENAI_ANALYSIS_MODEL", "gpt-4.1-mini")
+ANALYSIS_MODEL = os.getenv("OPENAI_ANALYSIS_MODEL", "gpt-5.4-mini")
+ANALYSIS_MODEL_OPTIONS = [
+    "gpt-5.4-mini",
+    "gpt-5.5",
+    "gpt-5.4",
+    "gpt-4.1-mini",
+]
 MAX_OPENAI_AUDIO_BYTES = 24 * 1024 * 1024
 COMPRESSION_BITRATES = ["32000", "24000", "16000"]
 SUPPORTED_AUDIO_EXTENSIONS = {
@@ -156,6 +165,25 @@ def setup_page() -> None:
             color: #64748b;
             font-size: 0.9rem;
             margin-top: 2px;
+        }
+        .learning-card {
+            border: 1px solid #dbeafe;
+            border-right: 5px solid #2563eb;
+            border-radius: 8px;
+            padding: 14px 16px;
+            background: #eff6ff;
+            margin-bottom: 12px;
+        }
+        .learning-title {
+            font-size: 1rem;
+            font-weight: 750;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+        }
+        .learning-meta {
+            color: #475569;
+            font-size: 0.85rem;
+            margin-top: 8px;
         }
         .transcript-turn {
             border: 1px solid #e5e7eb;
@@ -367,10 +395,11 @@ def format_transcript_by_speaker(
     raw_transcript: str,
     salesperson_name: str,
     customer_name: str,
+    model: str,
 ) -> str:
     customer_label = customer_name.strip() or "לא הוזן - יש להסיק מהשיחה אם אפשר"
     response = client.responses.create(
-        model=ANALYSIS_MODEL,
+        model=model,
         input=[
             {
                 "role": "system",
@@ -466,9 +495,10 @@ def analyze_call(
     transcript: str,
     salesperson_name: str,
     customer_name: str,
+    model: str,
 ) -> str:
     response = client.responses.create(
-        model=ANALYSIS_MODEL,
+        model=model,
         input=[
             {
                 "role": "system",
@@ -497,6 +527,75 @@ def analyze_call(
     return report
 
 
+def build_insights_prompt(report: str, transcript: str) -> str:
+    return f"""
+מתוך דוח ניתוח שיחת המכירה והתמלול, חלץ 1-3 תובנות קריטיות שכל איש מכירות בעסק יכול ללמוד מהן.
+
+קהל היעד של העסק:
+מטפלים, מאמנים, מנחים ויועצים שיש להם פגישות אחד על אחד, לפעמים עשו סדנה או הרצאה, לפעמים עשו קורס פרונטלי, ורוצים לפרוץ את מחסום "זמן שווה כסף", להרוויח גם כשהם לא עובדים, להגשים את עצמם, להשפיע על אנשים ולהפיץ את הבשורה שלהם לכמה שיותר אנשים.
+
+כללי פלט:
+- החזר JSON בלבד.
+- המבנה חייב להיות: {{"insights": ["תובנה 1", "תובנה 2"]}}
+- כל תובנה צריכה להיות משפט אחד עד שניים.
+- כתוב חד, ברור ופרקטי.
+- אל תחזור על סיכום השיחה.
+- אל תכתוב תובנות כלליות כמו "חשוב להקשיב ללקוח".
+- התובנה חייבת להיות משהו שאפשר ליישם בשיחת המכירה הבאה.
+- אל תמציא פרטים שלא מופיעים בדוח או בתמלול.
+
+דוח:
+{report}
+
+תמלול:
+{transcript}
+""".strip()
+
+
+def parse_insights_json(response_text: str) -> list[str]:
+    response_text = response_text.strip()
+    try:
+        data = json.loads(response_text)
+    except json.JSONDecodeError:
+        json_match = re.search(r"\{.*\}", response_text, flags=re.DOTALL)
+        if not json_match:
+            return []
+        try:
+            data = json.loads(json_match.group(0))
+        except json.JSONDecodeError:
+            return []
+
+    insights = data.get("insights", [])
+    if not isinstance(insights, list):
+        return []
+
+    cleaned_insights = []
+    for insight in insights:
+        if isinstance(insight, str):
+            clean_insight = clean_markdown_value(insight)
+            if clean_insight:
+                cleaned_insights.append(clean_insight)
+
+    return cleaned_insights[:3]
+
+
+def generate_call_insights(client: OpenAI, report: str, transcript: str, model: str) -> list[str]:
+    response = client.responses.create(
+        model=model,
+        input=[
+            {
+                "role": "system",
+                "content": (
+                    "אתה מנהל מכירות שמזקק תובנות אימון קצרות וחדות מתוך שיחות מכירה. "
+                    "אתה מחזיר JSON תקין בלבד."
+                ),
+            },
+            {"role": "user", "content": build_insights_prompt(report=report, transcript=transcript)},
+        ],
+    )
+    return parse_insights_json(getattr(response, "output_text", ""))
+
+
 def safe_filename_part(value: str) -> str:
     value = value.strip().replace(" ", "_")
     value = re.sub(r"[^\w\u0590-\u05FF-]+", "", value)
@@ -510,6 +609,58 @@ def save_report(report: str, salesperson_name: str) -> Path:
     report_path = REPORTS_DIR / f"{timestamp}_{safe_name}.md"
     report_path.write_text(report, encoding="utf-8")
     return report_path
+
+
+def normalize_insight(insight: str) -> str:
+    normalized = re.sub(r"[^\w\u0590-\u05FF]+", " ", insight.lower())
+    return re.sub(r"\s+", " ", normalized).strip()
+
+
+def load_saved_insights() -> list[dict]:
+    if not INSIGHTS_PATH.exists():
+        return []
+
+    try:
+        data = json.loads(INSIGHTS_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+
+    if not isinstance(data, list):
+        return []
+
+    return [item for item in data if isinstance(item, dict) and item.get("text")]
+
+
+def save_new_insights(insights: list[str], report_path: Path) -> int:
+    REPORTS_DIR.mkdir(exist_ok=True)
+    saved_insights = load_saved_insights()
+    existing = {normalize_insight(str(item.get("text", ""))) for item in saved_insights}
+    added_count = 0
+
+    for insight in insights:
+        normalized = normalize_insight(insight)
+        is_duplicate = normalized in existing or any(
+            SequenceMatcher(None, normalized, existing_insight).ratio() >= 0.88
+            for existing_insight in existing
+        )
+        if not normalized or is_duplicate:
+            continue
+
+        saved_insights.append(
+            {
+                "text": insight,
+                "report_file": report_path.name,
+                "created_at": datetime.now().isoformat(timespec="seconds"),
+            }
+        )
+        existing.add(normalized)
+        added_count += 1
+
+    INSIGHTS_PATH.write_text(
+        json.dumps(saved_insights, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return added_count
 
 
 def split_report_sections(report: str) -> dict[str, str]:
@@ -949,7 +1100,48 @@ def render_history_screen() -> None:
         render_report_dashboard(report_text, selected_report)
 
 
+def format_insight_date(created_at: str) -> str:
+    try:
+        return datetime.fromisoformat(created_at).strftime("%d/%m/%Y %H:%M")
+    except ValueError:
+        return created_at
+
+
+def render_insights_screen() -> None:
+    st.subheader("תובנות")
+    st.caption("תובנות חדות שנאספו מתוך ניתוחי השיחות. תובנה קיימת לא נשמרת שוב.")
+
+    saved_insights = load_saved_insights()
+    if not saved_insights:
+        st.info("עדיין אין תובנות שמורות. אחרי ניתוח שיחה, האפליקציה תחלץ 1-3 תובנות קריטיות לכאן.")
+        return
+
+    for index, insight in enumerate(reversed(saved_insights), start=1):
+        report_file = str(insight.get("report_file", ""))
+        created_at = format_insight_date(str(insight.get("created_at", "")))
+        st.markdown(
+            f"""
+            <div class="learning-card">
+                <div class="learning-title">תובנה {index}</div>
+                <div>{html.escape(str(insight["text"]))}</div>
+                <div class="learning-meta">נוצר מתוך: {html.escape(report_file)} | {html.escape(created_at)}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+
 def render_analysis_screen(api_key: str) -> None:
+    default_model_index = 0
+    if ANALYSIS_MODEL in ANALYSIS_MODEL_OPTIONS:
+        default_model_index = ANALYSIS_MODEL_OPTIONS.index(ANALYSIS_MODEL)
+
+    selected_model = st.selectbox(
+        "מודל GPT לניתוח השיחה",
+        options=ANALYSIS_MODEL_OPTIONS,
+        index=default_model_index,
+        help="הבחירה משפיעה על סידור הדוברים, ניתוח השיחה וחילוץ התובנות.",
+    )
     uploaded_file = st.file_uploader("העלה קובץ אודיו", type=SUPPORTED_UPLOAD_EXTENSIONS)
     salesperson_name = st.text_input("שם איש/אשת המכירות")
     customer_name = st.text_input("שם הלקוח (אופציונלי - אם ריק ננסה לזהות מהשיחה)")
@@ -982,6 +1174,7 @@ def render_analysis_screen(api_key: str) -> None:
                     raw_transcript=raw_transcript,
                     salesperson_name=salesperson_name.strip(),
                     customer_name=customer_name.strip(),
+                    model=selected_model,
                 )
 
             with st.spinner("מנתח את השיחה לפי תסריט המכירה..."):
@@ -994,12 +1187,27 @@ def render_analysis_screen(api_key: str) -> None:
                     transcript=transcript,
                     salesperson_name=salesperson_name.strip(),
                     customer_name=customer_name.strip(),
+                    model=selected_model,
                 )
                 report_path = save_report(report, salesperson_name.strip())
+
+            added_insights = 0
+            try:
+                with st.spinner("מזקק תובנות לצוות המכירות..."):
+                    insights = generate_call_insights(
+                        client=client,
+                        report=report,
+                        transcript=transcript,
+                        model=selected_model,
+                    )
+                    added_insights = save_new_insights(insights, report_path)
+            except Exception as exc:
+                st.warning(f"הדוח נשמר, אבל חילוץ התובנות נכשל: {exc}")
 
             st.session_state.transcript = transcript
             st.session_state.report = report
             st.session_state.report_path = report_path
+            st.session_state.added_insights = added_insights
 
         except (ValueError, FileNotFoundError) as exc:
             st.error(str(exc))
@@ -1014,19 +1222,24 @@ def render_analysis_screen(api_key: str) -> None:
             report=st.session_state.report,
             report_path=st.session_state.report_path,
         )
+        if "added_insights" in st.session_state:
+            st.caption(f"נוספו {st.session_state.added_insights} תובנות חדשות למסך התובנות.")
 
 
 def main() -> None:
     setup_page()
 
     api_key = get_configured_api_key()
-    analysis_tab, history_tab = st.tabs(["ניתוח שיחה", "היסטוריית דוחות"])
+    analysis_tab, history_tab, insights_tab = st.tabs(["ניתוח שיחה", "היסטוריית דוחות", "תובנות"])
 
     with analysis_tab:
         render_analysis_screen(api_key)
 
     with history_tab:
         render_history_screen()
+
+    with insights_tab:
+        render_insights_screen()
 
 
 if __name__ == "__main__":
