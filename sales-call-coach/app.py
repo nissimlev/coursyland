@@ -82,11 +82,31 @@ def setup_page() -> None:
     st.markdown(
         """
         <style>
-        html, body, [class*="css"] {
+        html, body, [class*="css"], .stApp, [data-testid="stAppViewContainer"],
+        [data-testid="stMain"], [data-testid="stVerticalBlock"],
+        [data-testid="stHorizontalBlock"], [data-testid="stForm"],
+        [data-testid="stMarkdownContainer"], [data-testid="stWidgetLabel"],
+        [data-testid="stFileUploader"], [data-testid="stTextInput"],
+        [data-testid="stTextArea"], [data-baseweb="select"] {
             direction: rtl;
             text-align: right;
         }
-        .stTextInput input, .stTextArea textarea {
+        .stTextInput input, .stTextArea textarea, textarea, input {
+            direction: rtl;
+            text-align: right;
+        }
+        [data-testid="stHeader"] {
+            direction: ltr;
+        }
+        [data-testid="stTabs"] [role="tablist"] {
+            direction: rtl;
+            justify-content: flex-start;
+        }
+        [data-testid="stTabs"] [role="tab"] {
+            margin-left: 18px;
+            margin-right: 0;
+        }
+        .stButton, .stDownloadButton, .stAlert {
             direction: rtl;
             text-align: right;
         }
@@ -544,6 +564,10 @@ def build_analysis_prompt(
 - אל תוסיף כותרות אחרות.
 - אל תכתוב דוח כללי של חוזקות וחולשות.
 - אם אין מספיק מידע, כתוב שחסר מידע ומה היה צריך לשאול.
+- ב"סיכום חד" חובה לכלול:
+  - רלוונטיות הליד: X%
+  - סיכוי סגירה אם הכשל המרכזי היה מטופל נכון: Y%
+- "רלוונטיות הליד" היא מדד של עד כמה הליד מתאים לשירות יצירת קורס דיגיטלי: עד כמה הוא רוצה קורס דיגיטלי, עד כמה הוא בשל לזה עכשיו, ועד כמה הכאבים והחלומות שלו קשורים ליצירת נכס ידע דיגיטלי.
 - ב"פרטי השיחה" כתוב:
   - שם איש/אשת המכירות: {salesperson_name}
   - שם הלקוח: אם הוזן שם לקוח, השתמש בו. אם לא הוזן, הסק את שם הלקוח מתוך התמלול. אם אי אפשר להסיק, כתוב "לא זוהה מהשיחה".
@@ -811,8 +835,9 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
     sections = split_report_sections(report_text)
     details = sections.get("פרטי השיחה", "")
     score = extract_score(sections.get("ציון כללי מתוך 100", ""))
-    close_probability = (
-        extract_labeled_score(report_text, "סיכוי סגירה בפועל")
+    lead_relevance = (
+        extract_labeled_score(report_text, "רלוונטיות הליד")
+        or extract_labeled_score(report_text, "סיכוי סגירה בפועל")
         or extract_score(sections.get("הערכת סיכוי סגירה", "") or sections.get("סיכוי משוער לסגירת העסקה", ""))
     )
     improved_close_probability = extract_labeled_score(report_text, "סיכוי סגירה אם הכשל המרכזי היה מטופל נכון")
@@ -828,7 +853,8 @@ def get_report_metadata(report_path: Path, report_text: str) -> dict:
         "salesperson_name": salesperson_name,
         "date": report_date_from_path(report_path),
         "score": score,
-        "close_probability": close_probability,
+        "lead_relevance": lead_relevance,
+        "close_probability": lead_relevance,
         "improved_close_probability": improved_close_probability,
         "leadership_score": leadership_score,
     }
@@ -962,8 +988,8 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
     sections = split_report_sections(report)
     metadata = get_report_metadata(report_path, report)
     stage_scores = extract_stage_scores(sections.get("ניתוח לפי שלבי תסריט המכירה", ""))
-    close_probability = metadata.get("close_probability")
-    close_probability_value = f"{close_probability}%" if isinstance(close_probability, int) else "לא זוהה"
+    lead_relevance = metadata.get("lead_relevance")
+    lead_relevance_value = f"{lead_relevance}%" if isinstance(lead_relevance, int) else "לא זוהה"
     improved_close_probability = metadata.get("improved_close_probability")
     improved_close_probability_value = (
         f"{improved_close_probability}%" if isinstance(improved_close_probability, int) else "לא זוהה"
@@ -988,9 +1014,9 @@ def render_report_dashboard(report: str, report_path: Path) -> None:
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         render_metric_card(
-            "סיכוי בפועל",
-            close_probability_value,
-            score_class(close_probability if isinstance(close_probability, int) else None),
+            "רלוונטיות הליד",
+            lead_relevance_value,
+            score_class(lead_relevance if isinstance(lead_relevance, int) else None),
         )
     with col2:
         render_metric_card(
