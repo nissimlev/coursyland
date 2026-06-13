@@ -38,12 +38,14 @@ pip install -r requirements.txt
 
 ```bash
 OPENAI_API_KEY=your_api_key_here
+APP_PASSWORD=choose_a_login_password_here
 ```
 
 ב-Streamlit Cloud, הגדר את המפתח דרך `Settings` -> `Secrets`:
 
 ```toml
 OPENAI_API_KEY = "your_api_key_here"
+APP_PASSWORD = "choose_a_login_password_here"
 ```
 
 אפשר להחליף מודלים דרך `.env`:
@@ -92,6 +94,7 @@ reports/2026-06-11_14-30-00_ישראל_ישראלי.md
 ## פתרון תקלות
 
 - אם מופיעה שגיאה על `OPENAI_API_KEY`, ודא שהמפתח מוגדר ב-Streamlit Secrets או בקובץ `.env` מקומי.
+- אם מופיעה שגיאה על `APP_PASSWORD`, ודא שסיסמת הכניסה מוגדרת ב-Streamlit Secrets או בקובץ `.env` מקומי.
 - אם `sales_script.txt` ריק, מלא אותו בתסריט המכירה שלך.
 - אם התמלול נכשל, בדוק שהקובץ תקין ושפורמט האודיו נתמך.
 - אם נדרשת המרת אודיו ב-Streamlit Cloud, ודא שקיים `packages.txt` עם `ffmpeg`.

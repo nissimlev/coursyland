@@ -1,4 +1,5 @@
 import html
+import hmac
 import io
 import json
 import os
@@ -146,6 +147,25 @@ def setup_page() -> None:
             direction: rtl;
             text-align: right;
         }
+        .login-panel {
+            max-width: 440px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 22px 24px;
+            background: #ffffff;
+            margin-top: 32px;
+        }
+        .login-title {
+            font-size: 1.35rem;
+            font-weight: 750;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+        .login-subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+        }
         .report-hero {
             border: 1px solid #e5e7eb;
             border-radius: 8px;
@@ -267,17 +287,63 @@ def setup_page() -> None:
     st.caption("תמלול וניתוח שיחות מכירה בעברית לפי תסריט מכירה קבוע")
 
 
-def get_configured_api_key() -> str:
-    api_key = None
+def get_secret_or_env(key: str) -> str:
+    value = None
     try:
-        api_key = st.secrets["OPENAI_API_KEY"]
+        value = st.secrets[key]
     except Exception:
-        api_key = os.getenv("OPENAI_API_KEY")
+        value = os.getenv(key)
 
-    if api_key is None:
+    if value is None:
         return ""
 
-    return api_key.strip()
+    return str(value).strip()
+
+
+def get_configured_api_key() -> str:
+    return get_secret_or_env("OPENAI_API_KEY")
+
+
+def get_configured_app_password() -> str:
+    return get_secret_or_env("APP_PASSWORD")
+
+
+def is_authenticated() -> bool:
+    return bool(st.session_state.get("authenticated"))
+
+
+def render_login_screen() -> bool:
+    configured_password = get_configured_app_password()
+    if not configured_password:
+        st.error("לא הוגדרה סיסמת כניסה. יש להגדיר APP_PASSWORD ב-Streamlit Secrets או בקובץ .env מקומי.")
+        return False
+
+    st.markdown(
+        """
+        <div class="login-panel">
+            <div class="login-title">כניסה לאפליקציה</div>
+            <div class="login-subtitle">הזן סיסמה כדי לפתוח את מאמן שיחות המכירה.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    show_password = st.checkbox("👁 הצג סיסמה")
+    password_type = "default" if show_password else "password"
+
+    with st.form("login_form"):
+        password = st.text_input("סיסמה", type=password_type, autocomplete="current-password")
+        submitted = st.form_submit_button("כניסה", type="primary")
+
+    if submitted:
+        if hmac.compare_digest(password, configured_password):
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("סיסמה לא נכונה.")
+
+    st.caption("אם Chrome מציע לשמור את הסיסמה אחרי הכניסה, אפשר לאשר כדי להיכנס מהר יותר בפעם הבאה.")
+    return False
 
 
 def get_openai_client(api_key: str) -> OpenAI:
@@ -1355,6 +1421,14 @@ def render_analysis_screen(api_key: str) -> None:
 
 def main() -> None:
     setup_page()
+
+    if not is_authenticated():
+        render_login_screen()
+        return
+
+    if st.button("התנתק"):
+        st.session_state.authenticated = False
+        st.rerun()
 
     api_key = get_configured_api_key()
     analysis_tab, history_tab, insights_tab = st.tabs(["ניתוח שיחה", "היסטוריית דוחות", "תובנות"])
