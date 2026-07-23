@@ -738,7 +738,8 @@ document.getElementById('course-form').addEventListener('submit', async function
       title, desc, category,
       price: '₪' + priceNum,
       duration, instructor,
-      img: resolvedImg
+      img: resolvedImg,
+      sample: false
     };
     if (link) newCourse.link = link;
 
