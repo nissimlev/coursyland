@@ -630,19 +630,45 @@
       .sticky-cta { display: block; }
       body { padding-bottom: 56px; }
     }
+
+    /* ── נגישות ── */
+    .skip-link {
+      position: absolute; top: -100%; right: 0;
+      background: var(--teal-dark); color: #fff;
+      padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem;
+      text-decoration: none; z-index: 9999; border-radius: 0 0 8px 0;
+    }
+    .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    :focus-visible { outline: 3px solid var(--teal-dark); outline-offset: 3px; border-radius: 4px; }
+    .btn:focus-visible, .sticky-cta a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">דלג לתוכן המרכזי</a>
 
 <!-- STICKY MOBILE CTA -->
-<div class="sticky-cta">
-  <a href="#purchase">הצטרפו עכשיו — 790 ₪</a>
+<div class="sticky-cta" aria-hidden="true">
+  <a href="#purchase" tabindex="-1">הצטרפו עכשיו — 790 ₪</a>
 </div>
 
 <!-- ══════════════════════════════════════
      1 + 2 · HERO — הוק + כותרת משנה
 ══════════════════════════════════════ -->
-<section class="hero">
+<main id="main-content">
+<section class="hero" aria-labelledby="hero-heading">
   <div class="container hero-inner">
 
     <!-- הלוגו האמיתי -->
@@ -656,7 +682,7 @@
 
     <div class="hero-badge">קורס דיגיטלי לזוגות · 4 מפגשי עומק</div>
 
-    <h1>
+    <h1 id="hero-heading">
       לידה —<br>
       <em>מה עושים ברגע האמת</em>
     </h1>
@@ -1381,6 +1407,7 @@
   </div>
 </section>
 
+</main>
 <!-- FOOTER -->
 <footer>
   <p>נוצר על ידי <strong>קורסילנד</strong></p>

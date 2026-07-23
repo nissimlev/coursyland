@@ -255,9 +255,26 @@
     .hero { padding: 2.5rem 1.2rem 1.5rem; }
     .grid-section { padding: 1.5rem 1.2rem 3rem; }
   }
+
+  /* ── נגישות ── */
+  .skip-link {
+    position: absolute; top: -100%; right: 0;
+    background: var(--purple); color: #fff;
+    padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem;
+    text-decoration: none; z-index: 9999; border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+  :focus-visible { outline: 3px solid var(--purple); outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">דלג לתוכן המרכזי</a>
 
 <!-- ── LOGIN SCREEN ── -->
 <div id="login-screen">
@@ -287,7 +304,7 @@
 <!-- ── MAIN APP (hidden until logged in) ── -->
 <div id="app">
 
-<nav>
+<nav aria-label="ניווט אדמין">
   <div class="nav-inner">
     <a href="https://coursyland.com" class="logo">
       <span class="logo-text">קורסילנד</span>
@@ -306,13 +323,14 @@
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-icon">⚙️</div>
-  <h1>כלי אדמין</h1>
+<section class="hero" aria-labelledby="admin-heading">
+  <div class="hero-icon" aria-hidden="true">⚙️</div>
+  <h1 id="admin-heading">כלי אדמין</h1>
   <p>ניהול פנימי – בחר כלי להתחיל</p>
 </section>
 
-<section class="grid-section">
+<main id="main-content">
+<section class="grid-section" aria-label="כלים זמינים">
   <div class="section-label">כלים זמינים</div>
   <div class="cards-grid">
 
@@ -358,6 +376,7 @@
   </div>
 </section>
 
+</main>
 <footer>קורסילנד · כלי אדמין פנימי</footer>
 
 </div><!-- /#app -->
