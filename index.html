@@ -659,7 +659,7 @@ function renderGrid(list) {
       <img class="card-image" src="${c.img}" alt="${c.title}" loading="lazy" />
       <div class="card-body">
         <span class="card-category">${c.category}</span>
-        ${c.title !== "אומן במיטה" ? '<span class="sample-badge">קורס לדוגמה</span>' : ''}
+        ${c.title !== "אומן במיטה" && c.title !== "הקשר שמעבר" ? '<span class="sample-badge">קורס לדוגמה</span>' : ''}
         <div class="card-title">${c.title}</div>
         <div class="card-instructor">${c.instructor}</div>
         <div class="card-desc">${c.desc}</div>
