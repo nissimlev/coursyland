@@ -103,6 +103,32 @@
   .login-field input[type="text"] { direction: ltr; letter-spacing: 0.04em; }
   .login-field input#login-user { direction: ltr; }
 
+  .password-wrap { position: relative; }
+  .password-wrap input { padding-left: 2.6rem; width: 100%; }
+  .toggle-pass {
+    position: absolute; left: 0.6rem; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); padding: 0.3rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .toggle-pass:hover { color: var(--text); }
+  .toggle-pass svg { width: 18px; height: 18px; }
+  .toggle-pass .eye-off { display: none; }
+  .toggle-pass.showing .eye { display: none; }
+  .toggle-pass.showing .eye-off { display: block; }
+
+  .login-remember {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1.3rem;
+  }
+  .login-remember input[type="checkbox"] {
+    width: 16px; height: 16px; accent-color: var(--purple);
+    cursor: pointer;
+  }
+  .login-remember label {
+    font-size: 0.85rem; color: var(--muted); cursor: pointer; user-select: none;
+  }
+
   #login-error {
     display: none;
     background: #fef2f2; border: 1px solid rgba(220,38,38,0.25);
@@ -289,11 +315,21 @@
     <form id="login-form" novalidate>
       <div class="login-field">
         <label for="login-user">שם משתמש</label>
-        <input type="text" id="login-user" autocomplete="username" placeholder="admin" required>
+        <input type="text" id="login-user" name="username" autocomplete="username" placeholder="admin" required>
       </div>
       <div class="login-field">
         <label for="login-pass">סיסמה</label>
-        <input type="password" id="login-pass" autocomplete="current-password" placeholder="••••••••••" required>
+        <div class="password-wrap">
+          <input type="password" id="login-pass" name="password" autocomplete="current-password" placeholder="••••••••••" required>
+          <button type="button" class="toggle-pass" id="toggle-pass" aria-label="הצג סיסמה" aria-pressed="false">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a20.3 20.3 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a20.3 20.3 0 0 1-3.22 4.44M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="login-remember">
+        <input type="checkbox" id="login-remember">
+        <label for="login-remember">זכור אותי</label>
       </div>
       <div id="login-error">שם משתמש או סיסמה שגויים</div>
       <button type="submit" class="btn-login">כניסה</button>
@@ -386,7 +422,7 @@ const AUTH_KEY  = 'admin_auth';
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'Tr8mXq2Lp5';
 
-function isLoggedIn() { return sessionStorage.getItem(AUTH_KEY) === '1'; }
+function isLoggedIn() { return sessionStorage.getItem(AUTH_KEY) === '1' || localStorage.getItem(AUTH_KEY) === '1'; }
 
 function showApp() {
   document.getElementById('login-screen').classList.remove('visible');
@@ -414,7 +450,8 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
   const errEl = document.getElementById('login-error');
 
   if (user === ADMIN_USER && pass === ADMIN_PASS) {
-    sessionStorage.setItem(AUTH_KEY, '1');
+    const remember = document.getElementById('login-remember').checked;
+    (remember ? localStorage : sessionStorage).setItem(AUTH_KEY, '1');
     errEl.style.display = 'none';
     showApp();
   } else {
@@ -424,9 +461,20 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
   }
 });
 
+/* ── Show/hide password ── */
+document.getElementById('toggle-pass').addEventListener('click', function () {
+  const passInput = document.getElementById('login-pass');
+  const showing = passInput.type === 'text';
+  passInput.type = showing ? 'password' : 'text';
+  this.classList.toggle('showing', !showing);
+  this.setAttribute('aria-pressed', String(!showing));
+  this.setAttribute('aria-label', showing ? 'הצג סיסמה' : 'הסתר סיסמה');
+});
+
 /* ── Logout ── */
 document.getElementById('logout-btn').addEventListener('click', () => {
   sessionStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem(AUTH_KEY);
   document.getElementById('login-pass').value = '';
   document.getElementById('login-user').value = '';
   showLogin();
