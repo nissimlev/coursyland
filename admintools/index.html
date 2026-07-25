@@ -452,6 +452,11 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
   if (user === ADMIN_USER && pass === ADMIN_PASS) {
     const remember = document.getElementById('login-remember').checked;
     (remember ? localStorage : sessionStorage).setItem(AUTH_KEY, '1');
+    if (window.PasswordCredential) {
+      try {
+        navigator.credentials.store(new PasswordCredential({ id: user, password: pass, name: user }));
+      } catch (err) {}
+    }
     errEl.style.display = 'none';
     showApp();
   } else {
