@@ -155,6 +155,23 @@ footer{background:var(--ink);color:#cbbcd1;text-align:center;padding:30px 20px;f
 footer strong{color:#fff}
 footer .row{margin-bottom:8px}
 
+/* עדויות */
+.quotes{background:linear-gradient(180deg,rgba(241,33,132,.07),rgba(241,33,132,.015))}
+.quotes .lead{text-align:center;color:#5b4a5f;font-size:17px;margin-top:12px}
+.bubbles{display:grid;gap:18px;margin-top:30px}
+.bubble{
+  background:#fff;border:1px solid var(--line);
+  border-radius:20px;border-bottom-right-radius:6px;
+  padding:22px 24px;box-shadow:0 6px 18px rgba(42,27,46,.05);
+  display:flex;flex-direction:column;
+}
+.bubble p{font-size:16.5px;line-height:1.72;color:#3f2f44;margin:0}
+.quotes .note{text-align:center;font-size:13.5px;color:#8b7a90;margin-top:24px}
+@media(min-width:768px){
+  .bubbles{grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  .bubble.wide{grid-column:1 / -1}
+}
+
 @media(min-width:768px){
   body{font-size:18px}
   section{padding:76px 0}
@@ -228,6 +245,32 @@ footer .row{margin-bottom:8px}
         <p>דייט זוגי פעמיים בשבוע, בלי בייביסיטר ובלי תירוצים. אנחנו עושים את זה בעצמנו, אז זה בהחלט אפשרי.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- עדויות -->
+<section class="quotes">
+  <div class="wrap">
+    <h2 class="center">מה כותבים לנו בוואטסאפ</h2>
+    <p class="lead">לא ביקשנו ולא ערכנו. אלה הודעות שקיבלנו מתלמידים, בדיוק כמו שהן נכתבו.</p>
+    <div class="bubbles">
+      <div class="bubble">
+        <p>רכשנו את הקורס אהבה פראנית באתר שלכם רציתי להגיד לכם תודה על שיעורים כל כך מדויקים וטובים. אתם עושים מלאכת קודש המלצתי לחברים... תודה לך ולאהובתך</p>
+      </div>
+      <div class="bubble">
+        <p>היי ניסים<br>רציתי להגיד לך תודה גדולה על הקורסי מיניות שאתה מעביר.<br>לאחרונה כנראה שגם אני הבנתי משהו,הדברים מתחברים והפידבקים חבל על הזמן!</p>
+      </div>
+      <div class="bubble">
+        <p>בוקר טוב<br>כבר מזמן רוצה להודות על הנס שהתאפשר בחיינו הודות לקורס הקצרצר שלכם<br>אחרי 47 שנות זוגיות של תסכולים, מאמצים ואכזבות, אנחנו עושים אהבה מזינה ונפלאה. איזה פלא.<br>אני מספרת לכל זוג על הקורס הנפלא שלכם.<br>אז ישר כוח ותמשיכו עם העבודה החשובה ושוב, המון תודה</p>
+      </div>
+      <div class="bubble">
+        <p>הי סמדר,רק רוצה להודות לכם על הפלא המתמשך הזה שחוללתם בחיינו בתחום הזוגיות שלנו שמתגלה בכל לב דדיט ומקרין על תחומים אחרים בחיינו.אלפי תודות. All you need is love בחיי שזה נכון.</p>
+      </div>
+      <div class="bubble wide">
+        <p>צפיתי במפגש הראשון של הקורס שלכם והוקסמתי מהדרך הנפלאה בה אתם עוסקים בנושא כה משמעותי וחשוב. שלחתי את השיעור וההמלצה כמעט לכל מטופלי אשר תוכן זה יוכל להועיל להם וכמובן גם לבניי הבוגרים ועוד מכרים.<br>אתם עושים עבודת קודש.</p>
+      </div>
+    </div>
+    <p class="note">ההודעות הוצגו ללא שמות, לשמירה על פרטיות הכותבים.</p>
   </div>
 </section>
 
