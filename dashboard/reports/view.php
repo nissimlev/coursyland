@@ -46,7 +46,7 @@ $flash = getFlash();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>דוח <?= escape($report['quarter']) ?> — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
   <style>
     .report-preview { background: #fff; border: 1px solid var(--gray-200); border-radius: 8px; padding: 32px; margin-top: 16px; }
     .report-preview h1 { font-size: 1.4rem; color: var(--purple); margin-bottom: 4px; }
@@ -66,11 +66,11 @@ $flash = getFlash();
       <div class="topbar-actions">
         <a href="list.php" class="btn btn-ghost btn-sm">← חזרה</a>
         <?php if ($report['pdf_path'] && file_exists($report['pdf_path'])): ?>
-          <a href="/admin/api/download_pdf.php?id=<?= $id ?>" class="btn btn-outline btn-sm">⬇ הורד PDF</a>
+          <a href="/dashboard/api/download_pdf.php?id=<?= $id ?>" class="btn btn-outline btn-sm">⬇ הורד PDF</a>
         <?php endif; ?>
-        <form method="POST" action="/admin/api/send_report.php" style="display:inline;">
+        <form method="POST" action="/dashboard/api/send_report.php" style="display:inline;">
           <input type="hidden" name="report_id" value="<?= $id ?>">
-          <input type="hidden" name="return_url" value="/admin/reports/view.php?id=<?= $id ?>">
+          <input type="hidden" name="return_url" value="/dashboard/reports/view.php?id=<?= $id ?>">
           <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
           <button type="submit" class="btn btn-primary btn-sm">
             <?= $report['sent_at'] ? 'שלח שוב' : 'שלח ללקוח' ?>
@@ -157,6 +157,6 @@ $flash = getFlash();
   </div>
 </div>
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 </body>
 </html>

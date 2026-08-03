@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare("INSERT INTO clients (name, email, phone, business_id, join_date, subscription_type, notes) VALUES (?,?,?,?,?,?,?)");
         $stmt->execute([$data['name'], $data['email'], $data['phone'], $data['business_id'], $data['join_date'], $data['subscription_type'], $data['notes']]);
         flashMessage('success', 'הלקוח נוסף בהצלחה.');
-        redirect('/admin/clients/list.php');
+        redirect('/dashboard/clients/list.php');
     }
 }
 ?>
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>הוספת לקוח — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -101,6 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 </div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 </body>
 </html>

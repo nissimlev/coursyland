@@ -29,7 +29,7 @@ function isLoggedIn(): bool {
 
 function requireLogin(): void {
     if (!isLoggedIn()) {
-        header('Location: /admin/login.php');
+        header('Location: /dashboard/login.php');
         exit;
     }
 }
@@ -57,7 +57,7 @@ function checkSessionTimeout(): void {
         $loginTime = $_SESSION['login_time'] ?? 0;
         if ($loginTime && (time() - $loginTime) > 28800) {
             logout();
-            header('Location: /admin/login.php?timeout=1');
+            header('Location: /dashboard/login.php?timeout=1');
             exit;
         }
     }

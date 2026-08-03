@@ -129,7 +129,7 @@ $years = range(date('Y'), 2024);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="<?= csrfToken() ?>">
   <title>דשבורד — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     /* ===== No-scroll dashboard ===== */
@@ -241,7 +241,7 @@ $years = range(date('Y'), 2024);
       <h2>דשבורד</h2>
       <div class="topbar-actions">
         <?php if ($pendingReports > 0): ?>
-          <a href="/admin/reports/list.php?pending=1" class="btn btn-primary btn-sm">🔔 <?= $pendingReports ?> ממתינים</a>
+          <a href="/dashboard/reports/list.php?pending=1" class="btn btn-primary btn-sm">🔔 <?= $pendingReports ?> ממתינים</a>
         <?php endif; ?>
       </div>
     </div>
@@ -255,7 +255,7 @@ $years = range(date('Y'), 2024);
       <?php if ($pendingReports > 0): ?>
         <div class="db-alert">
           ⚠️ יש <strong style="margin:0 3px;"><?= $pendingReports ?> דוחות</strong> מוכנים לשליחה.
-          <a href="/admin/reports/list.php?pending=1">עבור לדוחות ←</a>
+          <a href="/dashboard/reports/list.php?pending=1">עבור לדוחות ←</a>
         </div>
       <?php endif; ?>
 
@@ -351,7 +351,7 @@ $years = range(date('Y'), 2024);
                 <?php foreach ($topClients as $i => $tc): ?>
                   <div class="leader-row">
                     <span class="leader-rank"><?= $i+1 ?></span>
-                    <span class="leader-name"><a href="/admin/clients/view.php?id=<?= $tc['id'] ?>"><?= escape($tc['name']) ?></a></span>
+                    <span class="leader-name"><a href="/dashboard/clients/view.php?id=<?= $tc['id'] ?>"><?= escape($tc['name']) ?></a></span>
                     <span class="leader-sales"><?= $tc['sales'] ?> מכירות</span>
                     <span class="leader-amount"><?= formatMoney((float)$tc['total']) ?></span>
                   </div>
@@ -389,7 +389,7 @@ $years = range(date('Y'), 2024);
   </div>
 </div>
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 <?php if ($hasChartData): ?>
 <script>
 const ctx = document.getElementById('salesChart').getContext('2d');

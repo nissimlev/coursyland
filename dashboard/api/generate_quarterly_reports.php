@@ -1,5 +1,5 @@
 <?php
-// Cron: 0 0 1 1,4,7,10 * php /path/to/admin/api/generate_quarterly_reports.php
+// Cron: 0 0 1 1,4,7,10 * php /path/to/dashboard/api/generate_quarterly_reports.php
 // מפיק דוחות לכל הלקוחות בתחילת כל רבעון עבור הרבעון שהסתיים
 
 define('CLI_RUN', php_sapi_name() === 'cli');

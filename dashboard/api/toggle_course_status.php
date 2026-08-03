@@ -22,4 +22,4 @@ $newStatus = $course['status'] === 'active' ? 'inactive' : 'active';
 $db->prepare("UPDATE courses SET status=? WHERE id=?")->execute([$newStatus, $id]);
 
 flashMessage('success', 'סטטוס הקורס עודכן.');
-redirect("/admin/clients/view.php?id={$course['client_id']}");
+redirect("/dashboard/clients/view.php?id={$course['client_id']}");

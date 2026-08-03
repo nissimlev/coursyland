@@ -1,6 +1,6 @@
 <?php
 // סנכרון iCount — ניתן להרצה ידנית או דרך Cron
-// Cron: 0 */6 * * * php /path/to/admin/api/icount_sync.php
+// Cron: 0 */6 * * * php /path/to/dashboard/api/icount_sync.php
 
 define('CLI_RUN', php_sapi_name() === 'cli');
 

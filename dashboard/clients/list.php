@@ -32,7 +32,7 @@ $clients = $stmt->fetchAll();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>לקוחות — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -41,7 +41,7 @@ $clients = $stmt->fetchAll();
     <div class="topbar">
       <h2>ניהול לקוחות</h2>
       <div class="topbar-actions">
-        <a href="/admin/clients/add.php" class="btn btn-primary btn-sm">+ הוסף לקוח</a>
+        <a href="/dashboard/clients/add.php" class="btn btn-primary btn-sm">+ הוסף לקוח</a>
       </div>
     </div>
     <div class="page-body">
@@ -77,7 +77,7 @@ $clients = $stmt->fetchAll();
               <tbody>
                 <?php foreach ($clients as $c): ?>
                   <tr>
-                    <td><a href="/admin/clients/view.php?id=<?= $c['id'] ?>"><?= escape($c['name']) ?></a></td>
+                    <td><a href="/dashboard/clients/view.php?id=<?= $c['id'] ?>"><?= escape($c['name']) ?></a></td>
                     <td class="text-muted"><?= escape($c['email']) ?></td>
                     <td class="text-muted"><?= escape($c['phone'] ?? '—') ?></td>
                     <td class="text-muted"><?= formatDate($c['join_date']) ?></td>
@@ -88,9 +88,9 @@ $clients = $stmt->fetchAll();
                     </td>
                     <td><?= $c['course_count'] ?></td>
                     <td style="display:flex;gap:6px;flex-wrap:wrap;">
-                      <a href="/admin/clients/view.php?id=<?= $c['id'] ?>" class="btn btn-ghost btn-sm">צפייה</a>
-                      <a href="/admin/clients/edit.php?id=<?= $c['id'] ?>" class="btn btn-outline btn-sm">עריכה</a>
-                      <form method="POST" action="/admin/api/delete_client.php" style="display:inline;">
+                      <a href="/dashboard/clients/view.php?id=<?= $c['id'] ?>" class="btn btn-ghost btn-sm">צפייה</a>
+                      <a href="/dashboard/clients/edit.php?id=<?= $c['id'] ?>" class="btn btn-outline btn-sm">עריכה</a>
+                      <form method="POST" action="/dashboard/api/delete_client.php" style="display:inline;">
                         <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                         <input type="hidden" name="client_id" value="<?= $c['id'] ?>">
                         <button type="submit" class="btn btn-sm" style="background:#fee2e2;color:#dc2626;border:none;"
@@ -110,6 +110,6 @@ $clients = $stmt->fetchAll();
   </div>
 </div>
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 </body>
 </html>

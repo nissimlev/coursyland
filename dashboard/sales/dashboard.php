@@ -49,7 +49,7 @@ $totalAmount = array_sum(array_column($purchases, 'amount'));
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>מכירות — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -129,7 +129,7 @@ $totalAmount = array_sum(array_column($purchases, 'amount'));
                     <td class="text-muted text-small"><?= escape($p['buyer_email'] ?: '—') ?></td>
                     <td><?= escape($p['course_name']) ?></td>
                     <td>
-                      <a href="/admin/clients/view.php?id=<?= $p['client_id'] ?>"><?= escape($p['client_name']) ?></a>
+                      <a href="/dashboard/clients/view.php?id=<?= $p['client_id'] ?>"><?= escape($p['client_name']) ?></a>
                     </td>
                     <td><strong><?= formatMoney((float)$p['amount']) ?></strong></td>
                   </tr>
@@ -148,7 +148,7 @@ $totalAmount = array_sum(array_column($purchases, 'amount'));
   </div>
 </div>
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 <script>
 async function syncICount() {
   const btn = document.querySelector('[onclick="syncICount()"]');
@@ -157,7 +157,7 @@ async function syncICount() {
   const msgEl = document.getElementById('syncMessage');
   msgEl.innerHTML = '<div class="alert alert-info">מבצע סנכרון עם iCount, אנא המתן...</div>';
   try {
-    const res  = await fetch('/admin/api/icount_sync.php');
+    const res  = await fetch('/dashboard/api/icount_sync.php');
     const data = await res.json();
     msgEl.innerHTML = `<div class="alert alert-${data.success ? 'success' : 'error'}" data-auto-dismiss>${data.message}</div>`;
     if (data.success) setTimeout(() => location.reload(), 2000);

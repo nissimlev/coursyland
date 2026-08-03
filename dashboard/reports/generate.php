@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdfPath = generateReportPDF($reportRow, $client, $courseBreakdowns, $purchases);
             $db->prepare("UPDATE reports SET pdf_path=? WHERE id=?")->execute([$pdfPath, $reportId]);
             flashMessage('success', "הדוח הופק בהצלחה: {$quarter}");
-            redirect("/admin/reports/view.php?id={$reportId}");
+            redirect("/dashboard/reports/view.php?id={$reportId}");
         } catch (Exception $e) {
             $errors[] = 'שגיאה בהפקת PDF: ' . $e->getMessage();
         }
@@ -118,7 +118,7 @@ $currentQ = currentQuarter();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>הפקת דוח — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -179,7 +179,7 @@ $currentQ = currentQuarter();
     </div>
   </div>
 </div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 <script>
 // עדכון אוטומטי של עמלה לפי סוג לקוח
 const clientRates = <?= json_encode($clientTypes) ?>;

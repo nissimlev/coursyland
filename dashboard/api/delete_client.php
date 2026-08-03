@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); die('Metho
 verifyCsrf();
 
 $id = (int)($_POST['client_id'] ?? 0);
-if (!$id) { flashMessage('error', 'מזהה לקוח חסר.'); redirect('/admin/clients/list.php'); }
+if (!$id) { flashMessage('error', 'מזהה לקוח חסר.'); redirect('/dashboard/clients/list.php'); }
 
 $db = getDB();
 
@@ -18,10 +18,10 @@ $db = getDB();
 $client = $db->prepare("SELECT name FROM clients WHERE id=?");
 $client->execute([$id]);
 $client = $client->fetch();
-if (!$client) { flashMessage('error', 'לקוח לא נמצא.'); redirect('/admin/clients/list.php'); }
+if (!$client) { flashMessage('error', 'לקוח לא נמצא.'); redirect('/dashboard/clients/list.php'); }
 
 // מחיקה מדורגת (CASCADE על courses/purchases/reports)
 $db->prepare("DELETE FROM clients WHERE id=?")->execute([$id]);
 
 flashMessage('success', "הלקוח \"{$client['name']}\" נמחק בהצלחה.");
-redirect('/admin/clients/list.php');
+redirect('/dashboard/clients/list.php');

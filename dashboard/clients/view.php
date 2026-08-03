@@ -31,7 +31,7 @@ $flash = getFlash();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= escape($client['name']) ?> — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -93,10 +93,10 @@ $flash = getFlash();
       <div class="card">
         <div class="card-header">
           <h3>קורסים</h3>
-          <a href="/admin/courses/add.php?client_id=<?= $id ?>" class="btn btn-primary btn-sm">+ הוסף קורס</a>
+          <a href="/dashboard/courses/add.php?client_id=<?= $id ?>" class="btn btn-primary btn-sm">+ הוסף קורס</a>
         </div>
         <?php if (empty($courses)): ?>
-          <div class="empty-state"><p>אין קורסים עדיין. <a href="/admin/courses/add.php?client_id=<?= $id ?>">הוסף קורס ראשון</a></p></div>
+          <div class="empty-state"><p>אין קורסים עדיין. <a href="/dashboard/courses/add.php?client_id=<?= $id ?>">הוסף קורס ראשון</a></p></div>
         <?php else: ?>
           <div class="table-wrap">
             <table>
@@ -124,9 +124,9 @@ $flash = getFlash();
                       <button class="btn btn-ghost btn-sm" onclick="openPurchasesModal(<?= $course['id'] ?>, '<?= escape(addslashes($course['name'])) ?>')">
                         רכישות
                       </button>
-                      <a href="/admin/courses/edit.php?id=<?= $course['id'] ?>" class="btn btn-outline btn-sm">עריכה</a>
+                      <a href="/dashboard/courses/edit.php?id=<?= $course['id'] ?>" class="btn btn-outline btn-sm">עריכה</a>
                       <!-- הפוך פעיל/לא פעיל -->
-                      <form method="POST" action="/admin/api/toggle_course_status.php" style="display:inline;">
+                      <form method="POST" action="/dashboard/api/toggle_course_status.php" style="display:inline;">
                         <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                         <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                         <button type="submit" class="btn btn-sm"
@@ -136,7 +136,7 @@ $flash = getFlash();
                         </button>
                       </form>
                       <!-- מחיקה -->
-                      <form method="POST" action="/admin/api/delete_course.php" style="display:inline;">
+                      <form method="POST" action="/dashboard/api/delete_course.php" style="display:inline;">
                         <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                         <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                         <button type="submit" class="btn btn-sm"
@@ -158,7 +158,7 @@ $flash = getFlash();
       <div class="card">
         <div class="card-header">
           <h3>דוחות רבעוניים</h3>
-          <a href="/admin/reports/generate.php?client_id=<?= $id ?>" class="btn btn-outline btn-sm">+ הפק דוח</a>
+          <a href="/dashboard/reports/generate.php?client_id=<?= $id ?>" class="btn btn-outline btn-sm">+ הפק דוח</a>
         </div>
         <?php if (empty($reports)): ?>
           <div class="empty-state"><p>אין דוחות עדיין.</p></div>
@@ -183,7 +183,7 @@ $flash = getFlash();
                 <?php foreach ($reports as $r): ?>
                   <tr>
                     <td>
-                      <a href="/admin/reports/view.php?id=<?= $r['id'] ?>">
+                      <a href="/dashboard/reports/view.php?id=<?= $r['id'] ?>">
                         <?= escape($r['quarter']) ?>
                       </a>
                     </td>
@@ -198,7 +198,7 @@ $flash = getFlash();
                       <?php if ($r['sent_at']): ?>
                         <span class="badge badge-green">נשלח <?= formatDate($r['sent_at']) ?></span>
                       <?php elseif ($r['pdf_path']): ?>
-                        <form method="POST" action="/admin/api/send_report.php" style="display:inline;">
+                        <form method="POST" action="/dashboard/api/send_report.php" style="display:inline;">
                           <input type="hidden" name="report_id" value="<?= $r['id'] ?>">
                           <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                           <button type="submit" class="btn btn-primary btn-sm">שלח</button>
@@ -222,7 +222,7 @@ $flash = getFlash();
                         title="סמן כשולם">
                     </td>
                     <td>
-                      <a href="/admin/reports/view.php?id=<?= $r['id'] ?>" class="btn btn-ghost btn-sm">צפייה</a>
+                      <a href="/dashboard/reports/view.php?id=<?= $r['id'] ?>" class="btn btn-ghost btn-sm">צפייה</a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -261,12 +261,12 @@ $flash = getFlash();
 </div>
 
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 <script>
 // invoice checkboxes
 document.querySelectorAll('.invoice-checkbox').forEach(cb => {
   cb.addEventListener('change', async function() {
-    await fetch('/admin/api/toggle_invoice.php', {
+    await fetch('/dashboard/api/toggle_invoice.php', {
       method: 'POST',
       body: new URLSearchParams({ report_id: this.dataset.reportId, value: this.checked ? 1 : 0, csrf_token: '<?= csrfToken() ?>' })
     });
@@ -293,7 +293,7 @@ function filterPurchases() {
 async function loadPurchases(courseId, from, to) {
   const wrap = document.getElementById('purchasesTableWrap');
   wrap.innerHTML = '<div class="empty-state"><p>טוען...</p></div>';
-  let url = `/admin/api/purchases.php?course_id=${courseId}`;
+  let url = `/dashboard/api/purchases.php?course_id=${courseId}`;
   if (from) url += `&from=${from}`;
   if (to)   url += `&to=${to}`;
 

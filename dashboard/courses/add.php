@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare("INSERT INTO courses (client_id, name, icount_payment_page_id, price, status) VALUES (?,?,?,?,?)");
         $stmt->execute([$client_id, $data['name'], $data['icount_payment_page_id'], $data['price'] ?: null, $data['status']]);
         flashMessage('success', 'הקורס נוסף בהצלחה.');
-        redirect("/admin/clients/view.php?id=$client_id");
+        redirect("/dashboard/clients/view.php?id=$client_id");
     }
 }
 ?>
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>הוספת קורס — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <h2>הוספת קורס</h2>
       <div class="topbar-actions">
         <?php if ($client_id): ?>
-          <a href="/admin/clients/view.php?id=<?= $client_id ?>" class="btn btn-ghost btn-sm">← חזרה ללקוח</a>
+          <a href="/dashboard/clients/view.php?id=<?= $client_id ?>" class="btn btn-ghost btn-sm">← חזרה ללקוח</a>
         <?php endif; ?>
       </div>
     </div>
@@ -94,13 +94,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div style="display:flex;gap:10px;">
             <button type="submit" class="btn btn-primary">שמור קורס</button>
-            <a href="<?= $client_id ? "/admin/clients/view.php?id=$client_id" : '/admin/clients/list.php' ?>" class="btn btn-ghost">ביטול</a>
+            <a href="<?= $client_id ? "/dashboard/clients/view.php?id=$client_id" : '/dashboard/clients/list.php' ?>" class="btn btn-ghost">ביטול</a>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 </body>
 </html>

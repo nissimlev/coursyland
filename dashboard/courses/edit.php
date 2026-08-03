@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt2 = $db->prepare("UPDATE courses SET name=?, icount_payment_page_id=?, price=?, status=? WHERE id=?");
         $stmt2->execute([$data['name'], $data['icount_payment_page_id'], $data['price'] ?: null, $data['status'], $id]);
         flashMessage('success', 'הקורס עודכן בהצלחה.');
-        redirect("/admin/clients/view.php?id={$data['client_id']}");
+        redirect("/dashboard/clients/view.php?id={$data['client_id']}");
     }
 }
 ?>
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>עריכת קורס — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="topbar">
       <h2>עריכת קורס: <?= escape($data['name']) ?></h2>
       <div class="topbar-actions">
-        <a href="/admin/clients/view.php?id=<?= $data['client_id'] ?>" class="btn btn-ghost btn-sm">← חזרה</a>
+        <a href="/dashboard/clients/view.php?id=<?= $data['client_id'] ?>" class="btn btn-ghost btn-sm">← חזרה</a>
       </div>
     </div>
     <div class="page-body">
@@ -81,13 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
           <div style="display:flex;gap:10px;">
             <button type="submit" class="btn btn-primary">שמור שינויים</button>
-            <a href="/admin/clients/view.php?id=<?= $data['client_id'] ?>" class="btn btn-ghost">ביטול</a>
+            <a href="/dashboard/clients/view.php?id=<?= $data['client_id'] ?>" class="btn btn-ghost">ביטול</a>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 </body>
 </html>

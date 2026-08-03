@@ -39,7 +39,7 @@ $pendingCount = $db->query("SELECT COUNT(*) FROM reports WHERE sent_at IS NULL A
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>דוחות — CoursyLand Admin</title>
-  <link rel="stylesheet" href="/admin/assets/style.css">
+  <link rel="stylesheet" href="/dashboard/assets/style.css">
 </head>
 <body>
 <div class="layout">
@@ -114,7 +114,7 @@ $pendingCount = $db->query("SELECT COUNT(*) FROM reports WHERE sent_at IS NULL A
               <tbody>
                 <?php foreach ($reports as $r): ?>
                   <tr>
-                    <td><a href="/admin/clients/view.php?id=<?= $r['client_id'] ?>"><?= escape($r['client_name']) ?></a></td>
+                    <td><a href="/dashboard/clients/view.php?id=<?= $r['client_id'] ?>"><?= escape($r['client_name']) ?></a></td>
                     <td><a href="view.php?id=<?= $r['id'] ?>"><?= escape($r['quarter']) ?></a></td>
                     <td>
                       <?php if ($r['sent_at']): ?>
@@ -137,16 +137,16 @@ $pendingCount = $db->query("SELECT COUNT(*) FROM reports WHERE sent_at IS NULL A
                       <a href="view.php?id=<?= $r['id'] ?>" class="btn btn-ghost btn-sm">צפייה</a>
                       <?php if ($r['pdf_path'] && file_exists($r['pdf_path'])): ?>
                         <?php if (!$r['sent_at']): ?>
-                          <form method="POST" action="/admin/api/send_report.php" style="display:inline;">
+                          <form method="POST" action="/dashboard/api/send_report.php" style="display:inline;">
                             <input type="hidden" name="report_id" value="<?= $r['id'] ?>">
-                            <input type="hidden" name="return_url" value="/admin/reports/list.php">
+                            <input type="hidden" name="return_url" value="/dashboard/reports/list.php">
                             <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                             <button type="submit" class="btn btn-primary btn-sm">שלח</button>
                           </form>
                         <?php else: ?>
-                          <form method="POST" action="/admin/api/send_report.php" style="display:inline;">
+                          <form method="POST" action="/dashboard/api/send_report.php" style="display:inline;">
                             <input type="hidden" name="report_id" value="<?= $r['id'] ?>">
-                            <input type="hidden" name="return_url" value="/admin/reports/list.php">
+                            <input type="hidden" name="return_url" value="/dashboard/reports/list.php">
                             <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                             <button type="submit" class="btn btn-ghost btn-sm">שלח שוב</button>
                           </form>
@@ -164,14 +164,14 @@ $pendingCount = $db->query("SELECT COUNT(*) FROM reports WHERE sent_at IS NULL A
   </div>
 </div>
 <div class="toast-container"></div>
-<script src="/admin/assets/script.js"></script>
+<script src="/dashboard/assets/script.js"></script>
 <script>
 // invoice received checkboxes
 document.querySelectorAll('.invoice-checkbox').forEach(cb => {
     cb.addEventListener('change', async function() {
         const id = this.dataset.reportId;
         const checked = this.checked ? 1 : 0;
-        await fetch('/admin/api/toggle_invoice.php', {
+        await fetch('/dashboard/api/toggle_invoice.php', {
             method: 'POST',
             body: new URLSearchParams({ report_id: id, value: checked, csrf_token: '<?= csrfToken() ?>' })
         });
@@ -187,7 +187,7 @@ async function sendAllPending() {
   const msgEl = document.getElementById('bulkMessage');
   msgEl.innerHTML = '<div class="alert alert-info"><div class="progress-bar-wrap"><div class="progress-bar" id="bulkProgress" style="width:0%"></div></div><span id="bulkStatus">מתחיל שליחה...</span></div>';
 
-  const res  = await fetch('/admin/api/send_all_pending.php', { method: 'POST', body: new URLSearchParams({ csrf_token: '<?= csrfToken() ?>' }) });
+  const res  = await fetch('/dashboard/api/send_all_pending.php', { method: 'POST', body: new URLSearchParams({ csrf_token: '<?= csrfToken() ?>' }) });
   const data = await res.json();
 
   msgEl.innerHTML = `<div class="alert alert-${data.success ? 'success' : 'error'}" data-auto-dismiss>${data.message}</div>`;

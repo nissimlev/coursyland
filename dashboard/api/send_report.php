@@ -20,7 +20,7 @@ $reportId = (int)($_POST['report_id'] ?? 0);
 
 if (!$reportId) {
     flashMessage('error', 'מזהה דוח חסר.');
-    redirect('/admin/reports/list.php');
+    redirect('/dashboard/reports/list.php');
 }
 
 $stmt = $db->prepare("SELECT r.*, c.name AS client_name, c.email AS client_email FROM reports r JOIN clients c ON r.client_id=c.id WHERE r.id=?");
@@ -29,7 +29,7 @@ $report = $stmt->fetch();
 
 if (!$report || !$report['pdf_path'] || !file_exists($report['pdf_path'])) {
     flashMessage('error', 'קובץ PDF לא נמצא. הפק את הדוח תחילה.');
-    redirect('/admin/reports/list.php');
+    redirect('/dashboard/reports/list.php');
 }
 
 $subject = "דוח מכירות CoursyLand — {$report['quarter']} — {$report['client_name']}";
@@ -45,5 +45,5 @@ if ($ok) {
 
 // מניעת Open Redirect — מאפשר רק URLs פנימיים
 $returnUrl = $_POST['return_url'] ?? '';
-$safe = preg_match('#^/admin/(reports/(list|view)\.php)#', $returnUrl);
-redirect($safe ? $returnUrl : '/admin/reports/list.php');
+$safe = preg_match('#^/dashboard/(reports/(list|view)\.php)#', $returnUrl);
+redirect($safe ? $returnUrl : '/dashboard/reports/list.php');
