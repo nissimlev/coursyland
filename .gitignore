@@ -5,3 +5,6 @@ pages/assets/
 jobs/*.json
 .DS_Store
 pages/.claude/
+dashboard/config.php
+dashboard/vendor/
+dashboard/reports_pdf/

@@ -1,0 +1,35 @@
+# CoursyLand Admin — הגנות שרת
+
+# חסום גישה לקבצי הגדרות
+<FilesMatch "^(config\.php|composer\.(json|lock)|schema\.sql|migrate.*\.sql|README\.md)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# חסום גישה לתיקיית includes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^includes/ - [F,L]
+</IfModule>
+
+# מניעת directory listing
+Options -Indexes
+
+# מניעת גישה לקבצי backup ו-git
+<FilesMatch "\.(bak|sql|log|sh|env|git)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# כותרות אבטחה נוספות ברמת השרת
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Gzip compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/json
+</IfModule>

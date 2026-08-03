@@ -1,0 +1,14 @@
+{
+  "name": "coursyland/admin",
+  "description": "CoursyLand Admin Panel",
+  "require": {
+    "php": ">=8.0",
+    "mpdf/mpdf": "^8.2",
+    "phpmailer/phpmailer": "^6.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "CoursyLand\\": "src/"
+    }
+  }
+}

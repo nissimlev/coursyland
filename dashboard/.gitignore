@@ -1,0 +1,5 @@
+config.php
+vendor/
+reports_pdf/
+*.log
+.DS_Store
