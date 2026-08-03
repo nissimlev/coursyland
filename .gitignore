@@ -3,3 +3,5 @@
 pages/*.html
 pages/assets/
 jobs/*.json
+.DS_Store
+pages/.claude/
