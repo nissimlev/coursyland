@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config.php';
+require_once '/home/u269759457/dashboard_config.php';
 
 function getDB(): PDO {
     static $pdo = null;
