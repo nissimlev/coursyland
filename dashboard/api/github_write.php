@@ -111,12 +111,18 @@ function gh(string $method, string $path, string $token, ?array $body = null): a
 /* ── תרגום שגיאות GitHub לעברית ── */
 function ghGuard(array $res): array {
     if ($res['status'] >= 200 && $res['status'] < 300) return $res['body'];
-    $msg = $res['body']['message'] ?? '';
-    if ($res['status'] === 401) fail(502, 'הטוקן שבשרת נדחה על ידי GitHub. יש להחליף אותו.');
-    if ($res['status'] === 403) fail(502, 'GitHub חסם את הבקשה (הרשאות או מגבלת קצב).');
-    if ($res['status'] === 404) fail(502, 'הקובץ או הריפו לא נמצאו ב-GitHub.');
-    if ($res['status'] === 409) fail(409, 'הקובץ שונה בינתיים. רענן ונסה שוב.');
-    fail(502, 'GitHub החזיר שגיאה ' . $res['status'] . ($msg ? ': ' . $msg : ''));
+
+    // ההודעה של GitHub נשמרת תמיד — היא זו שמבדילה בין הרשאה חסרה,
+    // ריפו לא נגיש ומגבלת קצב, וכל השלושה נראים אחרת מהניסוח שלנו
+    $msg  = (string)($res['body']['message'] ?? '');
+    $tail = ' [GitHub ' . $res['status'] . ($msg !== '' ? ': ' . $msg : '') . ']';
+
+    if ($res['status'] === 401) fail(502, 'הטוקן שבשרת נדחה על ידי GitHub. יש להחליף אותו.' . $tail);
+    if ($res['status'] === 403) fail(502, 'GitHub חסם את הבקשה — סביר שלטוקן אין הרשאת כתיבה (Contents: Read and write).' . $tail);
+    if ($res['status'] === 404) fail(502, 'GitHub לא מצא את הריפו או הנתיב — לרוב סימן שהטוקן לא קיבל גישה לריפו הזה.' . $tail);
+    if ($res['status'] === 409) fail(409, 'הקובץ שונה בינתיים. רענן ונסה שוב.' . $tail);
+    if ($res['status'] === 422) fail(502, 'GitHub דחה את הבקשה כלא תקינה.' . $tail);
+    fail(502, 'GitHub החזיר שגיאה.' . $tail);
 }
 
 /* ── פעולות ── */
