@@ -34,9 +34,37 @@ function requireLogin(): void {
     }
 }
 
-function login(string $password): bool {
+/**
+ * פרטי הכניסה יושבים מחוץ ל-public_html, כדי שלא יגיעו לגיט ולא ידרסו בדיפלוי.
+ * מבנה הקובץ: שורה ראשונה שם משתמש, שורה שנייה סיסמה.
+ * מחזיר null אם הקובץ חסר או פגום — כדי שאפשר יהיה להבדיל בין
+ * "השרת לא מוגדר" לבין "פרטים שגויים".
+ */
+function adminCredentials(): ?array {
+    $file = dirname(__DIR__, 3) . '/admin_login.txt';
+    if (!is_readable($file)) return null;
+
+    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (!$lines || count($lines) < 2) return null;
+
+    $user = trim($lines[0]);
+    $pass = trim($lines[1]);
+    if ($user === '' || $pass === '') return null;
+
+    return ['user' => $user, 'pass' => $pass];
+}
+
+function login(string $username, string $password): bool {
     startSession();
-    if (hash_equals(ADMIN_PASSWORD, $password)) {
+
+    $creds = adminCredentials();
+    if ($creds === null) return false;
+
+    // שתי ההשוואות רצות תמיד, כדי שזמן התגובה לא יסגיר איזה שדה שגוי
+    $okUser = hash_equals($creds['user'], $username);
+    $okPass = hash_equals($creds['pass'], $password);
+
+    if ($okUser && $okPass) {
         session_regenerate_id(true);
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['login_time']      = time();

@@ -17,16 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (count($attempts) >= 5) {
         $error = 'יותר מדי ניסיונות כניסה. נסה שוב עוד כמה דקות.';
+    } elseif (adminCredentials() === null) {
+        // לא סופרים את זה כניסיון כושל — התקלה בשרת, לא אצל המשתמש
+        $error = 'קובץ פרטי הכניסה חסר או פגום בשרת.';
     } else {
+        $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
-        if (login($password)) {
+        if (login($username, $password)) {
             unset($_SESSION['login_attempts'][$ip]);
             redirect('/dashboard/index.php');
         } else {
             $attempts[] = time();
             $_SESSION['login_attempts'][$ip] = array_values($attempts);
             $remaining = 5 - count($attempts);
-            $error = "סיסמה שגויה. נותרו {$remaining} ניסיונות.";
+            $error = "שם משתמש או סיסמה שגויים. נותרו {$remaining} ניסיונות.";
             // עיכוב קל למניעת timing attacks
             usleep(500000); // 0.5 שניות
         }
@@ -57,6 +61,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="POST" action="">
       <div class="form-group">
+        <label for="username">שם משתמש</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          autocomplete="username"
+          autofocus
+          required
+          placeholder="הזן שם משתמש"
+          value="<?= escape($_POST['username'] ?? '') ?>"
+        >
+      </div>
+      <div class="form-group">
         <label for="password">סיסמה</label>
         <div class="input-group">
           <input
@@ -65,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             name="password"
             class="form-control"
             autocomplete="current-password"
-            autofocus
             required
             placeholder="הזן סיסמה"
           >
