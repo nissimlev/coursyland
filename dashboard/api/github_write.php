@@ -22,6 +22,23 @@ function fail(int $code, string $message): void {
     exit;
 }
 
+/**
+ * גם קריסה בלתי צפויה תחזור כ-JSON.
+ * בלי זה הדפדפן מקבל תשובה ריקה ומציג "שגיאת שרת" גנרית בלי סיבה,
+ * ו-log_errors כבוי בשרת כך שאין לאן להסתכל.
+ */
+register_shutdown_function(function (): void {
+    $e = error_get_last();
+    if ($e === null || !in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+        return;
+    }
+    if (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+    }
+    echo json_encode(['error' => 'קריסה בשרת: ' . $e['message']], JSON_UNESCAPED_UNICODE);
+});
+
 /* ── שער כניסה ── */
 // isLoggedIn ולא requireLogin: הקריאות מגיעות מ-fetch, והפניה ל-login.php
 // הייתה מוחזרת כ-HTML עם status 200 ומבלבלת את הצד הלקוח.
@@ -71,7 +88,11 @@ function gh(string $method, string $path, string $token, ?array $body = null): a
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CUSTOMREQUEST  => $method,
         CURLOPT_HTTPHEADER     => $headers,
-        CURLOPT_TIMEOUT        => 30,
+        // תמונה נשלחת מקודדת ב-base64 ותופחת בשליש, כך שהעלאה של כמה
+        // מגה־בייט יכולה לקחת הרבה יותר מ-30 שניות. max_execution_time
+        // בשרת הוא 360, אז יש מרווח.
+        CURLOPT_CONNECTTIMEOUT => 15,
+        CURLOPT_TIMEOUT        => 180,
     ]);
     if ($body !== null) {
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));

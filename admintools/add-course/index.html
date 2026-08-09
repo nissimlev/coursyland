@@ -427,8 +427,13 @@ async function uploadImage(file) {
   const fd = new FormData();
   fd.append('action', 'upload_image');
   fd.append('image', file);
-  const { url } = await api(fd);
-  return url;
+  try {
+    const { url } = await api(fd);
+    return url;
+  } catch (e) {
+    // בלי זה לא ברור אם נפל שלב התמונה או הכתיבה של הקטלוג
+    throw new Error('העלאת התמונה נכשלה — ' + e.message);
+  }
 }
 
 /* ── Courses array manipulation ── */
