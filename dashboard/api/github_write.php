@@ -103,12 +103,17 @@ function gh(string $method, string $path, string $token, ?array $body = null): a
     curl_close($ch);
 
     if ($raw === false) {
-        fail(502, 'שגיאת רשת מול GitHub: ' . $curlEr);
+        fail(424, 'שגיאת רשת מול GitHub: ' . $curlEr);
     }
     return ['status' => $status, 'body' => json_decode($raw, true) ?: []];
 }
 
 /* ── תרגום שגיאות GitHub לעברית ── */
+/*
+ * הקודים כאן הם 424 ולא 502 בכוונה: Cloudflare מזהה 502/503/504 כתקלת שער,
+ * מיירט את התשובה ומחליף את גוף ההודעה בדף השגיאה שלו — כך שההסבר שכתבנו
+ * נמחק בדרך והמשתמש רואה "Bad gateway" בלבד. 4xx עובר בלי שאיש נוגע בו.
+ */
 function ghGuard(array $res): array {
     if ($res['status'] >= 200 && $res['status'] < 300) return $res['body'];
 
@@ -117,12 +122,12 @@ function ghGuard(array $res): array {
     $msg  = (string)($res['body']['message'] ?? '');
     $tail = ' [GitHub ' . $res['status'] . ($msg !== '' ? ': ' . $msg : '') . ']';
 
-    if ($res['status'] === 401) fail(502, 'הטוקן שבשרת נדחה על ידי GitHub. יש להחליף אותו.' . $tail);
-    if ($res['status'] === 403) fail(502, 'GitHub חסם את הבקשה — סביר שלטוקן אין הרשאת כתיבה (Contents: Read and write).' . $tail);
-    if ($res['status'] === 404) fail(502, 'GitHub לא מצא את הריפו או הנתיב — לרוב סימן שהטוקן לא קיבל גישה לריפו הזה.' . $tail);
+    if ($res['status'] === 401) fail(424, 'הטוקן שבשרת נדחה על ידי GitHub. יש להחליף אותו.' . $tail);
+    if ($res['status'] === 403) fail(424, 'GitHub חסם את הבקשה — סביר שלטוקן אין הרשאת כתיבה (Contents: Read and write).' . $tail);
+    if ($res['status'] === 404) fail(424, 'GitHub לא מצא את הריפו או הנתיב — לרוב סימן שהטוקן לא קיבל גישה לריפו הזה.' . $tail);
     if ($res['status'] === 409) fail(409, 'הקובץ שונה בינתיים. רענן ונסה שוב.' . $tail);
-    if ($res['status'] === 422) fail(502, 'GitHub דחה את הבקשה כלא תקינה.' . $tail);
-    fail(502, 'GitHub החזיר שגיאה.' . $tail);
+    if ($res['status'] === 422) fail(424, 'GitHub דחה את הבקשה כלא תקינה.' . $tail);
+    fail(424, 'GitHub החזיר שגיאה.' . $tail);
 }
 
 /* ── עבודה על מערך הקורסים שבתוך index.html ── */
@@ -133,7 +138,7 @@ const COURSES_END   = "\n];";
 function loadCatalog(string $token): array {
     $file = ghGuard(gh('GET', 'index.html?ref=' . GH_BRANCH, $token));
     $html = base64_decode(str_replace("\n", '', (string)($file['content'] ?? '')), true);
-    if ($html === false || $html === '') fail(502, 'לא ניתן לקרוא את הקטלוג מ-GitHub.');
+    if ($html === false || $html === '') fail(424, 'לא ניתן לקרוא את הקטלוג מ-GitHub.');
 
     $start = strpos($html, COURSES_START);
     if ($start === false) fail(500, 'לא נמצא מערך courses בקובץ.');
