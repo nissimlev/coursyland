@@ -2,9 +2,9 @@
   define('DB_HOST', 'localhost');                                                                                                                                                                              
   define('DB_NAME', 'u269759457_coursyland_adm');                                                                                                                                                                
   define('DB_USER', 'u269759457_coursyland_adm');
-  define('DB_PASS', 'A3ZrBb-gc!A9c+A');                                                                                                                                                                          
+  define('DB_PASS', 'pass');                                                                                                                                                                          
                                                                                                                                                                                                                  
-  define('ADMIN_PASSWORD', 'A3ZrBb-gc!A9c+A');
+  define('ADMIN_PASSWORD', 'pass');
                                                                                                                                                                                                                  
   define('GMAIL_USER', 'levi.nissim@gmail.com');                                                                                                                                                                 
   define('GMAIL_APP_PASSWORD', '');
