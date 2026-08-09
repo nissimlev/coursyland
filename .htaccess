@@ -2,3 +2,13 @@
   Order allow,deny
   Deny from all
 </Files>
+
+# דפי HTML חייבים לאמת מול השרת בכל טעינה.
+# בלי הכותרת הזו הדפדפן מנחש בעצמו כמה זמן להחזיק את הקובץ (לפי last-modified),
+# וממשיך להגיש גרסה ישנה גם אחרי דיפלוי — עד שמרעננים בכוח.
+# no-cache אינו "בלי קאש": העותק נשמר, אבל נבדק מול השרת, שמחזיר 304 אם לא השתנה.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
