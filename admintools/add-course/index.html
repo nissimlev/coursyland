@@ -383,21 +383,6 @@ async function requireSession() {
   csrfToken = (await res.json()).csrf_token;
 }
 
-/* ── Base64 ↔ Unicode ── */
-function b64Decode(b64) {
-  const binary = atob(b64.replace(/\s/g, ''));
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-
-function b64Encode(str) {
-  const bytes = new TextEncoder().encode(str);
-  let binary = '';
-  bytes.forEach(b => (binary += String.fromCharCode(b)));
-  return btoa(binary);
-}
-
 /* ── קריאה לפרוקסי ── */
 async function api(fields) {
   const body = fields instanceof FormData ? fields : new FormData();
@@ -422,15 +407,6 @@ async function api(fields) {
   return data;
 }
 
-/* ── GitHub דרך השרת ── */
-async function ghGet() {
-  return api({ action: 'get_file', path: FILE }); // { content: base64, sha }
-}
-
-async function ghPut(sha, encodedContent, message) {
-  return api({ action: 'put_file', path: FILE, sha, content: encodedContent, message });
-}
-
 /* ── העלאת תמונה דרך השרת ── */
 async function uploadImage(file) {
   const fd = new FormData();
@@ -445,52 +421,15 @@ async function uploadImage(file) {
   }
 }
 
-/* ── Courses array manipulation ── */
-function extractCourses(html) {
-  const START_MARKER = 'const courses = [';
-  const END_MARKER   = '\n];';
-
-  const startIdx = html.indexOf(START_MARKER);
-  if (startIdx === -1) throw new Error('לא נמצא מערך courses בקובץ');
-
-  const contentStart = startIdx + START_MARKER.length; // right after '['
-  const endIdx = html.indexOf(END_MARKER, contentStart);
-  if (endIdx === -1) throw new Error('לא נמצאה סגירת המערך בקובץ');
-
-  const arrayLiteral = '[' + html.substring(contentStart, endIdx) + '\n]';
-  // eslint-disable-next-line no-new-func
-  const courses = Function('return ' + arrayLiteral)();
-
-  return { courses, insertAt: endIdx }; // insertAt = position of '\n];'
-}
-
-function formatEntry(course) {
-  const pairs = Object.entries(course).filter(([, v]) => v !== undefined && v !== '');
-  const inner = pairs.map(([k, v]) => {
-    const val = typeof v === 'string'
-      ? `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '')}"`
-      : v;
-    return `    ${k}: ${val}`;
-  }).join(',\n');
-  return `  {\n${inner}\n  }`;
-}
-
-function insertCourse(html, course, insertAt) {
-  return html.slice(0, insertAt) + ',\n' + formatEntry(course) + '\n' + html.slice(insertAt);
-}
-
 /* ── Category dropdown ── */
 async function loadCategories() {
   const sel = document.getElementById('category');
   sel.innerHTML = '<option value="">טוען קטגוריות...</option>';
   try {
-    const data = await ghGet();
-    const html = b64Decode(data.content);
-    const { courses } = extractCourses(html);
-    const cats = [...new Set(courses.map(c => c.category).filter(Boolean))].sort();
+    const { categories } = await api({ action: 'list_categories' });
 
     sel.innerHTML = '<option value="">בחר קטגוריה...</option>';
-    cats.forEach(cat => {
+    categories.forEach(cat => {
       const o = document.createElement('option');
       o.value = o.textContent = cat;
       sel.appendChild(o);
@@ -597,31 +536,15 @@ document.getElementById('course-form').addEventListener('submit', async function
       resolvedImg = await uploadImage(pendingImageFile);
     }
 
-    // 2. Fetch index.html + sha
-    const fileData = await ghGet();
-    const html = b64Decode(fileData.content);
-
-    // 3. Parse courses, compute next ID
-    const { courses, insertAt } = extractCourses(html);
-    const maxId = courses.reduce((m, c) => Math.max(m, c.id || 0), 0);
-
-    // 4. Build course object
-    const newCourse = {
-      id: maxId + 1,
-      title, desc, category,
+    // 2. השרת קורא את הקטלוג, משבץ את הקורס וכותב בחזרה.
+    //    הקטלוג לא עובר כאן — נשלחים רק פרטי הקורס.
+    await api({
+      action: 'add_course',
+      title, desc, category, duration, instructor,
       price: '₪' + priceNum,
-      duration, instructor,
       img: resolvedImg,
-      sample: false
-    };
-    if (link) newCourse.link = link;
-
-    // 4. Insert into HTML & encode
-    const updated = insertCourse(html, newCourse, insertAt);
-    const encoded = b64Encode(updated);
-
-    // 5. Push to GitHub
-    await ghPut(fileData.sha, encoded, `Add course: ${title} by ${instructor}`);
+      link
+    });
 
     showToast('הקורס נוסף בהצלחה. האתר יתעדכן תוך מספר שניות.');
     this.reset();

@@ -125,6 +125,52 @@ function ghGuard(array $res): array {
     fail(502, 'GitHub החזיר שגיאה.' . $tail);
 }
 
+/* ── עבודה על מערך הקורסים שבתוך index.html ── */
+const COURSES_START = 'const courses = [';
+const COURSES_END   = "\n];";
+
+/** מביא את הקטלוג ומאתר את גבולות המערך. הקטלוג לא עוזב את השרת. */
+function loadCatalog(string $token): array {
+    $file = ghGuard(gh('GET', 'index.html?ref=' . GH_BRANCH, $token));
+    $html = base64_decode(str_replace("\n", '', (string)($file['content'] ?? '')), true);
+    if ($html === false || $html === '') fail(502, 'לא ניתן לקרוא את הקטלוג מ-GitHub.');
+
+    $start = strpos($html, COURSES_START);
+    if ($start === false) fail(500, 'לא נמצא מערך courses בקובץ.');
+
+    $contentStart = $start + strlen(COURSES_START);
+    $end = strpos($html, COURSES_END, $contentStart);
+    if ($end === false) fail(500, 'לא נמצאה סגירת המערך בקובץ.');
+
+    return [
+        'html'         => $html,
+        'sha'          => (string)($file['sha'] ?? ''),
+        'contentStart' => $contentStart,
+        'end'          => $end,
+        'region'       => substr($html, $contentStart, $end - $contentStart),
+    ];
+}
+
+/** מייצר רשומה בפורמט של המערך הקיים — אותו ריווח ואותו סדר שדות. */
+function jsEntry(array $course): string {
+    $parts = [];
+    foreach ($course as $k => $v) {
+        if ($v === null || $v === '') continue;
+        if (is_bool($v)) {
+            $val = $v ? 'true' : 'false';
+        } elseif (is_int($v)) {
+            $val = (string)$v;
+        } else {
+            $s   = str_replace(['\\', '"'], ['\\\\', '\\"'], (string)$v);
+            $s   = str_replace("\r", '', $s);
+            $s   = str_replace("\n", '\\n', $s);
+            $val = '"' . $s . '"';
+        }
+        $parts[] = '    ' . $k . ': ' . $val;
+    }
+    return "  {\n" . implode(",\n", $parts) . "\n  }";
+}
+
 /* ── פעולות ── */
 $action = $_POST['action'] ?? '';
 
@@ -189,6 +235,59 @@ switch ($action) {
         echo json_encode([
             'url' => 'https://raw.githubusercontent.com/' . GH_REPO . '/' . GH_BRANCH . '/' . $path,
         ], JSON_UNESCAPED_UNICODE);
+        break;
+    }
+
+    case 'list_categories': {
+        $cat = loadCatalog($ghToken);
+        preg_match_all('/\bcategory:\s*"((?:[^"\\\\]|\\\\.)*)"/', $cat['region'], $m);
+        $cats = array_values(array_unique(array_filter(array_map('stripslashes', $m[1] ?? []))));
+        sort($cats, SORT_NATURAL | SORT_FLAG_CASE);
+        echo json_encode(['categories' => $cats], JSON_UNESCAPED_UNICODE);
+        break;
+    }
+
+    case 'add_course': {
+        // הדפדפן שולח רק את פרטי הקורס — כמה מאות בייט.
+        // הקטלוג עצמו נקרא ונכתב כאן, ולא עובר דרך הרשת פעמיים.
+        $f = [];
+        foreach (['title','desc','category','price','duration','instructor','img','link'] as $k) {
+            $f[$k] = trim((string)($_POST[$k] ?? ''));
+        }
+        foreach (['title','desc','category','price','duration','instructor'] as $req) {
+            if ($f[$req] === '') fail(400, "חסר שדה חובה: {$req}");
+        }
+
+        $cat = loadCatalog($ghToken);
+
+        preg_match_all('/\bid:\s*(\d+)/', $cat['region'], $m);
+        $maxId = $m[1] ? max(array_map('intval', $m[1])) : 0;
+
+        $course = [
+            'id'         => $maxId + 1,
+            'title'      => $f['title'],
+            'desc'       => $f['desc'],
+            'category'   => $f['category'],
+            'price'      => $f['price'],
+            'duration'   => $f['duration'],
+            'instructor' => $f['instructor'],
+            'img'        => $f['img'],
+            'sample'     => false,
+        ];
+        if ($f['link'] !== '') $course['link'] = $f['link'];
+
+        $updated = substr($cat['html'], 0, $cat['end'])
+                 . ",\n" . jsEntry($course) . "\n"
+                 . substr($cat['html'], $cat['end']);
+
+        ghGuard(gh('PUT', 'index.html', $ghToken, [
+            'message' => 'Add course: ' . $f['title'] . ' by ' . $f['instructor'],
+            'content' => base64_encode($updated),
+            'sha'     => $cat['sha'],
+            'branch'  => GH_BRANCH,
+        ]));
+
+        echo json_encode(['id' => $course['id']], JSON_UNESCAPED_UNICODE);
         break;
     }
 
