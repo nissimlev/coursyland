@@ -708,7 +708,7 @@ input[type="color"]{
 
 <script>
 /* ── Auth guard ── */
-if (sessionStorage.getItem('admin_auth') !== '1') {
+if (sessionStorage.getItem('admin_auth') !== '1' && localStorage.getItem('admin_auth') !== '1') {
   location.replace('../index.html');
 }
 

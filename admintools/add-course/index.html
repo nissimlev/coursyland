@@ -479,7 +479,7 @@
 
 <script>
 /* ── Auth guard ── */
-if (sessionStorage.getItem('admin_auth') !== '1') { location.replace('../index.html'); }
+if (sessionStorage.getItem('admin_auth') !== '1' && localStorage.getItem('admin_auth') !== '1') { location.replace('../index.html'); }
 
 const REPO    = 'nissimlev/coursyland';
 const FILE    = 'index.html';
