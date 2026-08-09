@@ -86,86 +86,6 @@
     margin-bottom: 1.25rem;
   }
 
-  /* TOKEN CARD */
-  .token-card { border-color: rgba(155,48,232,0.25); }
-  .token-row {
-    display: flex; gap: 0.75rem; align-items: center;
-    margin-top: 0.9rem; flex-wrap: wrap;
-  }
-  .token-input-wrap {
-    position: relative; flex: 1; min-width: 220px;
-  }
-  .token-input-wrap input {
-    width: 100%; padding-left: 2.6rem;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'Heebo', sans-serif;
-    font-size: 0.9rem; color: var(--text);
-    padding-top: 0.65rem; padding-bottom: 0.65rem;
-    padding-right: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    direction: ltr; letter-spacing: 0.04em;
-  }
-  .token-input-wrap input:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(155,48,232,0.1);
-    background: #fff;
-  }
-  .token-eye {
-    position: absolute; left: 0.7rem; top: 50%;
-    transform: translateY(-50%);
-    background: none; border: none; cursor: pointer;
-    color: var(--muted); padding: 0;
-    display: flex; align-items: center;
-    transition: color 0.2s;
-  }
-  .token-eye:hover { color: var(--purple); }
-  .btn-save-token {
-    background: var(--grad); color: #fff;
-    border: none; cursor: pointer;
-    font-family: 'Heebo', sans-serif;
-    font-size: 0.88rem; font-weight: 700;
-    padding: 0.65rem 1.4rem;
-    border-radius: 50px;
-    white-space: nowrap;
-    transition: opacity 0.2s, transform 0.15s;
-    box-shadow: 0 3px 12px rgba(155,48,232,0.25);
-  }
-  .btn-save-token:hover { opacity: 0.88; transform: translateY(-1px); }
-  #token-status {
-    font-size: 0.83rem; font-weight: 600;
-    color: var(--muted); white-space: nowrap;
-  }
-  .token-hint {
-    margin-top: 1rem;
-    background: var(--grad-soft);
-    border-radius: 10px;
-    padding: 0.85rem 1.1rem;
-    font-size: 0.82rem; color: var(--muted); line-height: 1.7;
-  }
-  .token-hint .hint-title {
-    font-weight: 700; color: var(--text);
-    margin-bottom: 0.2rem; font-size: 0.83rem;
-  }
-  .token-hint .path {
-    display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem;
-    font-size: 0.8rem;
-  }
-  .token-hint .path-sep { color: var(--purple); font-weight: 700; }
-  .token-hint .path-step {
-    background: rgba(155,48,232,0.1);
-    border-radius: 5px; padding: 0.05rem 0.4rem;
-    font-size: 0.78rem; color: var(--text); font-weight: 600;
-  }
-  .token-hint .privacy-note {
-    margin-top: 0.55rem;
-    font-size: 0.78rem; color: var(--muted);
-    display: flex; align-items: flex-start; gap: 0.3rem;
-  }
-  .token-hint .privacy-note svg { flex-shrink: 0; margin-top: 1px; }
-
   /* FORM */
   .form-grid {
     display: grid;
@@ -348,42 +268,6 @@
     <p>מלא את הפרטים ולחץ "הוסף קורס" — הקורס יתווסף ל-GitHub ישירות</p>
   </div>
 
-  <!-- TOKEN CARD -->
-  <div class="card token-card">
-    <div class="section-title" style="margin-top:0">חיבור GitHub</div>
-    <div class="token-row">
-      <div class="token-input-wrap">
-        <label for="gh-token" style="font-size:0.8rem;font-weight:700;color:#7A6E99;display:block;margin-bottom:0.4rem">GitHub Token</label>
-        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
-        <button type="button" class="token-eye" id="token-eye-btn" title="הצג/הסתר טוקן">
-          <svg id="eye-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
-      <button type="button" class="btn-save-token" id="save-token-btn">שמור טוקן</button>
-      <span id="token-status"></span>
-    </div>
-    <div class="token-hint">
-      <div class="hint-title">כיצד להשיג טוקן:</div>
-      <div class="path">
-        <span class="path-step">GitHub</span>
-        <span class="path-sep">←</span>
-        <span class="path-step">Settings</span>
-        <span class="path-sep">←</span>
-        <span class="path-step">Developer Settings</span>
-        <span class="path-sep">←</span>
-        <span class="path-step">Personal Access Tokens</span>
-        <span class="path-sep">←</span>
-        <span class="path-step">Tokens (classic)</span>
-        <span class="path-sep">←</span>
-        <span>צור טוקן עם הרשאת <strong style="color:var(--purple)">repo</strong></span>
-      </div>
-      <div class="privacy-note">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        הטוקן נשמר רק בדפדפן שלך (localStorage) ולא נשלח לאף שרת חיצוני.
-      </div>
-    </div>
-  </div>
-
   <!-- FORM CARD -->
   <div class="card">
     <form id="course-form" novalidate>
@@ -478,13 +362,26 @@
 <div id="toast"></div>
 
 <script>
-/* ── Auth guard ── */
-if (sessionStorage.getItem('admin_auth') !== '1' && localStorage.getItem('admin_auth') !== '1') { location.replace('../index.html'); }
-
-const REPO    = 'nissimlev/coursyland';
+/* ── חיבור לשרת ── */
+/* האימות והטוקן יושבים בצד השרת. הדף הזה לא מחזיק שום סוד. */
+const API     = '/dashboard/api/github_write.php';
+const SESSION = '/dashboard/api/admintools_session.php';
 const FILE    = 'index.html';
-const GH_API  = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80';
+
+let csrfToken = '';
+
+async function requireSession() {
+  let res;
+  try {
+    res = await fetch(SESSION, { credentials: 'same-origin' });
+  } catch (e) {
+    throw new Error('אין תקשורת עם השרת');
+  }
+  if (res.status === 401) { location.replace('/dashboard/login.php'); throw new Error('לא מחובר'); }
+  if (!res.ok) throw new Error(`שגיאת שרת ${res.status}`);
+  csrfToken = (await res.json()).csrf_token;
+}
 
 /* ── Base64 ↔ Unicode ── */
 function b64Decode(b64) {
@@ -501,68 +398,37 @@ function b64Encode(str) {
   return btoa(binary);
 }
 
-/* ── Token helpers ── */
-function getToken() { return localStorage.getItem('gh_token') || ''; }
-
-function setTokenStatus(ok, msg) {
-  const el = document.getElementById('token-status');
-  el.textContent = msg;
-  el.style.color = ok ? 'var(--success)' : 'var(--error)';
-}
-
-/* ── GitHub API ── */
-async function ghGet(token) {
-  const res = await fetch(GH_API, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
-  });
-  if (res.status === 401) throw new Error('הטוקן שגוי או פג תוקפו');
-  if (res.status === 404) throw new Error('הקובץ לא נמצא ב-GitHub');
-  if (!res.ok)            throw new Error(`GitHub API שגיאה ${res.status}`);
-  return res.json(); // { content: base64, sha }
-}
-
-async function ghPut(token, sha, encodedContent, message) {
-  const res = await fetch(GH_API, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message, content: encodedContent, sha })
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body.message || `GitHub API שגיאה ${res.status}`);
+/* ── קריאה לפרוקסי ── */
+async function api(fields) {
+  const body = fields instanceof FormData ? fields : new FormData();
+  if (!(fields instanceof FormData)) {
+    Object.entries(fields).forEach(([k, v]) => body.append(k, v));
   }
-  return res.json();
+  body.append('csrf_token', csrfToken);
+
+  const res = await fetch(API, { method: 'POST', body, credentials: 'same-origin' });
+  if (res.status === 401) { location.replace('/dashboard/login.php'); throw new Error('לא מחובר'); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `שגיאת שרת ${res.status}`);
+  return data;
 }
 
-/* ── Image upload to GitHub ── */
-async function uploadImage(token, file) {
-  const base64 = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = e => resolve(e.target.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-  const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
-  const filename = `${Date.now()}.${ext}`;
-  const path = `images/courses/${filename}`;
-  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message: `Upload course image: ${filename}`, content: base64 })
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body.message || `שגיאה בהעלאת התמונה ${res.status}`);
-  }
-  return `https://raw.githubusercontent.com/${REPO}/main/${path}`;
+/* ── GitHub דרך השרת ── */
+async function ghGet() {
+  return api({ action: 'get_file', path: FILE }); // { content: base64, sha }
+}
+
+async function ghPut(sha, encodedContent, message) {
+  return api({ action: 'put_file', path: FILE, sha, content: encodedContent, message });
+}
+
+/* ── העלאת תמונה דרך השרת ── */
+async function uploadImage(file) {
+  const fd = new FormData();
+  fd.append('action', 'upload_image');
+  fd.append('image', file);
+  const { url } = await api(fd);
+  return url;
 }
 
 /* ── Courses array manipulation ── */
@@ -601,13 +467,10 @@ function insertCourse(html, course, insertAt) {
 
 /* ── Category dropdown ── */
 async function loadCategories() {
-  const token = getToken();
   const sel = document.getElementById('category');
-  if (!token) { sel.innerHTML = '<option value="">הזן טוקן תחילה...</option>'; return; }
-
   sel.innerHTML = '<option value="">טוען קטגוריות...</option>';
   try {
-    const data = await ghGet(token);
+    const data = await ghGet();
     const html = b64Decode(data.content);
     const { courses } = extractCourses(html);
     const cats = [...new Set(courses.map(c => c.category).filter(Boolean))].sort();
@@ -627,24 +490,6 @@ async function loadCategories() {
     showToast('❌ ' + e.message, true);
   }
 }
-
-/* ── Token UI ── */
-document.getElementById('save-token-btn').addEventListener('click', () => {
-  const val = document.getElementById('gh-token').value.trim();
-  if (!val) { setTokenStatus(false, '⚠️ הזן טוקן'); return; }
-  localStorage.setItem('gh_token', val);
-  setTokenStatus(true, '✅ טוקן נשמר');
-  loadCategories();
-});
-
-document.getElementById('token-eye-btn').addEventListener('click', () => {
-  const inp = document.getElementById('gh-token');
-  const isPass = inp.type === 'password';
-  inp.type = isPass ? 'text' : 'password';
-  document.getElementById('eye-icon').innerHTML = isPass
-    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
-    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-});
 
 /* ── Category select ── */
 document.getElementById('category').addEventListener('change', function () {
@@ -710,9 +555,6 @@ function setLoading(on) {
 document.getElementById('course-form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const token = getToken();
-  if (!token) { showToast('⚠️ יש להזין ולשמור GitHub Token תחילה', true); return; }
-
   const title    = document.getElementById('title').value.trim();
   const instructor = document.getElementById('instructor').value.trim();
   const desc     = document.getElementById('desc').value.trim();
@@ -738,11 +580,11 @@ document.getElementById('course-form').addEventListener('submit', async function
     if (pendingImageFile) {
       document.getElementById('img-upload-status').textContent = 'מעלה תמונה ל-GitHub...';
       document.getElementById('img-upload-status').style.display = 'block';
-      resolvedImg = await uploadImage(token, pendingImageFile);
+      resolvedImg = await uploadImage(pendingImageFile);
     }
 
     // 2. Fetch index.html + sha
-    const fileData = await ghGet(token);
+    const fileData = await ghGet();
     const html = b64Decode(fileData.content);
 
     // 3. Parse courses, compute next ID
@@ -765,7 +607,7 @@ document.getElementById('course-form').addEventListener('submit', async function
     const encoded = b64Encode(updated);
 
     // 5. Push to GitHub
-    await ghPut(token, fileData.sha, encoded, `Add course: ${title} by ${instructor}`);
+    await ghPut(fileData.sha, encoded, `Add course: ${title} by ${instructor}`);
 
     showToast('הקורס נוסף בהצלחה. האתר יתעדכן תוך מספר שניות.');
     this.reset();
@@ -782,12 +624,12 @@ document.getElementById('course-form').addEventListener('submit', async function
 });
 
 /* ── Init ── */
-(function init() {
-  const saved = getToken();
-  if (saved) {
-    document.getElementById('gh-token').value = saved;
-    setTokenStatus(true, '✅ טוקן שמור');
+(async function init() {
+  try {
+    await requireSession();   // מפנה ל-login.php אם אין session
     loadCategories();
+  } catch (e) {
+    showToast('❌ ' + e.message, true);
   }
 })();
 </script>

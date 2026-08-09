@@ -707,10 +707,11 @@ input[type="color"]{
 </div><!-- /.page -->
 
 <script>
-/* ── Auth guard ── */
-if (sessionStorage.getItem('admin_auth') !== '1' && localStorage.getItem('admin_auth') !== '1') {
-  location.replace('../index.html');
-}
+/* ── שער כניסה ── */
+/* האימות הוא ה-session של הדשבורד, ונבדק בצד השרת. */
+fetch('/dashboard/api/admintools_session.php', { credentials: 'same-origin' })
+  .then(res => { if (!res.ok) location.replace('/dashboard/login.php'); })
+  .catch(() => location.replace('/dashboard/login.php'));
 
 /* ── State ── */
 let currentStep = 1;
