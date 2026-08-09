@@ -360,8 +360,17 @@ async function api(fields) {
 
   const res = await fetch(API, { method: 'POST', body, credentials: 'same-origin' });
   if (res.status === 401) { location.replace('/dashboard/login.php'); throw new Error('לא מחובר'); }
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || `שגיאת שרת ${res.status}`);
+
+  // קוראים כטקסט ולא כ-JSON: כשהתשובה מגיעה משכבה שלפני ה-PHP היא לא JSON,
+  // וזריקתה השאירה אותנו עם מספר סטטוס בלבד בלי שום רמז מה קרה
+  const raw = await res.text();
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) {}
+
+  if (!res.ok) {
+    const peek = raw.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
+    throw new Error(data.error || `שגיאת שרת ${res.status} — ${peek || 'תשובה ריקה'}`);
+  }
   return data;
 }
 
