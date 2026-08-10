@@ -176,6 +176,59 @@ function jsEntry(array $course): string {
     return "  {\n" . implode(",\n", $parts) . "\n  }";
 }
 
+/**
+ * מאתר את גבולות כל רשומה במערך.
+ *
+ * סורק תו-תו ועוקב אחרי מחרוזות ותווי בריחה, כי תיאור של קורס יכול להכיל
+ * סוגריים מסולסלים — ספירת סוגריים תמימה הייתה נשברת עליהם.
+ *
+ * מחזיר לכל רשומה: start, end (כולל), id.
+ */
+function splitEntries(string $region): array {
+    $entries  = [];
+    $depth    = 0;
+    $inString = false;
+    $escape   = false;
+    $objStart = 0;
+    $len      = strlen($region);
+
+    for ($i = 0; $i < $len; $i++) {
+        $c = $region[$i];
+
+        if ($inString) {
+            if ($escape)            { $escape = false; }
+            elseif ($c === '\\')    { $escape = true; }
+            elseif ($c === '"')     { $inString = false; }
+            continue;
+        }
+
+        if ($c === '"')      { $inString = true; }
+        elseif ($c === '{')  { if (++$depth === 1) $objStart = $i; }
+        elseif ($c === '}')  {
+            if (--$depth === 0) {
+                $text = substr($region, $objStart, $i - $objStart + 1);
+                preg_match('/\bid:\s*(\d+)/', $text, $m);
+                $entries[] = [
+                    'start' => $objStart,
+                    'end'   => $i,
+                    'id'    => isset($m[1]) ? (int)$m[1] : null,
+                    'text'  => $text,
+                ];
+            }
+        }
+    }
+    return $entries;
+}
+
+/** שולף ערך של שדה מתוך רשומה, ומפענח את תווי הבריחה שנכתבו בה. */
+function entryField(string $text, string $name): string {
+    if (!preg_match('/\b' . preg_quote($name, '/') . ':\s*"((?:[^"\\\\]|\\\\.)*)"/', $text, $m)) {
+        return '';
+    }
+    $decoded = json_decode('"' . $m[1] . '"');
+    return is_string($decoded) ? $decoded : $m[1];
+}
+
 /* ── פעולות ── */
 $action = $_POST['action'] ?? '';
 
@@ -293,6 +346,67 @@ switch ($action) {
         ]));
 
         echo json_encode(['id' => $course['id']], JSON_UNESCAPED_UNICODE);
+        break;
+    }
+
+    case 'list_courses': {
+        $cat  = loadCatalog($ghToken);
+        $out  = [];
+        foreach (splitEntries($cat['region']) as $e) {
+            if ($e['id'] === null) continue;
+            $out[] = [
+                'id'         => $e['id'],
+                'title'      => entryField($e['text'], 'title'),
+                'price'      => entryField($e['text'], 'price'),
+                'instructor' => entryField($e['text'], 'instructor'),
+                'category'   => entryField($e['text'], 'category'),
+                'img'        => entryField($e['text'], 'img'),
+            ];
+        }
+        echo json_encode(['courses' => $out], JSON_UNESCAPED_UNICODE);
+        break;
+    }
+
+    case 'delete_course': {
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id <= 0) fail(400, 'מזהה קורס לא תקין.');
+
+        $cat     = loadCatalog($ghToken);
+        $region  = $cat['region'];
+        $entries = splitEntries($region);
+
+        $pos = null;
+        foreach ($entries as $i => $e) {
+            if ($e['id'] === $id) { $pos = $i; break; }
+        }
+        if ($pos === null) fail(404, 'הקורס לא נמצא בקטלוג.');
+
+        $title = entryField($entries[$pos]['text'], 'title');
+
+        // חיתוך כירורגי: כל שאר הרשומות נשארות בדיוק כפי שהן, תו בתו.
+        // חותכים גם את הפסיק המפריד — זה שלפני הרשומה, ואם היא הראשונה אז זה שאחריה.
+        if (count($entries) === 1) {
+            $newRegion = "\n";
+        } elseif ($pos > 0) {
+            $newRegion = substr($region, 0, $entries[$pos - 1]['end'] + 1)
+                       . substr($region, $entries[$pos]['end'] + 1);
+        } else {
+            $newRegion = substr($region, 0, $entries[$pos]['start'])
+                       . substr($region, $entries[$pos + 1]['start']);
+        }
+
+        $updated = substr($cat['html'], 0, $cat['contentStart'])
+                 . $newRegion
+                 . substr($cat['html'], $cat['end']);
+
+        ghGuard(gh('PUT', 'index.html', $ghToken, [
+            'message' => 'Delete course: ' . ($title !== '' ? $title : ('#' . $id)),
+            'content' => base64_encode($updated),
+            'sha'     => $cat['sha'],
+            'branch'  => GH_BRANCH,
+        ]));
+
+        echo json_encode(['deleted' => $id, 'title' => $title], JSON_UNESCAPED_UNICODE);
         break;
     }
 

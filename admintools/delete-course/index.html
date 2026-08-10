@@ -337,21 +337,6 @@ async function requireSession() {
   csrfToken = (await res.json()).csrf_token;
 }
 
-/* ── Base64 ↔ Unicode ── */
-function b64Decode(b64) {
-  const binary = atob(b64.replace(/\s/g, ''));
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new TextDecoder('utf-8').decode(bytes);
-}
-
-function b64Encode(str) {
-  const bytes = new TextEncoder().encode(str);
-  let binary = '';
-  bytes.forEach(b => (binary += String.fromCharCode(b)));
-  return btoa(binary);
-}
-
 /* ── קריאה לפרוקסי ── */
 async function api(fields) {
   const body = new FormData();
@@ -372,49 +357,6 @@ async function api(fields) {
     throw new Error(data.error || `שגיאת שרת ${res.status} — ${peek || 'תשובה ריקה'}`);
   }
   return data;
-}
-
-/* ── GitHub דרך השרת ── */
-async function ghGet() {
-  return api({ action: 'get_file', path: FILE });
-}
-
-async function ghPut(sha, encodedContent, message) {
-  return api({ action: 'put_file', path: FILE, sha, content: encodedContent, message });
-}
-
-/* ── Courses array manipulation ── */
-function extractCourses(html) {
-  const START_MARKER = 'const courses = [';
-  const END_MARKER   = '\n];';
-  const startIdx = html.indexOf(START_MARKER);
-  if (startIdx === -1) throw new Error('לא נמצא מערך courses בקובץ');
-  const contentStart = startIdx + START_MARKER.length;
-  const endIdx = html.indexOf(END_MARKER, contentStart);
-  if (endIdx === -1) throw new Error('לא נמצאה סגירת המערך בקובץ');
-  const arrayLiteral = '[' + html.substring(contentStart, endIdx) + '\n]';
-  // eslint-disable-next-line no-new-func
-  const courses = Function('return ' + arrayLiteral)();
-  return { courses, startIdx, contentStart, endIdx };
-}
-
-function formatEntry(course) {
-  const pairs = Object.entries(course).filter(([, v]) => v !== undefined && v !== '');
-  const inner = pairs.map(([k, v]) => {
-    const val = typeof v === 'string'
-      ? `"${v.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '')}"`
-      : v;
-    return `    ${k}: ${val}`;
-  }).join(',\n');
-  return `  {\n${inner}\n  }`;
-}
-
-function removeCourseFromHtml(html, courseId) {
-  const { courses, startIdx, contentStart, endIdx } = extractCourses(html);
-  const filtered = courses.filter(c => c.id !== courseId);
-  if (filtered.length === courses.length) throw new Error('הקורס לא נמצא במערך');
-  const serialized = filtered.length ? '\n' + filtered.map(formatEntry).join(',\n') + '\n' : '\n';
-  return html.slice(0, contentStart) + serialized + html.slice(endIdx);
 }
 
 /* ── Toast ── */
@@ -465,9 +407,7 @@ async function loadCourses() {
   const container = document.getElementById('courses-list');
   container.innerHTML = '<div class="list-state"><div class="spinner-lg"></div>טוען קורסים מ-GitHub...</div>';
   try {
-    const data = await ghGet();
-    const html = b64Decode(data.content);
-    const { courses } = extractCourses(html);
+    const { courses } = await api({ action: 'list_courses' });
     renderList(courses);
   } catch (e) {
     container.innerHTML = `<div class="list-state" style="color:var(--error)">❌ ${escHtml(e.message)}</div>`;
@@ -509,12 +449,8 @@ document.getElementById('modal-confirm').addEventListener('click', async () => {
 
   setModalLoading(true);
   try {
-    const fileData = await ghGet();
-    const html = b64Decode(fileData.content);
-    const courseTitle = document.getElementById('modal-course-name').textContent.replace(/^"|"$/g, '');
-    const updated = removeCourseFromHtml(html, pendingDeleteId);
-    const encoded = b64Encode(updated);
-    await ghPut(fileData.sha, encoded, `Delete course: ${courseTitle}`);
+    // השרת מאתר את הרשומה, חותך אותה וכותב בחזרה. הקטלוג לא עובר כאן.
+    await api({ action: 'delete_course', id: pendingDeleteId });
     closeModal();
     showToast('✅ הקורס נמחק בהצלחה. האתר יתעדכן תוך מספר שניות.');
     loadCourses();
