@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>השיטה של דנה כהן הלוי | הגנה רוחנית, הסרת חסימות והפחתת עין הרע</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #2E90C5;   /* תכלת שמיים */
+    --color-dark: #034078;      /* נייבי עמוק */
+    --color-cta: #0DC349;       /* ירוק וואטסאפ */
+    --color-gold: #C9A227;      /* זהב */
+    --color-bordo: #7B1E2B;     /* בורדו */
+    --color-bg: #FFFFFF;
+    --color-bg-soft: #F2F8FC;   /* תכלת בהיר מאוד */
+    --color-bg-cream: #FDF9F0;  /* קרם חם */
+    --color-text: #333333;
+    --color-text-soft: #5C6B78;
+    --font-heading: 'Rubik', sans-serif;
+    --font-body: 'Assistant', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--color-text);
+    background: var(--color-bg);
+    direction: rtl;
+    text-align: right;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.25; }
+
+  section { padding: 64px 20px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .container-wide { max-width: 1040px; margin: 0 auto; }
+
+  /* ---------- heading pattern ---------- */
+  .section-head { text-align: center; margin-bottom: 40px; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(46, 144, 197, 0.12);
+    color: var(--color-dark);
+    margin-bottom: 14px;
+  }
+  .on-color .eyebrow { background: rgba(255,255,255,0.18); color: #fff; }
+  .on-cream .eyebrow { background: rgba(201, 162, 39, 0.16); color: var(--color-bordo); }
+  .section-head h2 {
+    font-size: clamp(26px, 4.5vw, 40px);
+    font-weight: 700;
+    color: var(--color-dark);
+  }
+  .on-color .section-head h2 { color: #fff; }
+  .divider {
+    width: 56px; height: 4px; border-radius: 2px;
+    background: var(--color-gold);
+    margin: 18px auto 0;
+  }
+  .on-color .divider { background: rgba(255,255,255,0.7); }
+
+  .section-intro {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 36px;
+    font-size: 19px;
+    color: var(--color-text-soft);
+  }
+  .on-color .section-intro { color: rgba(255,255,255,0.88); }
+
+  strong.hl { color: var(--color-primary); }
+  strong.hl-gold { color: var(--color-bordo); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(160deg, #0E6FC0 0%, #4E35C9 40%, #8F2AAE 70%, #E23A7C 100%);
+    color: #fff;
+    text-align: center;
+    padding: 88px 20px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 25% 108%, rgba(255,255,255,0.32), transparent 65%),
+      radial-gradient(ellipse 55% 32% at 78% 102%, rgba(255,255,255,0.24), transparent 60%);
+    pointer-events: none;
+  }
+  .hero > .container { position: relative; z-index: 1; }
+  .hero .eyebrow { background: rgba(255,255,255,0.2); color: #fff; }
+  .hero h1 {
+    font-size: clamp(32px, 6.4vw, 58px);
+    font-weight: 900;
+    margin: 10px auto 20px;
+    max-width: 780px;
+    text-shadow: 0 3px 20px rgba(10, 24, 38, 0.45);
+  }
+  .hero h1 .glow { color: #FFD54A; }
+  .hero .sub {
+    font-size: clamp(18px, 2.6vw, 22px);
+    max-width: 660px;
+    margin: 0 auto 28px;
+    color: rgba(255,255,255,0.94);
+  }
+  .hero .sub strong { color: #fff; }
+  .chip-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 10px; margin: 0 auto 8px;
+  }
+  .chip {
+    font-family: var(--font-heading);
+    font-size: 14px; font-weight: 500;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #fff;
+    padding: 7px 15px;
+    border-radius: 999px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-wrap { text-align: center; }
+  .cta-bridge {
+    font-size: 19px;
+    margin-bottom: 18px;
+    color: var(--color-text);
+  }
+  .on-color .cta-bridge, .hero .cta-bridge { color: rgba(255,255,255,0.95); }
+  .cta-btn {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--color-cta);
+    padding: 18px 44px;
+    min-height: 56px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(13, 195, 73, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(13, 195, 73, 0.42); }
+  .cta-note { font-size: 15px; color: var(--color-text-soft); margin-top: 12px; }
+  .hero .cta-note { color: rgba(255,255,255,0.8); }
+
+  /* ---------- pain section ---------- */
+  .bg-soft { background: var(--color-bg-soft); }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 720px;
+    margin: 0 auto 36px;
+  }
+  .pain-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-right: 5px solid #D63031;
+    box-shadow: 0 3px 12px rgba(3, 64, 120, 0.06);
+  }
+  .pain-card p { font-size: 17px; }
+  .pain-lead {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 700;
+    color: var(--color-dark);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .pain-x {
+    flex: 0 0 46px;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(214, 48, 49, 0.12);
+    margin-top: 3px;
+  }
+  .pain-x svg { width: 22px; height: 22px; }
+  .icon-badge {
+    flex: 0 0 46px;
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(46, 144, 197, 0.12);
+  }
+  .icon-badge svg { width: 24px; height: 24px; }
+
+  /* ---------- pull quote ---------- */
+  .pull-quote {
+    max-width: 640px;
+    margin: 0 auto;
+    background: rgba(201, 162, 39, 0.1);
+    border-right: 5px solid var(--color-gold);
+    border-radius: 12px;
+    padding: 24px 28px;
+    font-size: 21px;
+    font-style: italic;
+    color: var(--color-dark);
+    text-align: center;
+  }
+  .pull-quote .attr {
+    display: block;
+    font-style: normal;
+    font-size: 15px;
+    color: var(--color-text-soft);
+    margin-top: 10px;
+  }
+
+  /* ---------- dream (solid primary) ---------- */
+  .bg-primary { background: var(--color-primary); color: #fff; }
+  .dream-scene {
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 19px;
+    color: rgba(255,255,255,0.95);
+    text-align: center;
+  }
+  .dream-scene p { margin-bottom: 18px; }
+  .dream-scene strong { color: #fff; font-weight: 700; }
+
+  /* ---------- why not worked ---------- */
+  .bg-cream { background: var(--color-bg-cream); }
+  .why-block { max-width: 680px; margin: 0 auto; }
+  .why-block p { margin-bottom: 18px; font-size: 18px; }
+
+  /* ---------- method ---------- */
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .method-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 26px 22px;
+    text-align: center;
+    border-top: 4px solid var(--color-primary);
+    box-shadow: 0 4px 16px rgba(3, 64, 120, 0.07);
+  }
+  .method-card .icon-badge {
+    margin: 0 auto 14px;
+    width: 54px; height: 54px; flex-basis: 54px;
+    border-radius: 50%;
+  }
+  .method-card h3 { font-size: 21px; color: var(--color-dark); margin-bottom: 8px; }
+  .method-card p { font-size: 16px; color: var(--color-text-soft); }
+
+  /* ---------- curriculum ---------- */
+  .lesson-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 26px 24px;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    box-shadow: 0 4px 16px rgba(3, 64, 120, 0.07);
+    border-right: 4px solid var(--color-gold);
+  }
+  .lesson-num {
+    flex: 0 0 56px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lesson-body h3 { font-size: 21px; color: var(--color-dark); margin-bottom: 4px; }
+  .lesson-meta {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .lesson-body p { font-size: 16.5px; margin-bottom: 12px; }
+  .lesson-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lesson-chip {
+    font-family: var(--font-heading);
+    font-size: 13px; font-weight: 500;
+    background: rgba(46, 144, 197, 0.1);
+    color: var(--color-dark);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .lesson-chip.gold { background: rgba(201, 162, 39, 0.14); color: var(--color-bordo); }
+
+  /* ---------- bonuses ---------- */
+  .bonus-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .bonus-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 14px;
+    padding: 20px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .bonus-card .icon-badge { background: rgba(255,255,255,0.16); }
+  .bonus-card h3 { font-size: 18px; color: #fff; margin-bottom: 4px; }
+  .bonus-card p { font-size: 15.5px; color: rgba(255,255,255,0.85); }
+
+  /* ---------- for / not for ---------- */
+  .fit-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .fit-col {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 16px rgba(3, 64, 120, 0.07);
+  }
+  .fit-col.yes { border-top: 5px solid var(--color-cta); }
+  .fit-col.no { border-top: 5px solid var(--color-bordo); }
+  .fit-col h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    color: var(--color-dark);
+  }
+  .fit-col ul { list-style: none; }
+  .fit-col li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 16.5px;
+  }
+  .fit-col li svg { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 5px; }
+
+  /* ---------- bio ---------- */
+  .bio-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px 30px;
+    max-width: 720px;
+    margin: 0 auto;
+    box-shadow: 0 6px 24px rgba(3, 64, 120, 0.08);
+    border-right: 5px solid var(--color-primary);
+  }
+  .bio-card p { margin-bottom: 16px; font-size: 17.5px; }
+  .bio-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .bio-chip {
+    font-family: var(--font-heading);
+    font-size: 13.5px; font-weight: 500;
+    background: rgba(46, 144, 197, 0.1);
+    color: var(--color-dark);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  /* ---------- offer / price ---------- */
+  .bg-dark { background: var(--color-dark); color: #fff; }
+  .offer-box {
+    max-width: 560px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .offer-box h3 { font-size: 24px; margin-bottom: 22px; color: #fff; }
+  .offer-list { list-style: none; text-align: right; max-width: 400px; margin: 0 auto 26px; }
+  .offer-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 17px;
+    color: rgba(255,255,255,0.94);
+  }
+  .offer-list li svg { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 5px; }
+  .price-block { margin: 0 auto 26px; }
+  .price-label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 6px;
+  }
+  .price-num {
+    font-family: var(--font-heading);
+    font-size: 60px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .price-num .shekel { font-size: 32px; font-weight: 700; color: var(--color-gold); }
+
+  /* ---------- method banner (tadam) ---------- */
+  .method-banner {
+    font-family: var(--font-heading);
+    font-size: clamp(19px, 3vw, 28px);
+    font-weight: 900;
+    line-height: 1.45;
+    max-width: 720px;
+    margin: 0 auto 18px;
+    background: linear-gradient(90deg, #FFD54A 0%, #FFF3C4 50%, #FFD54A 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(10, 24, 38, 0.5));
+    animation: tadam-pop 0.9s cubic-bezier(0.2, 1.5, 0.4, 1) both,
+               tadam-shine 3.5s linear 1s infinite;
+  }
+  @keyframes tadam-pop {
+    0% { opacity: 0; transform: scale(0.55); }
+    65% { transform: scale(1.07); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes tadam-shine {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  /* ---------- nazar (evil-eye emblem) ---------- */
+  .nazar { margin-bottom: 16px; }
+  .nazar svg {
+    width: 58px; height: 58px;
+    filter: drop-shadow(0 4px 12px rgba(3, 64, 120, 0.35));
+  }
+
+  /* ---------- bio photo ---------- */
+  .bio-layout { display: flex; flex-direction: column; gap: 26px; }
+  .bio-photo-wrap {
+    position: relative;
+    align-self: center;
+    max-width: 250px;
+  }
+  .bio-photo-wrap img {
+    display: block;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(3, 64, 120, 0.18);
+  }
+  .bio-photo-badge {
+    position: absolute;
+    bottom: -14px;
+    right: -10px;
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(3, 64, 120, 0.25);
+    white-space: nowrap;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list { max-width: 720px; margin: 0 auto; }
+  .faq-item {
+    background: #fff;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 12px rgba(3, 64, 120, 0.06);
+    overflow: hidden;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 18px 22px;
+    font-family: var(--font-heading);
+    font-size: 17.5px;
+    font-weight: 500;
+    color: var(--color-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-size: 24px;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-item[open] summary::after { content: "\2212"; }
+  .faq-item .faq-body { padding: 0 22px 20px; font-size: 16.5px; color: var(--color-text); }
+
+  /* ---------- footer ---------- */
+  footer {
+    background: #0A1826;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 36px 20px 96px;
+    font-size: 15px;
+  }
+  footer strong { color: #fff; }
+
+  /* ---------- sticky mobile CTA ---------- */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0; right: 0; left: 0;
+    background: var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    z-index: 50;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.2);
+  }
+  .sticky-cta span {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    color: #fff;
+  }
+  .sticky-cta a {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--color-cta);
+    padding: 10px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* ---------- fade in ---------- */
+  .fade {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade.visible { opacity: 1; transform: translateY(0); }
+
+  /* ---------- responsive ---------- */
+  @media (min-width: 768px) {
+    section { padding: 88px 24px; }
+    .bio-layout { flex-direction: row; align-items: flex-start; }
+    .bio-photo-wrap { flex: 0 0 230px; align-self: flex-start; }
+    .method-grid { grid-template-columns: repeat(4, 1fr); }
+    .bonus-grid { grid-template-columns: 1fr 1fr; }
+    .fit-grid { grid-template-columns: 1fr 1fr; }
+    .sticky-cta { display: none; }
+    footer { padding-bottom: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1. Hook + 2. Subheadline -->
+<header class="hero">
+  <div class="container">
+    <div class="nazar" aria-hidden="true">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" fill="#034078"/>
+        <circle cx="32" cy="32" r="21" fill="#FFFFFF"/>
+        <circle cx="32" cy="32" r="13.5" fill="#2E90C5"/>
+        <circle cx="32" cy="32" r="6.5" fill="#0A1826"/>
+        <circle cx="29.5" cy="29.5" r="2.4" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <p class="method-banner">השיטה של דנה כהן הלוי להגנה רוחנית אישית, הסרת חסימות והפחתת עין הרע</p>
+    <h1>עשיתם הכול נכון. אז למה זה מרגיש כאילו <span class="glow">משהו חוסם אתכם?</span></h1>
+    <p class="sub">
+      קורס דיגיטלי בווידאו שמעביר את השיטה <strong>לידיים שלכם</strong>:
+      בבית, בקצב שלכם, בלי שום ידע קודם. רק תפילה, כוונה ואמונה.
+    </p>
+    <div class="chip-row">
+      <span class="chip">6 פרקי וידאו</span>
+      <span class="chip">פחות משעה של צפייה</span>
+      <span class="chip">7 נספחים להורדה</span>
+      <span class="chip">מתאים למתחילים</span>
+    </div>
+  </div>
+</header>
+
+<!-- CTA #1 -->
+<section class="cta-wrap fade" style="padding-top: 48px; padding-bottom: 48px;">
+  <div class="container">
+    <p class="cta-bridge">אם אתם כבר מרגישים שמשהו צריך להשתחרר, אין סיבה לחכות עוד חודש.</p>
+    <a class="cta-btn" href="#purchase">אני רוצה להתחיל את הדרך</a>
+  </div>
+</section>
+
+<!-- 3. The problem / pain -->
+<section class="bg-soft">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">רגע של אמת</span>
+      <h2>מכירים את התחושה שמשהו רובץ, ואי אפשר להסביר מה?</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-intro fade">
+      אתם עושים את הצעדים הנכונים. עובדים, משקיעים, מנסים שוב.
+      ובכל זאת, בדיוק באותה נקודה, זה נתקע. שוב.
+    </p>
+    <div class="pain-grid">
+      <div class="pain-card fade">
+        <span class="pain-x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D63031" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+        <p><span class="pain-lead">מפלות שחוזרות על עצמן</span> באותו תחום בדיוק: פרנסה, זוגיות, בריאות, שלום בית.</p>
+      </div>
+      <div class="pain-card fade">
+        <span class="pain-x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D63031" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+        <p><span class="pain-lead">ניסיונות שנתקלים שוב ושוב בקיר</span> בלי שום סיבה הגיונית שאפשר להצביע עליה.</p>
+      </div>
+      <div class="pain-card fade">
+        <span class="pain-x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D63031" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+        <p><span class="pain-lead">תחושת כובד וחוסר אנרגיה</span> אחרי מפגש עם אנשים מסוימים, כאילו משהו נדבק.</p>
+      </div>
+      <div class="pain-card fade">
+        <span class="pain-x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D63031" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+        <p><span class="pain-lead">צומת דרכים גדול, החלטה שמחכה</span> ותחושה שאין לכם על מה להישען כדי להכריע.</p>
+      </div>
+    </div>
+    <blockquote class="pull-quote fade">
+      "אי אפשר לנקות משהו שלא זיהינו."
+      <span class="attr">מתוך פרק 2 בקורס</span>
+    </blockquote>
+  </div>
+</section>
+
+<!-- 4. The dream / outcome -->
+<section class="bg-primary on-color">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">לאן זה לוקח אתכם</span>
+      <h2>תארו לעצמכם בוקר שנפתח אחרת</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="dream-scene fade">
+      <p>
+        עשר דקות של שקט לפני שהיום מתחיל. תפילת בוקר, כוונה טובה, הודיה.
+        לא כי מישהו אמר לכם, אלא כי זו כבר <strong>שגרה שהגוף מבקש</strong>.
+      </p>
+      <p>
+        וכשמגיע יום כבד, ואתם מרגישים שמשהו נדבק אליכם, אתם כבר לא חסרי אונים.
+        <strong>יש לכם מה לעשות</strong>: תפילה, כלי הגנה, מנהג שמחזיר את הבית ואת הראש למקום נקי.
+      </p>
+      <p>
+        זו התחושה שהקורס בונה, צעד אחרי צעד: שליטה, ודאות, ושקט פנימי
+        שלא תלוי בתור לפגישה אצל אף אחד.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Why it hasn't worked until now -->
+<section class="bg-cream on-cream">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">למה עד עכשיו זה לא הסתדר</span>
+      <h2>זה לא שלא ניסיתם. ניסיתם בכלים הלא נכונים</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="why-block fade">
+      <p>
+        ניסיתם להסביר את זה בהיגיון. חיכיתם שזה יעבור מעצמו.
+        אולי אפילו חיפשתם מישהו שיעשה בשבילכם "משהו חד פעמי" שיסדר הכול ברגע.
+      </p>
+      <p>
+        אבל כאן בדיוק נמצאות שתי הטעויות שהקורס מתקן.
+        הראשונה: <strong class="hl-gold">אי אפשר לנקות חסימה שלא זיהיתם</strong>.
+        בלי לדעת מאיפה זה מגיע, מבחוץ, מבפנים, ממשהו שהצטבר, כל פעולה היא ירייה באפלה.
+      </p>
+      <p>
+        השנייה: טיפול חד פעמי, חזק ככל שיהיה, לא מחזיק לאורך זמן בלי שגרה.
+        <strong class="hl-gold">יום אחד חזק לא מחליף חודש עקבי</strong>. ההתמדה היא שמייצרת את ההגנה.
+      </p>
+      <p>
+        ועד היום, הדרך היחידה ללמוד לעבוד ככה הייתה להגיע לדנה לייעוץ אישי:
+        תור, עלות, נסיעה. הקורס הזה נולד בדיוק בשביל לפתוח את הדלת הזאת לכולם.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. The unique solution (the method) -->
+<section class="bg-soft">
+  <div class="container-wide">
+    <div class="section-head fade">
+      <span class="eyebrow">השיטה</span>
+      <h2>השיטה של דנה כהן הלוי: ארבעה צעדים, סדר אחד</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-intro fade">
+      במקום להגיע לדנה לטיפול פרטי, הקורס מעביר את השיטה לידיים שלכם.
+      הכול בנוי על עוגנים מהמסורת היהודית: תפילה, תהילים, פיטום הקטורת, כוונה ואמונה.
+      בלי קיצורי דרך, ובסדר מדויק שחשוב לא לדלג עליו.
+    </p>
+    <div class="method-grid">
+      <div class="method-card fade">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E90C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+        <h3>לזהות</h3>
+        <p>לתת שם למקור החסימה: חיצוני, פנימי, מצטבר או רוחני. המודעות לבדה כבר משנה משהו.</p>
+      </div>
+      <div class="method-card fade">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E90C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c0 4-5 6-5 11a5 5 0 0 0 10 0c0-5-5-7-5-11z"/></svg>
+        </span>
+        <h3>לנקות</h3>
+        <p>לבצע את תהליך הסרת החסימות בכוחות עצמכם, עם תפילת החיזוק שדנה מובילה צעד אחר צעד.</p>
+      </div>
+      <div class="method-card fade">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E90C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>
+        </span>
+        <h3>להגן</h3>
+        <p>לבנות שכבת הגנה על עצמכם ועל הבית: גבולות, שמירה על הדיבור, פיטום הקטורת ומנהג הבכור.</p>
+      </div>
+      <div class="method-card fade">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2E90C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M9 15l2 2 4-4" stroke="#0DC349"/></svg>
+        </span>
+        <h3>להתמיד</h3>
+        <p>שגרה יומית של עשר דקות, כלים לפי הצורך, ומנהג חודשי קבוע שממשיך לעבוד גם אחרי הקורס.</p>
+      </div>
+    </div>
+    <blockquote class="pull-quote fade">
+      "העיקר אינו המלח עצמו, אלא הכוונה, התפילה והמעשים הטובים שמלווים את הדרך."
+      <span class="attr">דנה כהן הלוי, מתוך הקורס</span>
+    </blockquote>
+  </div>
+</section>
+
+<!-- 7. What's included (curriculum) -->
+<section>
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">מה בפנים</span>
+      <h2>6 פרקים, מהזיהוי הראשון ועד שגרה שמחזיקה לבד</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-intro fade">
+      פחות משעה של צפייה בסך הכול, בנויה בסדר מדויק.
+      כל פרק מסתיים בתרגיל מעשי ובחומר נלווה להורדה, כדי שלא תישארו רק צופים.
+    </p>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">1</span>
+      <div class="lesson-body">
+        <h3>ברוכים הבאים</h3>
+        <p class="lesson-meta">5 עד 7 דקות</p>
+        <p>חיבור אישי עם דנה וכניסה לתדר הנכון. למה חשוב לצפות לפי הסדר, ולמה כל תרגול נעשה בכוונה ובאמונה, לא כטקס אוטומטי.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: תפילת פתיחה</span>
+          <span class="lesson-chip">תרגיל: כניסה לתהליך בכוונה מוגדרת</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">2</span>
+      <div class="lesson-body">
+        <h3>לזהות את הגורמים שמביאים לחסימה</h3>
+        <p class="lesson-meta">7 עד 9 דקות</p>
+        <p>מפת מקורות החסימה: קנאה מהסביבה, מחשבות שליליות, לחץ מצטבר, התרחקות מהחיבור הרוחני. יוצאים מהפרק עם רשימה כתובה וקונקרטית.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: דף עבודה, שלוש שאלות הזיהוי</span>
+          <span class="lesson-chip">תרגיל: שלוש שאלות בכתב</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">3</span>
+      <div class="lesson-body">
+        <h3>ניקוי וחיזוק רוחני יומי</h3>
+        <p class="lesson-meta">8 עד 10 דקות</p>
+        <p>ארבעת מרכיבי הבוקר הרוחני: כוונה טובה, תפילה, הודיה ובקשה להגנה. הופכים את העבודה הרוחנית מאירוע חד פעמי לשגרה שנשארת.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: תפילת בוקר להגנה רוחנית</span>
+          <span class="lesson-chip gold">נספח: יומן מעקב 7 ימים</span>
+          <span class="lesson-chip">תרגיל: 7 ימים רצופים של תפילת בוקר</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">4</span>
+      <div class="lesson-body">
+        <h3>הגנה רוחנית מהשפעות שליליות</h3>
+        <p class="lesson-meta">10 עד 13 דקות, הפרק המעשי והמעמיק בקורס</p>
+        <p>שלושה חלקים: הצבת גבולות מול אנשים ומקומות שמחלישים, אמירת פיטום הקטורת בכוונה וביישוב הדעת, ומנהג הבכור להתחדשות רוחנית של הבית.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: הנחיות פיטום הקטורת ותפילה מקדימה</span>
+          <span class="lesson-chip">תרגיל: ביצוע מלא של תהליך ההגנה</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">5</span>
+      <div class="lesson-body">
+        <h3>תפילת החיזוק</h3>
+        <p class="lesson-meta">7 עד 9 דקות, לב הקורס</p>
+        <p>דנה מובילה אתכם בקול, צעד אחר צעד, בתפילה שמכסה שבעה תחומים: שמירה, ברכה, פרנסה, בריאות, שלום בית, הצלחה, והסרת כל תחושת כובד. זהו רגע הסרת החסימה בפועל.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: תפילת התחזקות לשימוש עצמאי</span>
+          <span class="lesson-chip">תרגיל: תפילה מלאה יחד עם הסרטון</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-card fade">
+      <span class="lesson-num">6</span>
+      <div class="lesson-body">
+        <h3>מנהג ההתחדשות החודשי וסיכום הדרך</h3>
+        <p class="lesson-meta">6 עד 9 דקות</p>
+        <p>מסגרת ארוכת טווח: פעם בחודש, התחדשות של הגוף ושל הבית, עם תפילה אישית או מזמור תהילים. וסגירת הקורס בברכה אישית מדנה.</p>
+        <div class="lesson-chips">
+          <span class="lesson-chip gold">נספח: צ'ק ליסט המנהג החודשי</span>
+          <span class="lesson-chip">תרגיל: קביעת תאריך חודשי קבוע ביומן</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Bonuses -->
+<section class="bg-dark on-color">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">החומרים הנלווים</span>
+      <h2>7 נספחים להורדה, שנשארים אתכם גם אחרי הצפייה</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-intro fade">
+      כל תפילה, דף עבודה וצ'ק ליסט שמופיעים בקורס מגיעים גם כקובץ PDF מעוצב להדפסה.
+      כך השיטה לא נשארת במסך, היא עוברת לסידור, למקרר ולמחברת שלכם.
+    </p>
+    <div class="bonus-grid">
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2z"/><path d="M9 7h6M9 11h6"/></svg></span>
+        <div>
+          <h3>תפילת פתיחה</h3>
+          <p>הכניסה לקורס בכוונה ובענווה, לפני הצעד הראשון.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></span>
+        <div>
+          <h3>תפילת בוקר להגנה רוחנית</h3>
+          <p>הבסיס של השגרה היומית, עשר דקות שפותחות את היום נכון.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg></span>
+        <div>
+          <h3>תפילת התחזקות</h3>
+          <p>לשימוש עצמאי בכל עת שמרגישים כובד או חולשה.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M10 21v-4M14 21v-4M6 17h12M12 3c-2 3-4 4-4 8a4 4 0 0 0 8 0c0-4-2-5-4-8z"/></svg></span>
+        <div>
+          <h3>הנחיות פיטום הקטורת</h3>
+          <p>מתי ואיך אומרים, כולל התפילה המקדימה, מתוך סידור או תנ"ך.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+        <div>
+          <h3>דף עבודה: שלוש שאלות הזיהוי</h3>
+          <p>חומר הגלם של כל הקורס, החסימה שלכם בכתב, שחור על גבי לבן.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 15l2 2 5-5" stroke="#0DC349"/></svg></span>
+        <div>
+          <h3>יומן מעקב 7 ימים</h3>
+          <p>סימון יומי שהופך את תפילת הבוקר מהחלטה טובה להרגל אמיתי.</p>
+        </div>
+      </div>
+      <div class="bonus-card fade">
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 5l1 1 2-2M4 11l1 1 2-2M4 17l1 1 2-2" stroke="#0DC349"/></svg></span>
+        <div>
+          <h3>צ'ק ליסט המנהג החודשי</h3>
+          <p>ההתחדשות של הגוף והבית, פעם בחודש, בלי לשכוח אף שלב.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA #2 -->
+<section class="cta-wrap fade" style="padding-top: 48px; padding-bottom: 48px;">
+  <div class="container">
+    <p class="cta-bridge">כל התפילות, הדפים והכלים האלה כבר מחכים בפנים. נשאר רק צעד אחד שלכם.</p>
+    <a class="cta-btn" href="#purchase">אני רוצה את הכלים האלה</a>
+  </div>
+</section>
+
+<!-- 9. Who this is for / isn't for -->
+<section class="bg-soft">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">בדקו את עצמכם</span>
+      <h2>למי הקורס הזה מיועד, ולמי לא</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="fit-grid">
+      <div class="fit-col yes fade">
+        <h3>הקורס בשבילכם אם</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>אתם מרגישים תקיעות מתמשכת, דברים פשוט לא מסתדרים ואין הסבר</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>המפלות חוזרות על עצמן באותו תחום: פרנסה, זוגיות, בריאות, שלום בית</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>אתם מרגישים כובד או "עין הרע" אחרי מפגש עם אנשים מסוימים</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>אתם רוצים להגן על עצמכם ועל הבית מראש, לא רק לתקן בדיעבד</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>יש לכם 10 עד 15 דקות ביום, ורצון אמיתי להתמיד</span></li>
+        </ul>
+      </div>
+      <div class="fit-col no fade">
+        <h3>הקורס לא בשבילכם אם</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#7B1E2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>אתם מחפשים "טריק" חד פעמי שיעבוד בלעדיכם, בלי כוונה ובלי תרגול</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#7B1E2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>אתם מצפים להבטחה על תוצאה מסוימת. הדרך כאן היא תפילה, כוונה ואמונה, לא הבטחות</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="#7B1E2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg><span>אתם מחפשים תחליף לטיפול רפואי או נפשי. הקורס אינו תחליף לטיפול מקצועי</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Testimonials -->
+<!-- חסר: המלצות לקוחות. בחומרי המקור אין ציטוטים אמיתיים של לקוחות, ולכן החלק הזה לא נבנה. כשיהיו המלצות אמיתיות, זה המקום להוסיף אותן: אחרי "למי הקורס מיועד" ולפני "מי אני". -->
+
+<!-- 11. Who I am -->
+<section class="bg-cream on-cream">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">נעים להכיר</span>
+      <h2>מי אני, ולמה אני מלמדת את זה</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="bio-card fade">
+      <div class="bio-layout">
+      <div class="bio-photo-wrap">
+        <img src="data:image/jpeg;base64,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" alt="דנה כהן הלוי בביתה">
+        <span class="bio-photo-badge">דנה כהן הלוי</span>
+      </div>
+      <div class="bio-text">
+      <p>
+        שמי דנה כהן הלוי. כבר <strong class="hl">כ-16 שנים</strong> אני מלווה אנשים כיועצת רוחנית ומתקשרת,
+        מהבית שלי בנוף כנרת שליד הכנרת.
+      </p>
+      <p>
+        לאורך השנים הגיע אליי קהל רחב, ובתוכו גם ידוענים שמתייעצים איתי לפני החלטות גדולות.
+        התארחתי בתוכנית "בואו לאכול איתי" בכאן 11, ובעמוד האינסטגרם שלי עוקבים אחריי יותר מ-14 אלף איש.
+      </p>
+      <p>
+        אבל הדבר החשוב ביותר שצריך לדעת עליי הוא דווקא מה אני לא עושה:
+        <strong class="hl">אני עובדת רק דרך תפילות ואמונה בבורא</strong>. לא כישופים ולא קסמים.
+        תהילים, פיטום הקטורת, כוונה ומעשים טובים. זו הדרך, ואין אחרת.
+      </p>
+      <p>
+        עד היום, מי שרצה ללמוד ממני את הדרך הזאת היה צריך להגיע אליי לפגישה אישית.
+        הקורס הזה הוא הפעם הראשונה שאני מעבירה את השיטה שלי, מסודרת ושלמה, לידיים שלכם.
+      </p>
+      <div class="bio-chips">
+        <span class="bio-chip">כ-16 שנות ייעוץ רוחני ותקשור</span>
+        <span class="bio-chip">התארחה ב"בואו לאכול איתי", כאן 11</span>
+        <span class="bio-chip">מעל 14 אלף עוקבים באינסטגרם</span>
+        <span class="bio-chip">רק תפילות ואמונה</span>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. Offer and price -->
+<section class="bg-dark on-color" id="purchase">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">ההצעה</span>
+      <h2>השיטה המלאה, מהמסך שלכם, בקצב שלכם</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="offer-box fade">
+      <h3>מה מקבלים בקורס</h3>
+      <ul class="offer-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>6 פרקי וידאו עם דנה, פחות משעה של צפייה בסך הכול</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>תפילת החיזוק המלאה, בהובלה אישית של דנה, צעד אחר צעד</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>7 נספחי PDF להורדה: תפילות, דפי עבודה, יומן מעקב וצ'ק ליסט</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>תוכנית תרגול מסודרת: יומית, לפי הצורך, וחודשית</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="#0DC349" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>מתאים למתחילים לגמרי, בלי שום ידע קודם</span></li>
+      </ul>
+      <div class="price-block fade">
+        <span class="price-label">מחיר הקורס המלא</span>
+        <div class="price-num">297 <span class="shekel">₪</span></div>
+      </div>
+      <p class="cta-bridge" style="margin-bottom: 20px;">
+        אפשר להמשיך להסביר את התקיעות בהיגיון, ואפשר להתחיל לעבוד עליה.<br>
+        מהיום, ההחלטה הזאת, כמו השיטה כולה, נמצאת אצלכם בידיים.
+      </p>
+      <!-- חסר: קישור רכישה. הכפתור מפנה כרגע לעוגן הפנימי בלבד. לעדכן ל-URL של עמוד התשלום. -->
+      <a class="cta-btn" href="#purchase">אני בוחר להתחיל</a>
+    </div>
+  </div>
+</section>
+
+<!-- 13. Guarantee, urgency, FOMO -->
+<!-- חסר: אחריות, דחיפות או הגבלת זמן/כמות. לא סופק בחומרי המקור שום תנאי אמיתי כזה, ולפי כללי המערכת לא ממציאים דחיפות. אם דנה תגדיר מחיר השקה מוגבל או אחריות, זה המקום להוסיף אותם: מיד אחרי בלוק המחיר, בעיצוב מובחן שאינו נראה כמו כפתור. -->
+
+<!-- 14. FAQ -->
+<section class="bg-soft">
+  <div class="container">
+    <div class="section-head fade">
+      <span class="eyebrow">שאלות ותשובות</span>
+      <h2>כל מה שחשוב לדעת לפני שמתחילים</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item fade">
+        <summary>כמה זמן זה דורש ממני?</summary>
+        <div class="faq-body">הצפייה כולה היא פחות משעה, 6 פרקים קצרים. התרגול היומי הוא 10 עד 15 דקות, רצוי בבוקר. אפשר להתקדם בקצב שלכם, אבל חשוב לצפות בפרקים לפי הסדר ולא לדלג.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>אני צריך ידע קודם או רקע דתי?</summary>
+        <div class="faq-body">לא. הקורס נבנה למתחילים לגמרי. כל תפילה מגיעה עם נוסח כתוב להורדה, וכל מנהג מוסבר צעד אחר צעד. מה שכן נדרש: כוונה אמיתית ונכונות להתמיד.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>מה אני צריך להכין מראש?</summary>
+        <div class="faq-body">דברים שיש כמעט בכל בית: סידור תפילה או תנ"ך, מלח גס ושמן טבעי (זית או שקדים), ומחברת אישית לתרגילי הכתיבה. בכור וצמחים ריחניים הם תוספת אופציונלית בלבד.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>זה קשור לכישופים או למאגיה?</summary>
+        <div class="faq-body">ממש לא, וזה לב השיטה. דנה עובדת רק דרך תפילות ואמונה בבורא: תהילים, פיטום הקטורת, כוונה ומעשים טובים. העיקר אינו החפצים או הפעולות, אלא הכוונה והתפילה שמלוות אותן.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>האם הקורס מבטיח תוצאה?</summary>
+        <div class="faq-body">לא, ומי שמבטיח לכם תוצאה מובטחת, כדאי להיזהר ממנו. הקורס נותן לכם דרך עבודה: זיהוי, ניקוי, הגנה והתמדה, מתוך אמונה שכל צעד קטן שנעשה בכוונה מחזק אתכם. הדרך היא תפילה ואמונה, לא הבטחות.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>זה מחליף פגישה אישית עם דנה?</summary>
+        <div class="faq-body">הקורס מעביר לידיים שלכם את השיטה שדנה מלמדת, כך שתוכלו לבצע את הסרת החסימות ולבנות הגנה בעצמכם, מהבית. מי שירצה ליווי אישי, הייעוץ הפרטי של דנה ממשיך להתקיים כרגיל.</div>
+      </details>
+      <details class="faq-item fade">
+        <summary>האם זה תחליף לטיפול רפואי או נפשי?</summary>
+        <div class="faq-body">לא. הקורס עוסק בחיזוק רוחני, תפילה והרגלים של כוונה והגנה. הוא אינו תחליף לייעוץ, אבחון או טיפול רפואי או נפשי מקצועי.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 15. CTA: realized through the three buttons above -->
+
+<!-- Footer -->
+<footer>
+  <p>נוצר על ידי <strong>קורסילנד</strong></p>
+</footer>
+
+<!-- Sticky mobile CTA bar -->
+<div class="sticky-cta">
+  <span>השיטה של דנה כהן הלוי</span>
+  <a href="#purchase">להצטרפות לקורס</a>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade').forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>
