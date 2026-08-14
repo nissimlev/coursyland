@@ -98,6 +98,44 @@
     background: var(--grad-soft);
     color: var(--purple);
   }
+
+  /* כפתור "חדש! Online Squad" בתפריט */
+  .nav-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #F2B135 0%, #F58A2E 100%);
+    color: #2B1200;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 800;
+    padding: 0.45rem 0.5rem 0.45rem 1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 14px rgba(242,177,53,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-new:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(242,177,53,0.6);
+  }
+
+  .nav-new-badge {
+    background: #2B1200;
+    color: #FFD27A;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.15rem 0.55rem;
+    border-radius: 50px;
+    animation: newPulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes newPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.09); }
+  }
+
   .btn-login {
     background: var(--grad);
     color: white;
@@ -447,6 +485,9 @@
   @media (max-width: 600px) {
     .grid { grid-template-columns: 1fr; }
     .hero { padding: 2.5rem 1.2rem 3rem; }
+    nav { padding: 0 1rem; }
+    .nav-links .nav-link { display: none; }
+    .nav-new { font-size: 0.8rem; padding: 0.4rem 0.4rem 0.4rem 0.75rem; }
   }
 
   /* ── נגישות ── */
@@ -506,6 +547,10 @@
       <span class="logo-text">קורסילנד</span>
     </a>
     <div class="nav-links">
+      <a href="/pages/online-squad.html" class="nav-new" aria-label="חדש! Online Squad">
+        <span class="nav-new-badge">חדש!</span>
+        <span>Online Squad</span>
+      </a>
       <a href="https://lp.vp4.me/i89n?cs=coursyland" target="_blank" rel="noopener noreferrer" class="nav-link" aria-label="קורס משלך – נפתח בחלון חדש">קורס משלך</a>
       <a href="#" class="nav-link">על הפרוייקט</a>
     </div>
