@@ -764,6 +764,11 @@ const courses = [
 
 ];
 
+// קורסים לדוגמה מזוהים בדגל sample (שני קורסים ותיקים מזוהים לפי שם)
+function isSample(c) {
+  return c.title !== "אומן במיטה" && c.title !== "הקשר שמעבר" && c.sample !== false;
+}
+
 const categories = ["הכל", ...new Set(courses.map(c => c.category))];
 let activeCategory = "הכל";
 
@@ -800,6 +805,8 @@ function filterCourses() {
 }
 
 function renderGrid(list) {
+  // הקורסים הרגילים מוצגים ראשונים, הקורסים לדוגמה בסופם
+  list = [...list].sort((a, b) => isSample(a) - isSample(b));
   const grid = document.getElementById("courseGrid");
   const info = document.getElementById("resultsInfo");
   info.textContent = `מציג ${list.length} קורסים`;
@@ -819,7 +826,7 @@ function renderGrid(list) {
       <img class="card-image" src="${c.img}" alt="תמונת קורס: ${c.title}" loading="lazy" />
       <div class="card-body">
         <span class="card-category" aria-label="קטגוריה: ${c.category}">${c.category}</span>
-        ${c.title !== "אומן במיטה" && c.title !== "הקשר שמעבר" && c.sample !== false ? '<span class="sample-badge">קורס לדוגמה</span>' : ''}
+        ${isSample(c) ? '<span class="sample-badge">קורס לדוגמה</span>' : ''}
         <h3 class="card-title">${c.title}</h3>
         <div class="card-instructor"><span class="sr-only">מנחה: </span>${c.instructor}</div>
         <div class="card-desc">${c.desc}</div>
