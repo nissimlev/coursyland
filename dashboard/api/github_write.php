@@ -334,9 +334,14 @@ switch ($action) {
         ];
         if ($f['link'] !== '') $course['link'] = $f['link'];
 
-        $updated = substr($cat['html'], 0, $cat['end'])
-                 . ",\n" . jsEntry($course) . "\n"
-                 . substr($cat['html'], $cat['end']);
+        // הקורס החדש נכנס בראש המערך ולא בסופו, כדי שיופיע ראשון בקטלוג.
+        // renderGrid ב-index.html ממיין רק לפי דגל sample, ומיון ב-JS יציב —
+        // ולכן סדר המערך נשמר בתוך קבוצת הקורסים הרגילים.
+        $hasEntries = splitEntries($cat['region']) !== [];
+
+        $updated = substr($cat['html'], 0, $cat['contentStart'])
+                 . "\n" . jsEntry($course) . ($hasEntries ? ',' : '')
+                 . substr($cat['html'], $cat['contentStart']);
 
         ghGuard(gh('PUT', 'index.html', $ghToken, [
             'message' => 'Add course: ' . $f['title'] . ' by ' . $f['instructor'],
