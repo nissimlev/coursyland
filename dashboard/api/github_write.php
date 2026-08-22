@@ -229,6 +229,51 @@ function entryField(string $text, string $name): string {
     return is_string($decoded) ? $decoded : $m[1];
 }
 
+/**
+ * מפרק רשומה שלמה למפת שדות, ולא שדה בודד כמו entryField.
+ *
+ * נחוץ לעריכה: שדה שהטופס לא שלח חייב לחזור לקובץ בדיוק כפי שהיה — כולל
+ * דגל sample ושדות שהכלים לא מכירים. בלי זה כל עריכה הייתה מוחקת אותם.
+ *
+ * הסריקה מתקדמת אחרי כל התאמה, ולכן תוכן שנראה כמו שדה בתוך מחרוזת
+ * (למשל "מחיר: 500" בתיאור) כבר נבלע בערך ולא נספר בטעות.
+ * מחזיר מחרוזות, מספרים שלמים ובוליאנים — הטיפוסים ש-jsEntry יודע לכתוב.
+ */
+function parseEntry(string $text): array {
+    $re = '/(\w+):\s*(?:"((?:[^"\\\\]|\\\\.)*)"|(true|false)|(-?\d+))/';
+    preg_match_all($re, $text, $matches, PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL);
+
+    $out = [];
+    foreach ($matches as $m) {
+        if ($m[2] !== null) {
+            $decoded    = json_decode('"' . $m[2] . '"');
+            $out[$m[1]] = is_string($decoded) ? $decoded : $m[2];
+        } elseif ($m[3] !== null) {
+            $out[$m[1]] = ($m[3] === 'true');
+        } elseif ($m[4] !== null) {
+            $out[$m[1]] = (int)$m[4];
+        }
+    }
+    return $out;
+}
+
+/**
+ * סדר השדות ברשומה. שדה שאינו ברשימה נשמר ונכתב אחרי המוכרים,
+ * כדי ששדה עתידי לא ייעלם בעריכה.
+ */
+const FIELD_ORDER = ['id','title','desc','category','price','oldPrice','duration','instructor','img','sample','link'];
+
+function orderFields(array $course): array {
+    $ordered = [];
+    foreach (FIELD_ORDER as $k) {
+        if (array_key_exists($k, $course)) $ordered[$k] = $course[$k];
+    }
+    foreach ($course as $k => $v) {
+        if (!array_key_exists($k, $ordered)) $ordered[$k] = $v;
+    }
+    return $ordered;
+}
+
 /* ── פעולות ── */
 $action = $_POST['action'] ?? '';
 
@@ -360,16 +405,73 @@ switch ($action) {
         $out  = [];
         foreach (splitEntries($cat['region']) as $e) {
             if ($e['id'] === null) continue;
+            // כלי העריכה טוען מכאן את הטופס במלואו, ולכן חוזרים כל השדות
+            $f = parseEntry($e['text']);
             $out[] = [
                 'id'         => $e['id'],
-                'title'      => entryField($e['text'], 'title'),
-                'price'      => entryField($e['text'], 'price'),
-                'instructor' => entryField($e['text'], 'instructor'),
-                'category'   => entryField($e['text'], 'category'),
-                'img'        => entryField($e['text'], 'img'),
+                'title'      => (string)($f['title']      ?? ''),
+                'desc'       => (string)($f['desc']       ?? ''),
+                'price'      => (string)($f['price']      ?? ''),
+                'oldPrice'   => (string)($f['oldPrice']   ?? ''),
+                'duration'   => (string)($f['duration']   ?? ''),
+                'instructor' => (string)($f['instructor'] ?? ''),
+                'category'   => (string)($f['category']   ?? ''),
+                'img'        => (string)($f['img']        ?? ''),
+                'link'       => (string)($f['link']       ?? ''),
             ];
         }
         echo json_encode(['courses' => $out], JSON_UNESCAPED_UNICODE);
+        break;
+    }
+
+    case 'update_course': {
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id <= 0) fail(400, 'מזהה קורס לא תקין.');
+
+        $cat     = loadCatalog($ghToken);
+        $entries = splitEntries($cat['region']);
+
+        $pos = null;
+        foreach ($entries as $i => $e) {
+            if ($e['id'] === $id) { $pos = $i; break; }
+        }
+        if ($pos === null) fail(404, 'הקורס לא נמצא בקטלוג.');
+
+        // מתחילים מהרשומה הקיימת ודורסים רק מה שהטופס שלח, כדי ששדות
+        // שהכלי לא מציג — דגל sample למשל — יישארו בדיוק כפי שהם.
+        $course   = parseEntry($entries[$pos]['text']);
+        $editable = ['title','desc','category','price','oldPrice','duration','instructor','img','link'];
+        $required = ['title','desc','category','price','duration','instructor'];
+
+        foreach ($editable as $k) {
+            if (!array_key_exists($k, $_POST)) continue;
+            $v = trim((string)$_POST[$k]);
+            if ($v === '' && in_array($k, $required, true)) fail(400, "חסר שדה חובה: {$k}");
+            // ריק בשדה אופציונלי = הסרת השדה מהרשומה; jsEntry מדלג על ריקים
+            $course[$k] = $v;
+        }
+        $course['id'] = $id;   // המזהה לא ניתן לעריכה
+
+        $title = (string)($course['title'] ?? '');
+
+        // החלפה כירורגית של רשומה אחת: שאר הקטלוג לא זז תו אחד.
+        // ltrim מסיר את ההזחה ש-jsEntry מוסיף, כי start מצביע על ה-{ עצמו.
+        $newRegion = substr($cat['region'], 0, $entries[$pos]['start'])
+                   . ltrim(jsEntry(orderFields($course)))
+                   . substr($cat['region'], $entries[$pos]['end'] + 1);
+
+        $updated = substr($cat['html'], 0, $cat['contentStart'])
+                 . $newRegion
+                 . substr($cat['html'], $cat['end']);
+
+        ghGuard(gh('PUT', 'index.html', $ghToken, [
+            'message' => 'Update course: ' . ($title !== '' ? $title : ('#' . $id)),
+            'content' => base64_encode($updated),
+            'sha'     => $cat['sha'],
+            'branch'  => GH_BRANCH,
+        ]));
+
+        echo json_encode(['updated' => $id, 'title' => $title], JSON_UNESCAPED_UNICODE);
         break;
     }
 

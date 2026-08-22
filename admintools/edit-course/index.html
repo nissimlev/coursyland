@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>עריכת קורס – קורסילנד אדמין</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #9B30E8;
+    --blue: #3B6FF0;
+    --grad: linear-gradient(135deg, #9B30E8 0%, #5B52F0 50%, #3B6FF0 100%);
+    --grad-soft: linear-gradient(135deg, rgba(155,48,232,0.10) 0%, rgba(59,111,240,0.10) 100%);
+    --bg: #F7F6FD;
+    --surface: #FFFFFF;
+    --text: #1A1330;
+    --muted: #7A6E99;
+    --border: rgba(155,48,232,0.15);
+    --border-focus: rgba(155,48,232,0.5);
+    --shadow: 0 8px 32px rgba(91,82,240,0.12);
+    --success: #16a34a;
+    --error: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  nav {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 860px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo-text {
+    font-size: 1.2rem; font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-badge {
+    font-size: 0.68rem; font-weight: 700;
+    background: var(--grad); color: #fff;
+    padding: 0.18rem 0.5rem; border-radius: 50px;
+    margin-right: 0.5rem;
+  }
+  .back-link {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.3rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--purple); }
+
+  .page {
+    max-width: 860px; margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+  .page-header { margin-bottom: 1.5rem; }
+  .page-header h1 {
+    font-size: 1.9rem; font-weight: 900;
+    background: var(--grad);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+  }
+  .page-header p { font-size: 0.9rem; color: var(--muted); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.6rem 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 0.73rem; font-weight: 700; color: var(--purple);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin: 1.8rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* ── רשימת הקורסים ── */
+  #courses-list { display: flex; flex-direction: column; gap: 0; }
+
+  .course-row {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .course-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .course-row:first-child { padding-top: 0; }
+  .course-row.selected { background: var(--grad-soft); border-radius: 12px; padding: 0.9rem 0.8rem; }
+
+  .course-thumb {
+    width: 56px; height: 56px; border-radius: 10px;
+    object-fit: cover; flex-shrink: 0;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+  }
+  .course-info { flex: 1; min-width: 0; }
+  .course-name {
+    font-size: 0.97rem; font-weight: 700; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .course-meta {
+    font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem;
+    display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;
+  }
+  .course-price { font-weight: 700; color: var(--purple); }
+  .course-old-price { text-decoration: line-through; }
+
+  .btn-edit {
+    background: var(--grad-soft); color: var(--purple);
+    border: 1.5px solid var(--border);
+    border-radius: 8px; cursor: pointer;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.82rem; font-weight: 700;
+    padding: 0.45rem 0.9rem;
+    display: flex; align-items: center; gap: 0.3rem;
+    transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn-edit:hover {
+    background: rgba(155,48,232,0.15); border-color: var(--border-focus);
+    transform: translateY(-1px);
+  }
+
+  .list-state {
+    text-align: center; padding: 2.5rem 1rem;
+    color: var(--muted); font-size: 0.95rem;
+  }
+  .list-state .spinner-lg {
+    width: 36px; height: 36px; margin: 0 auto 1rem;
+    border: 3px solid rgba(155,48,232,0.2);
+    border-top-color: var(--purple);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── טופס העריכה ── */
+  #edit-card { display: none; }
+  #edit-card.open { display: block; }
+
+  .editing-banner {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    background: var(--grad-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem; color: var(--muted);
+    margin-bottom: 1.4rem;
+  }
+  .editing-banner strong { color: var(--text); font-weight: 800; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 1.5rem;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  label .req { color: var(--purple); margin-right: 2px; }
+  label .opt { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.78rem; }
+
+  input[type="text"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    direction: rtl;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(155,48,232,0.1);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .field-hint { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+
+  .price-wrap { position: relative; }
+  .price-prefix {
+    position: absolute; right: 0.85rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem; font-weight: 700; color: var(--purple);
+    pointer-events: none;
+  }
+
+  .img-input-row {
+    display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;
+  }
+  .img-input-row input[type="url"] { flex: 1; min-width: 180px; }
+  .btn-upload-img {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--grad-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.68rem 1rem;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.85rem; font-weight: 700; color: var(--purple);
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-upload-img:hover { background: rgba(155,48,232,0.15); border-color: var(--border-focus); }
+  #img-upload-status {
+    font-size: 0.8rem; font-weight: 600; margin-top: 0.4rem;
+    display: none;
+  }
+  .img-preview {
+    width: 100%; max-width: 240px;
+    height: 130px; object-fit: cover;
+    border-radius: 10px; border: 1.5px solid var(--border);
+    margin-top: 0.6rem; display: none; background: var(--bg);
+  }
+  #new-category-wrap { display: none; margin-top: 0.5rem; }
+
+  .submit-row {
+    margin-top: 2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-submit {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--grad); color: #fff;
+    border: none; cursor: pointer;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    padding: 0.85rem 2.2rem;
+    border-radius: 50px;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 4px 16px rgba(155,48,232,0.3);
+  }
+  .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-submit .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .btn-cancel {
+    background: var(--bg); color: var(--muted);
+    border: 1.5px solid var(--border);
+    border-radius: 50px; cursor: pointer;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    padding: 0.75rem 1.6rem;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .btn-cancel:hover { border-color: var(--border-focus); color: var(--text); }
+
+  #toast {
+    display: none;
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 999;
+    background: var(--success); color: #fff;
+    padding: 1rem 2rem; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 700;
+    box-shadow: 0 8px 30px rgba(22,163,74,0.35);
+    animation: slideUp 0.3s ease;
+    text-align: center; max-width: 90vw;
+  }
+  #toast.error { background: var(--error); box-shadow: 0 8px 30px rgba(220,38,38,0.35); }
+  @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 2rem; opacity: 1; } }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .page { padding: 1.5rem 1rem 4rem; }
+    .card { padding: 1.4rem 1.2rem; }
+    .course-name { white-space: normal; }
+    .submit-row { flex-direction: column-reverse; align-items: stretch; }
+    .btn-submit, .btn-cancel { justify-content: center; text-align: center; }
+  }
+
+  /* ── נגישות ── */
+  .skip-link {
+    position: absolute; top: -100%; right: 0;
+    background: #9B30E8; color: #fff;
+    padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem;
+    text-decoration: none; z-index: 9999; border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+  :focus-visible { outline: 3px solid #9B30E8; outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">דלג לתוכן המרכזי</a>
+
+<nav>
+  <div class="nav-inner">
+    <div style="display:flex;align-items:center;">
+      <span class="logo-text">קורסילנד</span>
+      <span class="nav-badge">ADMIN</span>
+    </div>
+    <a href="../index.html" class="back-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      כלי אדמין
+    </a>
+  </div>
+</nav>
+
+<main id="main-content">
+<div class="page">
+  <div class="page-header">
+    <h1>✏️ עריכת קורס</h1>
+    <p>בחר קורס מהרשימה, ערוך את הפרטים ושמור — הקטלוג יתעדכן ישירות</p>
+  </div>
+
+  <!-- רשימת הקורסים -->
+  <div class="card">
+    <div class="section-title">קורסים בקטלוג</div>
+    <div id="courses-list">
+      <div class="list-state"><div class="spinner-lg"></div>טוען קורסים...</div>
+    </div>
+  </div>
+
+  <!-- טופס העריכה -->
+  <div class="card" id="edit-card">
+    <form id="course-form" novalidate>
+
+      <div class="editing-banner">
+        עורך כעת: <strong id="editing-name"></strong>
+        <span id="editing-id" style="opacity:0.7"></span>
+      </div>
+
+      <div class="section-title" style="margin-top:0">פרטי הקורס</div>
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label for="title">שם הקורס <span class="req">*</span></label>
+          <input type="text" id="title" required>
+        </div>
+
+        <div class="form-group">
+          <label for="instructor">שם המנחה <span class="req">*</span></label>
+          <input type="text" id="instructor" required>
+        </div>
+
+        <div class="form-group">
+          <label for="category">קטגוריה <span class="req">*</span></label>
+          <select id="category" required></select>
+          <div id="new-category-wrap">
+            <input type="text" id="new-category" placeholder="שם קטגוריה חדשה...">
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label for="desc">תיאור הקורס <span class="req">*</span></label>
+          <textarea id="desc" required></textarea>
+        </div>
+
+      </div>
+
+      <div class="section-title">מחיר ואורך</div>
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="price">מחיר <span class="req">*</span></label>
+          <div class="price-wrap">
+            <span class="price-prefix">₪</span>
+            <input type="number" id="price" placeholder="297" min="0" required style="padding-right:2.4rem">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="old-price">מחיר לפני הנחה <span class="opt">(אופציונלי)</span></label>
+          <div class="price-wrap">
+            <span class="price-prefix">₪</span>
+            <input type="number" id="old-price" placeholder="500" min="0" style="padding-right:2.4rem">
+          </div>
+          <div class="field-hint">אם ימולא, יוצג מחוק ליד המחיר הנוכחי. השאר ריק כדי להסיר הנחה קיימת</div>
+        </div>
+
+        <div class="form-group full">
+          <label for="duration">אורך הקורס <span class="req">*</span></label>
+          <input type="text" id="duration" placeholder="10 שיעורים" required>
+          <div class="field-hint">הטקסט נשמר כפי שהוא — למשל "10 שיעורים" או "5 פרקים"</div>
+        </div>
+
+      </div>
+
+      <div class="section-title">קישורים ומדיה</div>
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label for="link">קישור לדף המכירה <span class="opt">(אופציונלי)</span></label>
+          <input type="url" id="link" placeholder="https://...">
+        </div>
+
+        <div class="form-group full">
+          <label for="img">תמונה <span class="opt">(URL או העלאה מהמחשב)</span></label>
+          <div class="img-input-row">
+            <input type="url" id="img" placeholder="https://images.unsplash.com/...">
+            <label class="btn-upload-img" for="img-file">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              העלה מהמחשב
+            </label>
+            <input type="file" id="img-file" accept="image/*" style="display:none">
+          </div>
+          <div id="img-upload-status"></div>
+          <img id="img-preview" class="img-preview" alt="תצוגה מקדימה">
+        </div>
+
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="spinner" id="spinner"></span>
+          <span id="btn-text">שמור שינויים 💾</span>
+        </button>
+        <button type="button" class="btn-cancel" id="cancel-btn">ביטול</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+</main>
+<div id="toast"></div>
+
+<script>
+/* ── חיבור לשרת ── */
+/* האימות והטוקן יושבים בצד השרת. הדף הזה לא מחזיק שום סוד. */
+const API     = '/dashboard/api/github_write.php';
+const SESSION = '/dashboard/api/admintools_session.php';
+const DEFAULT_IMG = 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80';
+
+let csrfToken   = '';
+let editing     = null;   // הקורס שנבחר, כפי שהגיע מהשרת
+
+async function requireSession() {
+  let res;
+  try {
+    res = await fetch(SESSION, { credentials: 'same-origin' });
+  } catch (e) {
+    throw new Error('אין תקשורת עם השרת');
+  }
+  if (res.status === 401) { location.replace('/dashboard/login.php'); throw new Error('לא מחובר'); }
+  if (!res.ok) throw new Error(`שגיאת שרת ${res.status}`);
+  csrfToken = (await res.json()).csrf_token;
+}
+
+/* ── קריאה לפרוקסי ── */
+async function api(fields) {
+  const body = fields instanceof FormData ? fields : new FormData();
+  if (!(fields instanceof FormData)) {
+    Object.entries(fields).forEach(([k, v]) => body.append(k, v));
+  }
+  body.append('csrf_token', csrfToken);
+
+  const res = await fetch(API, { method: 'POST', body, credentials: 'same-origin' });
+  if (res.status === 401) { location.replace('/dashboard/login.php'); throw new Error('לא מחובר'); }
+
+  // קוראים כטקסט ולא כ-JSON: כשהתשובה מגיעה משכבה שלפני ה-PHP היא לא JSON,
+  // וזריקתה השאירה אותנו עם מספר סטטוס בלבד בלי שום רמז מה קרה
+  const raw = await res.text();
+  let data = {};
+  try { data = JSON.parse(raw); } catch (e) {}
+
+  if (!res.ok) {
+    const peek = raw.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
+    throw new Error(data.error || `שגיאת שרת ${res.status} — ${peek || 'תשובה ריקה'}`);
+  }
+  return data;
+}
+
+/* ── העלאת תמונה דרך השרת ── */
+async function uploadImage(file) {
+  const fd = new FormData();
+  fd.append('action', 'upload_image');
+  fd.append('image', file);
+  try {
+    const { url } = await api(fd);
+    return url;
+  } catch (e) {
+    // בלי זה לא ברור אם נפל שלב התמונה או הכתיבה של הקטלוג
+    throw new Error('העלאת התמונה נכשלה — ' + e.message);
+  }
+}
+
+/* ── Toast ── */
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = isError ? 'error' : '';
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.display = 'none'; }, 5000);
+}
+
+function escHtml(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── רשימת הקורסים ── */
+let courses = [];
+
+function renderList() {
+  const container = document.getElementById('courses-list');
+  if (!courses.length) {
+    container.innerHTML = '<div class="list-state">אין קורסים בקטלוג</div>';
+    return;
+  }
+  container.innerHTML = courses.map(c => `
+    <div class="course-row${editing && editing.id === c.id ? ' selected' : ''}" data-id="${c.id}">
+      <img class="course-thumb" src="${escHtml(c.img)}" alt="" onerror="this.style.opacity='0'">
+      <div class="course-info">
+        <div class="course-name">${escHtml(c.title)}</div>
+        <div class="course-meta">
+          <span class="course-price">${escHtml(c.price)}</span>
+          ${c.oldPrice ? `<span class="course-old-price">${escHtml(c.oldPrice)}</span>` : ''}
+          <span>${escHtml(c.instructor)}</span>
+          ${c.category ? `<span>${escHtml(c.category)}</span>` : ''}
+        </div>
+      </div>
+      <button class="btn-edit" type="button" data-id="${c.id}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+        ערוך
+      </button>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.btn-edit').forEach(btn => {
+    btn.addEventListener('click', () => startEdit(Number(btn.dataset.id)));
+  });
+}
+
+async function loadCourses() {
+  const container = document.getElementById('courses-list');
+  container.innerHTML = '<div class="list-state"><div class="spinner-lg"></div>טוען קורסים מ-GitHub...</div>';
+  try {
+    courses = (await api({ action: 'list_courses' })).courses;
+    renderList();
+  } catch (e) {
+    container.innerHTML = `<div class="list-state" style="color:var(--error)">❌ ${escHtml(e.message)}</div>`;
+    showToast('❌ ' + e.message, true);
+  }
+}
+
+/* ── קטגוריות ── */
+async function loadCategories(selected) {
+  const sel = document.getElementById('category');
+  sel.innerHTML = '<option value="">טוען קטגוריות...</option>';
+  let list = [];
+  try {
+    list = (await api({ action: 'list_categories' })).categories;
+  } catch (e) {
+    showToast('❌ ' + e.message, true);
+  }
+  // הקטגוריה הנוכחית קודמת לרשימה, כדי שלא תיעלם אם השרת החזיר רשימה חלקית
+  if (selected && !list.includes(selected)) list = [selected, ...list];
+
+  sel.innerHTML = '<option value="">בחר קטגוריה...</option>';
+  list.forEach(cat => {
+    const o = document.createElement('option');
+    o.value = o.textContent = cat;
+    sel.appendChild(o);
+  });
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = '➕ הוסף קטגוריה חדשה';
+  sel.appendChild(newOpt);
+
+  sel.value = selected || '';
+}
+
+document.getElementById('category').addEventListener('change', function () {
+  const wrap = document.getElementById('new-category-wrap');
+  wrap.style.display = this.value === '__new__' ? 'block' : 'none';
+  if (this.value === '__new__') document.getElementById('new-category').focus();
+});
+
+/* ── מילוי הטופס ── */
+/* המחיר נשמר כמחרוזת עם ₪; בטופס הוא מספר, ומורכב מחדש בשמירה */
+function priceDigits(s) { return String(s || '').replace(/[^\d.]/g, ''); }
+
+function showPreview(url) {
+  const preview = document.getElementById('img-preview');
+  if (!url) { preview.style.display = 'none'; return; }
+  preview.src = url;
+  preview.style.display = 'block';
+  preview.onerror = () => { preview.style.display = 'none'; };
+}
+
+async function startEdit(id) {
+  const c = courses.find(x => x.id === id);
+  if (!c) return;
+  editing = c;
+  pendingImageFile = null;
+
+  document.getElementById('editing-name').textContent = c.title;
+  document.getElementById('editing-id').textContent   = `(מזהה ${c.id})`;
+  document.getElementById('title').value       = c.title;
+  document.getElementById('instructor').value  = c.instructor;
+  document.getElementById('desc').value        = c.desc;
+  document.getElementById('price').value       = priceDigits(c.price);
+  document.getElementById('old-price').value   = priceDigits(c.oldPrice);
+  document.getElementById('duration').value    = c.duration;
+  document.getElementById('link').value        = c.link || '';
+  document.getElementById('img').value         = c.img || '';
+  document.getElementById('img-file').value    = '';
+  document.getElementById('img-upload-status').style.display = 'none';
+  document.getElementById('new-category-wrap').style.display = 'none';
+  showPreview(c.img);
+
+  await loadCategories(c.category);
+
+  renderList();   // מסמן את השורה הנבחרת
+  const card = document.getElementById('edit-card');
+  card.classList.add('open');
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeEdit() {
+  editing = null;
+  pendingImageFile = null;
+  document.getElementById('edit-card').classList.remove('open');
+  renderList();
+}
+
+document.getElementById('cancel-btn').addEventListener('click', closeEdit);
+
+/* ── תמונה ── */
+document.getElementById('img').addEventListener('input', function () {
+  showPreview(this.value.trim());
+  pendingImageFile = null;
+  document.getElementById('img-file').value = '';
+  document.getElementById('img-upload-status').style.display = 'none';
+});
+
+let pendingImageFile = null;
+document.getElementById('img-file').addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+  pendingImageFile = file;
+  document.getElementById('img').value = '';
+  showPreview(URL.createObjectURL(file));
+  const status = document.getElementById('img-upload-status');
+  status.textContent = `נבחר: ${file.name} — התמונה תועלה ל-GitHub בעת השמירה`;
+  status.style.display = 'block';
+  status.style.color = 'var(--muted)';
+});
+
+function setLoading(on) {
+  const btn = document.getElementById('submit-btn');
+  document.getElementById('spinner').style.display = on ? 'block' : 'none';
+  document.getElementById('btn-text').textContent = on ? 'שומר ל-GitHub...' : 'שמור שינויים 💾';
+  btn.disabled = on;
+}
+
+/* ── שמירה ── */
+document.getElementById('course-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  if (!editing) return;
+
+  const title       = document.getElementById('title').value.trim();
+  const instructor  = document.getElementById('instructor').value.trim();
+  const desc        = document.getElementById('desc').value.trim();
+  const priceNum    = document.getElementById('price').value.trim();
+  const oldPriceNum = document.getElementById('old-price').value.trim();
+  const duration    = document.getElementById('duration').value.trim();
+  const link        = document.getElementById('link').value.trim();
+  const imgVal      = document.getElementById('img').value.trim();
+
+  const catSel = document.getElementById('category');
+  let category = catSel.value;
+  if (category === '__new__') category = document.getElementById('new-category').value.trim();
+
+  if (!title || !instructor || !desc || !priceNum || !duration || !category) {
+    showToast('⚠️ יש למלא את כל השדות הנדרשים', true);
+    return;
+  }
+  if (oldPriceNum && Number(oldPriceNum) <= Number(priceNum)) {
+    showToast('⚠️ המחיר לפני ההנחה חייב להיות גבוה מהמחיר הנוכחי', true);
+    return;
+  }
+
+  setLoading(true);
+  try {
+    let resolvedImg = imgVal || DEFAULT_IMG;
+    if (pendingImageFile) {
+      const status = document.getElementById('img-upload-status');
+      status.textContent = 'מעלה תמונה ל-GitHub...';
+      status.style.display = 'block';
+      resolvedImg = await uploadImage(pendingImageFile);
+    }
+
+    // השרת קורא את הקטלוג, מחליף את הרשומה הזו בלבד וכותב בחזרה.
+    // שדות שאינם כאן — דגל sample למשל — נשארים כפי שהם.
+    await api({
+      action: 'update_course',
+      id: editing.id,
+      title, desc, category, duration, instructor,
+      price: '₪' + priceNum,
+      oldPrice: oldPriceNum ? '₪' + oldPriceNum : '',
+      img: resolvedImg,
+      link
+    });
+
+    showToast('הקורס עודכן בהצלחה. האתר יתעדכן תוך מספר שניות.');
+    closeEdit();
+    await loadCourses();
+  } catch (err) {
+    showToast('❌ שגיאה: ' + err.message, true);
+  } finally {
+    setLoading(false);
+  }
+});
+
+/* ── Init ── */
+(async function init() {
+  try {
+    await requireSession();   // מפנה ל-login.php אם אין session
+    await loadCourses();
+  } catch (e) {
+    showToast('❌ ' + e.message, true);
+  }
+})();
+</script>
+</body>
+</html>
