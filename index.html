@@ -389,6 +389,12 @@
     margin-top: 0.5rem;
   }
 
+  .card-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
   .card-price {
     font-size: 1.05rem;
     font-weight: 800;
@@ -396,6 +402,15 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* מחיר לפני ההנחה — מוצג מחוק לצד המחיר הנוכחי */
+  .card-old-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
   }
 
   .card-duration {
@@ -831,7 +846,10 @@ function renderGrid(list) {
         <div class="card-instructor"><span class="sr-only">מנחה: </span>${c.instructor}</div>
         <div class="card-desc">${c.desc}</div>
         <div class="card-meta">
-          <span class="card-price"><span class="sr-only">מחיר: </span>${c.price}</span>
+          <span class="card-price-wrap">
+            <span class="card-price"><span class="sr-only">מחיר: </span>${c.price}</span>
+            ${c.oldPrice ? `<span class="card-old-price"><span class="sr-only">במקום </span>${c.oldPrice}</span>` : ''}
+          </span>
           <span class="card-duration">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <span class="sr-only">אורך: </span>${c.duration}

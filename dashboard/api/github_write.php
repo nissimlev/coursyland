@@ -309,7 +309,7 @@ switch ($action) {
         // הדפדפן שולח רק את פרטי הקורס — כמה מאות בייט.
         // הקטלוג עצמו נקרא ונכתב כאן, ולא עובר דרך הרשת פעמיים.
         $f = [];
-        foreach (['title','desc','category','price','duration','instructor','img','link'] as $k) {
+        foreach (['title','desc','category','price','oldPrice','duration','instructor','img','link'] as $k) {
             $f[$k] = trim((string)($_POST[$k] ?? ''));
         }
         foreach (['title','desc','category','price','duration','instructor'] as $req) {
@@ -327,6 +327,7 @@ switch ($action) {
             'desc'       => $f['desc'],
             'category'   => $f['category'],
             'price'      => $f['price'],
+            'oldPrice'   => $f['oldPrice'],   // ריק = בלי מחיר לפני הנחה; jsEntry מדלג על ריקים
             'duration'   => $f['duration'],
             'instructor' => $f['instructor'],
             'img'        => $f['img'],

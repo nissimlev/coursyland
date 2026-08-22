@@ -126,6 +126,8 @@
   }
   textarea { resize: vertical; min-height: 90px; }
 
+  .field-hint { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+
   .price-wrap { position: relative; }
   .price-prefix {
     position: absolute; right: 0.85rem; top: 50%;
@@ -311,6 +313,15 @@
             <span class="price-prefix">₪</span>
             <input type="number" id="price" placeholder="297" min="0" required style="padding-right:2.4rem">
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="old-price">מחיר לפני הנחה <span class="opt">(אופציונלי)</span></label>
+          <div class="price-wrap">
+            <span class="price-prefix">₪</span>
+            <input type="number" id="old-price" placeholder="500" min="0" style="padding-right:2.4rem">
+          </div>
+          <div class="field-hint">אם ימולא, יוצג מחוק ליד המחיר הנוכחי — כך שייראה שהקורס בהנחה</div>
         </div>
 
         <div class="form-group">
@@ -512,6 +523,7 @@ document.getElementById('course-form').addEventListener('submit', async function
   const instructor = document.getElementById('instructor').value.trim();
   const desc     = document.getElementById('desc').value.trim();
   const priceNum = document.getElementById('price').value.trim();
+  const oldPriceNum = document.getElementById('old-price').value.trim();
   const durationNum = document.getElementById('duration').value.trim();
   const duration = durationNum ? `${durationNum} שיעורים` : '';
   const link     = document.getElementById('link').value.trim();
@@ -523,6 +535,10 @@ document.getElementById('course-form').addEventListener('submit', async function
 
   if (!title || !instructor || !desc || !priceNum || !duration || !category) {
     showToast('⚠️ יש למלא את כל השדות הנדרשים', true);
+    return;
+  }
+  if (oldPriceNum && Number(oldPriceNum) <= Number(priceNum)) {
+    showToast('⚠️ המחיר לפני ההנחה חייב להיות גבוה מהמחיר הנוכחי', true);
     return;
   }
 
@@ -542,6 +558,7 @@ document.getElementById('course-form').addEventListener('submit', async function
       action: 'add_course',
       title, desc, category, duration, instructor,
       price: '₪' + priceNum,
+      oldPrice: oldPriceNum ? '₪' + oldPriceNum : '',
       img: resolvedImg,
       link
     });
