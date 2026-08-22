@@ -3,7 +3,7 @@
 // התקנה: composer require mpdf/mpdf
 // או: הורד את mPDF ידנית ל- /vendor/mpdf/
 
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/config_load.php';
 
 // נסה לטעון mPDF (Composer autoload או ידנית)
 $autoloadPaths = [

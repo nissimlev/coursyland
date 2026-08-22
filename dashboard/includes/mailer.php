@@ -2,7 +2,7 @@
 // שליחת מייל עם PHPMailer
 // התקנה: composer require phpmailer/phpmailer
 
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/config_load.php';
 
 $autoloadPaths = [
     __DIR__ . '/../../vendor/autoload.php',

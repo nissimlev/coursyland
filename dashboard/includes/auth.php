@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/config_load.php';
 
 function sendSecurityHeaders(): void {
     header('X-Frame-Options: DENY');
