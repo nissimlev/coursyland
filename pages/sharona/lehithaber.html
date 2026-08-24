@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>להתחבר מחדש | קורס דיגיטלי לזוגיות עם שרונה מנצור</title>
-<meta name="description" content="קורס דיגיטלי ב-5 שלבים לנשים שרוצות לשדרג את הזוגיות שלהן בעבודה אישית, ממוקדת ומעשית, בלי להסתמך על בן הזוג.">
+<meta name="description" content="קורס דיגיטלי ב-5 שלבים לנשים שרוצות להוביל את הזוגיות שלהן באמצעות עבודה אישית, ממוקדת ומעשית, בלי להסתמך על בן הזוג.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Varela+Round&family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -101,7 +101,7 @@ strong.hl{color:var(--accent);font-weight:700}
 /* ============ HERO ============ */
 .topbar{background:var(--sand-soft);text-align:center;padding:16px 0 14px}
 .brandname{font-family:var(--font-heading);font-weight:700;font-size:19px;color:var(--primary-deep);letter-spacing:.02em}
-.brandsub{font-size:12px;letter-spacing:.22em;color:var(--accent);font-weight:500;margin-top:2px}
+.brandsub{font-size:14.5px;letter-spacing:.22em;color:var(--accent);font-weight:500;margin-top:2px}
 .hero{
   background:linear-gradient(168deg,var(--primary-tint) 0%,var(--primary-soft) 52%,#CBDDD2 100%);
   padding:66px 0 20px;
@@ -156,6 +156,34 @@ h1 .em{color:var(--accent);display:block}
 .hero-sub2{
   font-size:16px;color:#3E524C;max-width:640px;margin:16px auto 0;
 }
+.hero-flag{
+  display:inline-block;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(15px,2.3vw,18.5px);line-height:1.45;
+  color:var(--accent);background:rgba(255,255,255,.62);
+  border:1px solid rgba(192,100,74,.30);
+  padding:9px 22px;border-radius:999px;margin:22px auto 0;
+}
+.hero-without{
+  font-size:clamp(15px,2.2vw,17px);font-weight:700;color:var(--primary-deep);
+  max-width:620px;margin:16px auto 0;line-height:1.7;
+}
+
+/* ============ WHATSAPP CTA ============ */
+.wa-zone{text-align:center}
+.wa-lead{font-size:18px;color:var(--text-soft);margin-bottom:18px;line-height:1.7}
+.btn-wa{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:#25D366;color:#fff;
+  font-family:var(--font-body);font-weight:700;
+  font-size:clamp(16px,2.2vw,18px);line-height:1.4;
+  min-height:58px;padding:15px 30px;border-radius:14px;text-decoration:none;
+  box-shadow:0 10px 26px rgba(37,211,102,.30);
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+  max-width:94%;
+}
+.btn-wa:hover{background:#1EBE5A;transform:translateY(-3px);box-shadow:0 16px 34px rgba(37,211,102,.38)}
+.btn-wa svg{width:23px;height:23px;fill:#fff;flex:0 0 auto}
 
 /* ============ CTA ============ */
 .cta-zone{text-align:center;padding:8px 0}
@@ -481,14 +509,16 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
   <div class="hero-photo"></div>
   <div class="hero-scrim"></div>
   <div class="wrap">
-    <p class="hero-q">כמה פעמים עוד תגיבי מתוך כאב, ולא מתוך בחירה?</p>
-    <h1>להפסיק לחכות שהוא יהיה מוכן<span class="em">לייצר זוגיות שמרגשת ממקום שלך</span></h1>
-    <p class="hero-sub">קורס דיגיטלי ב-5 שלבים לנשים שרוצות לשדרג את הזוגיות שלהן בעבודה אישית, ממוקדת ומעשית, <strong class="hl">בלי להסתמך על בן הזוג</strong>.</p>
+    <p class="hero-q">כמה פעמים תמשיכי להגיב מתוך כאב, ולא מתוך בחירה?</p>
+    <h1>להפסיק לחכות שהוא יהיה מוכן<span class="em">לייצר זוגיות שעליה חלמת</span></h1>
+    <p class="hero-flag">סוף סוף קורס שמייצר שינוי אמיתי</p>
+    <p class="hero-sub">קורס דיגיטלי ב-5 שלבים לנשים שרוצות להוביל את הזוגיות שלהן באמצעות עבודה אישית, ממוקדת ומעשית, <strong class="hl">בלי להסתמך על בן הזוג</strong>.</p>
     <p class="hero-sub2">איך ליצור את הזוגיות הקרובה והמרגשת שתמיד חלמת עליה, מבלי לחכות שבן הזוג ישתנה ויהיה מוכן ללכת לטיפול.</p>
+    <p class="hero-without">בלי לשכנע את בן הזוג להגיע לטיפול זוגי, בלי לצאת מהבית.</p>
     <!-- CTA #1 -->
     <div class="cta-zone" style="margin-top:34px">
       <a href="#purchase" class="btn">כן, אני רוצה להתחבר מחדש</a>
-      <p class="btn-note">מבצע השקה: 297 ש"ח. גישה מיידית לכל הפרקים.</p>
+      <p class="btn-note">מבצע השקה: 297 ש"ח. גישה מיידית.</p>
     </div>
   </div>
   <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path fill="#FCF9F3" d="M0,54 C240,96 480,6 720,30 C960,54 1200,90 1440,48 L1440,90 L0,90 Z"></path></svg>
@@ -498,17 +528,16 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
 <section class="s-cream">
   <div class="wrap">
     <div class="head rv">
-      <span class="eyebrow">איפה את נמצאת עכשיו</span>
       <h2>אם את מרגישה שניסית הכל</h2>
       <div class="divider"></div>
     </div>
     <div class="narrow rv">
-      <p style="font-size:18px;line-height:1.9">את מרגישה תקועה: הזוגיות מרוחקת, את מחכה שהוא יתגבר על ההתנגדויות ויפנה לטיפול, והוא לא. ניסית טיפים, חברות, ספרים ואפילו טיפול אישי, <strong class="hl">ועדיין אין פריצת דרך</strong>. את מותשת, תוהה אם זה תלוי בך, וזה כואב.</p>
+      <p style="font-size:18px;line-height:1.9">אם את מרגישה שאת תקועה באותו לופ כבר יותר מדיי זמן, שיש ריחוק בזוגיות, את מחכה שהוא יפנה לטיפול, והוא לא. ניסית טיפים, ספרים ואפילו טיפול אישי, <strong class="hl">ועדיין אין פריצת דרך</strong>. את מותשת, את מיואשת, תוהה אם זה יכול להשתנות. יתכן שיש רגעים בהם שקלת להיפרד, לעזוב, כי כבר נראה שכלום לא יעזור.</p>
     </div>
     <div class="scenes">
       <div class="scene rv">
         <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></div>
-        הוא נכנס הביתה ולא מחייך כמו שרצית וציפית, ואז עולה בך תחושה שאת לא מספיק עבורו.
+        הוא נכנס הביתה ולא מחייך כמו שרצית וציפית, ואז עולה בך תחושה שהוא לא מרוצה.
       </div>
       <div class="scene rv">
         <div class="icon-badge"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.4 8.4 0 0 1 8.5-8.4 8.4 8.4 0 0 1 8.5 8.4z"/></svg></div>
@@ -533,12 +562,12 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       <div class="divider"></div>
     </div>
     <div class="dreams">
-      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>דמייני שיש ביניכם חילוקי דעות שלא מסלימים</span></div>
-      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>דמייני שיש ריב ואתם מצליחים לגשר עליו מהר</span></div>
-      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>דמייני שאתם זוג אמיתי ולא כמו שותפים לדירה</span></div>
-      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>דמייני שיש ביניכם קירבה אמיתית</span></div>
+      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>חילוקי דעות שלא מסלימים</span></div>
+      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>ריב שאתם מצליחים לגשר עליו מהר</span></div>
+      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>אתם זוג אמיתי ולא כמו שותפים לדירה</span></div>
+      <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>קירבה אמיתית ביניכם</span></div>
     </div>
-    <p class="dream-close rv">דמייני שאתם מצליחים לתקשר בצורה רגועה. שאת יודעת מה דרוש לך, מתקשרת באופן שיוצר קרבה ולא אשמה, ופונה אליו ממקום חזק ובריא. <strong class="hl">את מחוברת לעצמך, יודעת להשפיע על הדינמיקה</strong>, וזוכה לקרבה שהיית רוצה. גם אם הוא לא מסכים ללכת איתך לטיפול.</p>
+    <p class="dream-close rv">דמייני שאתם מצליחים לתקשר בצורה רגועה. שאת יודעת מה דרוש לך, מתקשרים באופן שיוצר קרבה ולא אשמה, ואת פונה אליו ממקום חזק ובריא. <strong class="hl">את מחוברת לעצמך, יודעת להשפיע על הדינמיקה</strong>, וזוכה לקרבה שהיית רוצה.</p>
   </div>
 </section>
 <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#F3F0E6" d="M0,44 C260,88 560,8 880,40 C1140,66 1300,58 1440,34 L1440,80 L0,80 Z"></path></svg>
@@ -548,14 +577,14 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
   <div class="wrap">
     <div class="head rv">
       <span class="eyebrow">למה זה לא עבד עד עכשיו</span>
-      <h2>זו לא את, זו השיטה שניסית</h2>
+      <h2>זו לא את, זו הדרך שפשוט לא היתה מדויקת עבורך</h2>
       <div class="divider"></div>
     </div>
     <div class="narrow rv">
-      <p style="font-size:18px;line-height:1.9">כי רוב ההמלצות הן כלליות, או מתמקדות בהתנהגות חיצונית. טיפול אישי בלי מיקוד ספציפי לזוגיות לא תמיד משנה דפוסים בתוך הדינמיקה. <strong class="hl">את צריכה מסגרת שמותאמת לזוגיות: עבודה ממוקדת מבפנים החוצה.</strong></p>
+      <p style="font-size:18px;line-height:1.9">חשוב להבין שרוב ההמלצות הן כלליות שלא מייצרות שינוי אמיתי בתודעה. טיפול אישי בלי מיקוד ספציפי לזוגיות לא תמיד משנה דפוסים בתוך הדינמיקה. <strong class="hl">אם את מרגישה שהגיע הזמן לעשות עבודה ממוקדת מבפנים החוצה, אז זה בדיוק המקום להתחיל.</strong></p>
     </div>
     <div class="pull pull-sand rv" style="font-family:var(--font-body);font-weight:400;font-size:clamp(17px,2.8vw,20px);line-height:1.85;text-align:right">
-      מחקרים מראים שלא ניתן לשנות אדם אחר בכוחנות, אלא אם זה בא ממנו. ולכן כל הניסיונות שלך לשנות אותו כדי שהזוגיות תהיה טובה יותר, כשלו, וגם הביאו המון תסכול וריחוק.
+      מחקרים מראים שאדם לא משתנה מתוך דרישה של האחר. לכן כל הניסיונות שלו לשנות אותך ושלך לשנות אותו לא צלחו עד כה. כמובן שכל ניסיון שלא צלח מעמיק את התסכול והריחוק.
     </div>
   </div>
 </section>
@@ -571,7 +600,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       <p class="method-tag">תהליך ב-5 שלבים</p>
     </div>
     <div class="narrow rv">
-      <p style="font-size:18px;line-height:1.9;text-align:center">תהליך שמרכז עבודה פנימית ייעודית לזוגיות. לא עוד טיפים פזיזים, אלא מסע ממוקד: זיהוי, עצירה, ויסות, חקירה בפועל ואימון חיבור מחדש. גישה ברורה, אמפתית ומעשית שגורמת לשינוי בתגובות ובתקשורת, <strong class="hl">ומייצרת התנהגות אחרת שיכולה להשפיע על בן הזוג</strong>.</p>
+      <p style="font-size:18px;line-height:1.9;text-align:center">תהליך שמרכז עבודה פנימית ייעודית לזוגיות. לא עוד טיפים, אלא מסע ממוקד: זיהוי, עצירה, ויסות, חקירה בפועל ואימון חיבור מחדש. גישה ברורה, אמפתית ומעשית שגורמת לשינוי בתגובות ובתקשורת, <strong class="hl">ומייצרת התנהגות אחרת שיכולה להשפיע על בן הזוג</strong>.</p>
     </div>
     <div class="steps rv">
       <span class="step-chip"><i>1</i>זיהוי</span>
@@ -601,7 +630,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
           <h3 class="lesson-title">המפתח לפריצת דרך</h3>
           <p class="lesson-stage">שלב הזיהוי</p>
           <p class="lesson-lead">את הולכת להבין <strong class="hl">איך מתחיל הלופ האין סופי</strong>.</p>
-          <div class="lesson-row"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span><b>תכנים:</b> תרגילי זיהוי דפוסים ואמונות, מפת עומק של הבעיה.</span></div>
           <div class="lesson-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg><span><b>תוצאה:</b> בהירות על מה באמת חוסם את הקשר.</span></div>
         </div>
       </article>
@@ -613,7 +641,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
           <h3 class="lesson-title">המתנה בהמתנה</h3>
           <p class="lesson-stage">שלב העצירה</p>
           <p class="lesson-lead">את הולכת להבין <strong class="hl">איך אפשר לייצר בחירה מודעת</strong>.</p>
-          <div class="lesson-row"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span><b>תכנים:</b> בשלב זה תקבלי כלים שמפחיתים את הדרמות.</span></div>
           <div class="lesson-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg><span><b>תוצאה:</b> יותר אפשרות לבחירה מודעת, במקום תגובה אוטומטית.</span></div>
         </div>
       </article>
@@ -625,7 +652,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
           <h3 class="lesson-title">רגע עם עצמי</h3>
           <p class="lesson-stage">שלב הוויסות העצמי</p>
           <p class="lesson-lead">את הולכת להבין <strong class="hl">מה הדרך להגיע לחיבור מחדש</strong>.</p>
-          <div class="lesson-row"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span><b>תכנים:</b> טכניקות נשימה, תרגילי רגולציה ותמיכה רגשית עצמית.</span></div>
           <div class="lesson-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg><span><b>תוצאה:</b> שקט פנימי שמאפשר תגובה נבונה.</span></div>
         </div>
       </article>
@@ -637,7 +663,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
           <h3 class="lesson-title">בחינה וחקירה במעבדה</h3>
           <p class="lesson-stage">הפרק שמשנה את כל המציאות</p>
           <p class="lesson-lead">בפרק זה נבחן את האירועים <strong class="hl">מנקודות מבט נקיות</strong>.</p>
-          <div class="lesson-row"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span><b>תכנים:</b> שיטת חקירה של סיטואציות חוזרות, תבניות לניתוח והתנסות מבוקרת.</span></div>
           <div class="lesson-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg><span><b>תוצאה:</b> הבנה מעשית של דינמיקה וצעדי פעולה ממוקדים.</span></div>
         </div>
       </article>
@@ -649,7 +674,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
           <h3 class="lesson-title">להתחבר מחדש</h3>
           <p class="lesson-stage">שלב החיבור מחדש</p>
           <p class="lesson-lead">הרגע שבו העבודה הפנימית <strong class="hl">פוגשת את בן הזוג</strong>.</p>
-          <div class="lesson-row"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span><b>תכנים:</b> ניסוח פנימי וחיצוני, תרגול שיחה בריאה ופנייה מחודשת לבן הזוג.</span></div>
           <div class="lesson-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg><span><b>תוצאה:</b> פנייה שמייצרת קרבה ולא הגנה, ושינוי בדינמיקה.</span></div>
         </div>
       </article>
@@ -675,7 +699,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
     <!-- CTA #2 -->
     <div class="cta-zone rv" style="margin-top:44px">
       <a href="#purchase" class="btn">כן, אני רוצה להתחבר מחדש</a>
-      <p class="btn-note">5 פרקים, חוברת עבודה, ואחריות מלאה ל-14 יום.</p>
     </div>
   </div>
 </section>
@@ -684,7 +707,6 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
 <section class="s-cream">
   <div class="wrap">
     <div class="head rv">
-      <span class="eyebrow">לפני שאת נרשמת</span>
       <h2>למי הקורס הזה מתאים</h2>
       <div class="divider"></div>
     </div>
@@ -692,7 +714,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       <div class="fit-card fit-yes rv">
         <div class="icon-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.4 2.4L16 9.6"/></svg></div>
         <h3>מתאים ל</h3>
-        <p>נשים בגילאי 25 עד 50 שרוצות שינוי בזוגיות, לא מוכנות להמתין שבן הזוג ייזום טיפול, <strong class="hl">ורוצות תוצאות דרך עבודה פנימית אמיתית</strong>.</p>
+        <p>נשים שרוצות שינוי בזוגיות, לא מוכנות להמתין שבן הזוג ייזום טיפול, <strong class="hl">ורוצות תוצאות דרך עבודה פנימית אמיתית</strong>.</p>
       </div>
       <div class="fit-card fit-no rv">
         <div class="icon-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div>
@@ -721,7 +743,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       </div>
       <div class="bio-text rv">
         <span class="eyebrow">מי אני</span>
-        <h2>ולמה ללמוד דווקא ממני</h2>
+        <h2>אז אם עוד לא הכרנו</h2>
         <div class="divider"></div>
         <p>אני שרונה מנצור, יועצת זוגית משפחתית ומדריכת הורים. <strong class="hl">המסע שלי התחיל מתוך כאב אישי, וממנו צמחה הגישה שלי.</strong> היום אני מלווה נשים בדיוק מהנקודה הזו: עם הבנה אמיתית, כלים ברורים וניסיון קליני. אני לא רק מלמדת, אני מלווה תהליך של שינוי אמיתי.</p>
         <div class="chips">
@@ -820,7 +842,18 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
   </div>
 </section>
 
-<!-- ============ 15. CTA: ממומש דרך שלושת הכפתורים למעלה ============ -->
+<!-- ============ 15. WHATSAPP CTA ============ -->
+<section class="s-cream">
+  <div class="wrap">
+    <div class="wa-zone rv">
+      <p class="wa-lead">עדיין מתלבטת? אפשר פשוט לשאול אותי, בלי התחייבות.</p>
+      <a class="btn-wa" href="https://wa.me/972523504487?text=%D7%A9%D7%A8%D7%95%D7%A0%D7%94%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%9C%D7%91%D7%98%D7%AA%20%D7%91%D7%A7%D7%A9%D7%A8%20%D7%9C%D7%A7%D7%95%D7%A8%D7%A1" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.16 8.16 0 0 1-1.25-4.36c0-4.53 3.7-8.23 8.24-8.23a8.19 8.19 0 0 1 8.23 8.24c0 4.54-3.7 8.21-8.25 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.02 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+        אם את עדיין מתלבטת, דברי איתי בוואטסאפ
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- ============ FOOTER ============ -->
 <footer>
