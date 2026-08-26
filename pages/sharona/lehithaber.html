@@ -384,8 +384,8 @@ h1 .em{color:var(--accent);display:block}
   text-align:center;
 }
 .photo-badge small{display:block;font-family:var(--font-body);font-size:12px;font-weight:400;color:rgba(244,241,232,.8);letter-spacing:.06em}
-.bio h2{text-align:right}
-.bio .divider{margin-right:0;margin-left:auto}
+.bio h2{text-align:center}
+.bio .divider{margin-inline:auto}
 .bio-text p{font-size:17px;line-height:1.9}
 .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
 .chip{
@@ -415,7 +415,7 @@ h1 .em{color:var(--accent);display:block}
 }
 .price-num span{font-size:.42em;font-weight:700;color:var(--sand);margin-inline-start:6px}
 .price-terms{font-size:15.5px;color:rgba(240,237,228,.75);margin-bottom:26px}
-.incl{text-align:right;max-width:400px;margin:0 auto 30px;display:grid;gap:11px}
+.incl{text-align:center;max-width:400px;margin:0 auto 30px;display:grid;gap:11px}
 .incl div{display:flex;gap:11px;align-items:flex-start;font-size:16px;line-height:1.65}
 .incl svg{width:20px;height:20px;flex:0 0 20px;margin-top:4px;stroke:var(--sand);fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
 
@@ -494,6 +494,12 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+/* ============ CENTERED LAYOUT ============ */
+/* כל הטקסטים בדף ממורכזים. השורות שבנויות מאייקון ולידו טקסט
+   ממורכזות דרך justify-content, כדי שהצמד כולו יישב במרכז. */
+.narrow p,.scene,.lesson-body,.bio-text p,.faq,details p{text-align:center}
+.icon-badge{margin-inline:auto}
+.dream,.lesson-row,.incl div,.chips,summary{justify-content:center;text-align:center}
 </style>
 </head>
 <body>
@@ -532,7 +538,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       <div class="divider"></div>
     </div>
     <div class="narrow rv">
-      <p style="font-size:18px;line-height:1.9">אם את מרגישה שאת תקועה באותו לופ כבר יותר מדיי זמן, שיש ריחוק בזוגיות, את מחכה שהוא יפנה לטיפול, והוא לא. ניסית טיפים, ספרים ואפילו טיפול אישי, <strong class="hl">ועדיין אין פריצת דרך</strong>. את מותשת, את מיואשת, תוהה אם זה יכול להשתנות. יתכן שיש רגעים בהם שקלת להיפרד, לעזוב, כי כבר נראה שכלום לא יעזור.</p>
+      <p style="font-size:18px;line-height:1.9;font-weight:700;text-align:center">אם את מרגישה שאת תקועה באותו לופ כבר יותר מדיי זמן, שיש ריחוק בזוגיות, את מחכה שהוא יסכים לבוא לטיפול. ניסית להקשיב לכל מיני יועצים, ניסית לאמץ כל מיני שיטות וגישות שונות, שמעת כל מיני טיפים וניסית ליישם, <strong class="hl">ועדיין אין פריצת דרך</strong>. את מותשת, מיואשת, את תוהה אם הוא יכול להשתנות. יתכן שאפילו יש רגעים בהם שקלת פרידה, כי כבר נראה שכלום לא יעזור.</p>
     </div>
     <div class="scenes">
       <div class="scene rv">
@@ -548,7 +554,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
         אתם יושבים ביחד בסלון, את שואלת אותו איך היה לו היום, והוא עונה "בסדר" וחוזר למסך.
       </div>
     </div>
-    <p class="pull rv">נמאס לך שוב ללכת לישון ולהרגיש בדידות גדולה?</p>
+    <p class="pull rv">נמאס לך שוב ללכת לישון ולהרגיש לבד?</p>
   </div>
 </section>
 
@@ -566,7 +572,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
       <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>אתם זוג אמיתי ולא כמו שותפים לדירה</span></div>
       <div class="dream rv"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>קירבה אמיתית ביניכם</span></div>
     </div>
-    <p class="dream-close rv">דמייני שאתם מצליחים לתקשר בצורה רגועה. שאת יודעת מה דרוש לך, מתקשרים באופן שיוצר קרבה ולא אשמה, ואת פונה אליו ממקום חזק ובריא. <strong class="hl">את מחוברת לעצמך, יודעת להשפיע על הדינמיקה</strong>, וזוכה לקרבה שהיית רוצה.</p>
+    <p class="dream-close rv">דמייני שאתם מצליחים לתקשר בצורה רגועה. שאת יודעת מה דרוש לך, שאתם מתקשרים באופן שיוצר קרבה ולא תחושת אשמה, ואת פונה אליו ממקום חזק ובריא. <strong class="hl">את מחוברת לעצמך, יודעת להשפיע על הדינמיקה</strong>, וזוכה לקרבה שהיית רוצה.</p>
   </div>
 </section>
 <svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#F3F0E6" d="M0,44 C260,88 560,8 880,40 C1140,66 1300,58 1440,34 L1440,80 L0,80 Z"></path></svg>
@@ -581,7 +587,7 @@ footer .fname{font-family:var(--font-heading);color:#F0EDE4;font-size:18px;margi
     <div class="narrow rv">
       <p style="font-size:18px;line-height:1.9">חשוב להבין שרוב ההמלצות הן כלליות שלא מייצרות שינוי אמיתי בתודעה. טיפול אישי בלי מיקוד ספציפי לזוגיות לא תמיד משנה דפוסים בתוך הדינמיקה. <strong class="hl">אם את מרגישה שהגיע הזמן לעשות עבודה ממוקדת מבפנים החוצה, אז זה בדיוק המקום להתחיל.</strong></p>
     </div>
-    <div class="pull pull-sand rv" style="font-family:var(--font-body);font-weight:400;font-size:clamp(17px,2.8vw,20px);line-height:1.85;text-align:right">
+    <div class="pull pull-sand rv" style="font-family:var(--font-body);font-weight:400;font-size:clamp(17px,2.8vw,20px);line-height:1.85;text-align:center">
       מחקרים מראים שאדם לא משתנה מתוך דרישה של האחר. לכן כל הניסיונות שלו לשנות אותך ושלך לשנות אותו לא צלחו עד כה. כמובן שכל ניסיון שלא צלח מעמיק את התסכול והריחוק.
     </div>
   </div>
