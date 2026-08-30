@@ -196,18 +196,29 @@
       margin: 0 auto;
       font-size: 19px;
       line-height: 1.8;
-      text-align: right;
+      text-align: center;
     }
     .prose p { margin-bottom: 22px; }
     .prose p:last-child { margin-bottom: 0; }
     .lead-line { font-size: 22px; font-weight: 700; color: var(--ink); }
-    /* פסקת האמינות — קו זהב, לא מסגרת */
+    /* פסקת האמינות — קו זהב מעליה, לא מסגרת */
     .from-me {
-      margin-top: 34px;
-      padding: 4px 22px 4px 0;
-      border-right: 4px solid var(--gold);
+      position: relative;
+      margin-top: 42px;
+      padding-top: 30px;
       font-size: 20px;
       line-height: 1.65;
+    }
+    .from-me::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      inset-inline: 0;
+      width: 58px;
+      height: 4px;
+      margin: 0 auto;
+      border-radius: 2px;
+      background: var(--gold);
     }
     .from-me strong { color: var(--plum); }
 
@@ -243,14 +254,14 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--white);
-      text-align: right;
+      text-align: center;
     }
     .step-number {
       width: 48px;
       height: 48px;
       display: grid;
       place-items: center;
-      margin-bottom: 18px;
+      margin: 0 auto 18px;
       border-radius: 50%;
       background: var(--ink);
       color: var(--gold);
@@ -271,13 +282,14 @@
     }
     .fit-item {
       display: flex;
-      gap: 15px;
-      align-items: flex-start;
-      padding: 20px 22px;
+      flex-direction: column;
+      gap: 11px;
+      align-items: center;
+      padding: 22px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--white);
-      text-align: right;
+      text-align: center;
     }
     .check {
       width: 26px;
@@ -285,7 +297,6 @@
       display: grid;
       place-items: center;
       flex: 0 0 26px;
-      margin-top: 2px;
       border-radius: 50%;
       background: var(--gold);
       color: var(--ink);
@@ -312,7 +323,7 @@
       object-fit: cover;
       object-position: center 28%;
     }
-    .about-copy { text-align: right; }
+    .about-copy { text-align: center; }
     .about-copy h2 { margin-bottom: 18px; font-size: 32px; }
     .about-copy p:last-child { margin-bottom: 0; }
 
@@ -361,7 +372,7 @@
     summary::-webkit-details-marker { display: none; }
     summary::after { content: "+"; color: var(--coral); font-size: 26px; font-weight: 400; }
     details[open] summary::after { content: "−"; }
-    .answer { padding: 0 22px 21px; text-align: right; }
+    .answer { padding: 0 22px 21px; text-align: center; }
     .answer p { margin-bottom: 0; }
 
     footer { padding: 35px 20px 90px; background: #17051d; color: rgba(255,255,255,.78); text-align: center; }
@@ -462,10 +473,10 @@
         <div class="divider"></div>
         <div class="prose">
           <p class="lead-line">תחשבו על זה רגע: כמה פגישות אתם באמת יכולים להכניס בשבוע?</p>
-          <p>יש מספר שמעליו כבר אי אפשר, גם אם תרצו מאוד. הזמן שלכם מוגבל, והכוחות שלכם מוגבלים אפילו יותר. תכפילו את מחיר הפגישה במספר השעות שנשארו לכם פנויות — וזאת תקרת ההכנסה שלכם. אין ביומן קומה נוספת.</p>
-          <p>וזאת עוד לפני שהחיים מתערבים. מגיעים החגים והיומן מתרוקן. אוגוסט, וכל המשפחה בחופש. ילד חולה, מילואים, בלת"ם שמוחק שבוע שלם. אתם לא עובדים — אתם לא מרוויחים. פשוט ככה.</p>
+          <p>יש מספר שמעליו כבר אי אפשר, גם אם תרצו מאוד. הזמן שלכם מוגבל, והכוחות שלכם מוגבלים אפילו יותר. תכפילו את מחיר הפגישה במספר השעות שנשארו לכם פנויות — וזאת תקרת ההכנסה שלכם.</p>
+          <p>וזאת עוד לפני שהחיים נכנסים. מגיעים החגים והיומן מתרוקן. אוגוסט, וכל המשפחה בחופש. ילד חולה, מילואים, בלת"ם שמוחק שבוע שלם. אתם לא עובדים — אתם לא מרוויחים. פשוט ככה.</p>
           <p>וזאת בדיוק הבעיה עם מקור הכנסה אחד: כשהוא נעצר, הכל נעצר. <strong class="strong">לא כדאי להחזיק עסק שלם על רגל אחת.</strong></p>
-          <p class="from-me">ואני מדבר אתכם כמטפל, לא כמישהו מבחוץ. <strong>בניתי עשרות קורסים שהכניסו לי מיליונים במרוצת השנים</strong> — במקביל לפגישות אחד על אחד, לא במקומן.</p>
+          <p class="from-me">ואני מדבר איתכם כמטפל שעשה את זה. <strong>בניתי עשרות קורסים שהכניסו לי מיליונים במרוצת השנים</strong> — בנוסף לפגישות אחד על אחד. לא במקום.</p>
         </div>
       </div>
     </section>
