@@ -249,6 +249,24 @@ h2.sec-title.wide{max-width:30ch}
   padding:7px 16px;border-radius:999px;
 }
 
+/* testimonials */
+.proof-grid{column-count:1;column-gap:20px;margin-top:6px}
+.shot{
+  -webkit-column-break-inside:avoid;break-inside:avoid;
+  margin:0 0 20px;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  line-height:0;
+  box-shadow:0 16px 38px rgba(0,0,0,.30);
+}
+.shot img{width:100%;height:auto}
+.proof-note{
+  margin-top:24px;text-align:center;
+  font-size:14.5px;line-height:1.7;
+  color:rgba(255,249,236,.66);
+}
+
 /* bio */
 .bio-grid{display:flex;flex-direction:column;gap:28px;align-items:center}
 .bio-photo{position:relative;flex:0 0 auto;max-width:320px;width:100%}
@@ -405,6 +423,8 @@ footer .small{display:block;margin-top:10px;font-size:13.5px;opacity:.6}
   .bio-photo{max-width:300px}
   .price-card{padding:48px 44px}
   .who{padding:40px 44px}
+  .proof-grid{column-count:2;column-gap:24px}
+  .shot{margin-bottom:24px}
   .assure{flex-direction:row}
   .assure-item{flex:1;flex-direction:column;text-align:center;align-items:center;gap:12px}
   .sticky{display:none}
@@ -655,8 +675,31 @@ footer .small{display:block;margin-top:10px;font-size:13.5px;opacity:.6}
   </div>
 </section>
 
-<!-- 10. Social proof / testimonials -->
-<!-- חסר: המלצות ועדויות של לקוחות. לא נמצאו בקובץ הקופי, ולא הומצאו. כשיתקבלו ציטוטים אמיתיים, זהו המקום שלהם, בין "למי זה מתאים" לבין "מי אני". -->
+<!-- ============ 10. SOCIAL PROOF ============ -->
+<section class="sec bg-teal-deep">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow">זוגות שעברו את הדרך הזו</span>
+      <h2 class="sec-title wide">מה הם כתבו לי אחרי</h2>
+      <div class="rule"></div>
+      <p class="lead">הודעות אמיתיות שקיבלתי מזוגות שליוויתי. השמות הוסרו, המילים שלהם.</p>
+    </div>
+    <div class="proof rv">
+      <div class="proof-grid">
+        <figure class="shot"><img src="testimonials/01.jpg" width="900" height="996" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/02.jpg" width="900" height="1517" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/03.jpg" width="900" height="1150" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/04.jpg" width="900" height="615" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/05.jpg" width="900" height="606" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/06.jpg" width="900" height="597" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/07.jpg" width="900" height="314" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/08.jpg" width="900" height="455" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+        <figure class="shot"><img src="testimonials/09.jpg" width="900" height="220" loading="lazy" decoding="async" alt="הודעת תודה מזוג שליווה דקלה טלר"></figure>
+      </div>
+      <p class="proof-note">פרטים מזהים טשטשו או הוסרו על פי בקשתם. ההודעות מפורסמות באישורם.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 11. WHO I AM ============ -->
 <section class="sec bg-sand">
