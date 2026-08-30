@@ -41,6 +41,9 @@
    ```bash
    git check-ignore -v pages/<שם>.html   # ריק = בסדר
    ```
+   שתי הסתייגויות: הבדיקה אמינה רק על קובץ שטרם נכנס ל-index (`.gitignore`
+   לא חל על קבצים tracked), ו-`pages/thankyou.html` הוא חריג מכוון עם שורת
+   נגציה משלו ב-`.gitignore`. פרטים ב-`AVI.md` §8.
 
 7. **אמת מול השרת החי.** commit אינו הוכחה:
    ```bash
