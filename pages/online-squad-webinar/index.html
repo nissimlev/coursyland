@@ -54,17 +54,15 @@
     .strong { color: var(--plum); font-weight: 800; }
 
     .hero {
-      min-height: 760px;
-      display: flex;
-      align-items: center;
-      padding: 76px 20px 90px;
-      color: var(--white);
-      background-image:
-        linear-gradient(90deg, rgba(25, 4, 32, .94) 0%, rgba(36, 0, 47, .86) 39%, rgba(36, 0, 47, .28) 72%, rgba(36, 0, 47, .08) 100%),
-        url("/images/webinar-hero-clinic.jpg");
-      background-position: center;
-      background-size: cover;
       position: relative;
+      padding: 56px 20px 66px;
+      color: var(--ink);
+      text-align: center;
+      background:
+        radial-gradient(980px 520px at 50% -10%, rgba(242,177,53,.30), transparent 62%),
+        radial-gradient(680px 420px at 88% 8%, rgba(215,102,89,.14), transparent 66%),
+        linear-gradient(180deg, #fffdf9 0%, var(--cream) 56%, #f4ebdf 100%);
+      overflow: hidden;
     }
     .hero::after {
       content: "";
@@ -75,30 +73,59 @@
       background: var(--gold);
     }
     .hero-content {
-      width: min(660px, 100%);
-      margin-right: auto;
-      margin-left: 0;
-      text-align: right;
+      width: min(780px, 100%);
+      margin: 0 auto;
+      text-align: center;
       position: relative;
       z-index: 1;
     }
+
+    /* דיוקן ההירו — צורה פלואידית עם התמונה החתוכה בתוכה */
+    .hero-portrait {
+      position: relative;
+      width: min(272px, 66vw);
+      aspect-ratio: 1;
+      margin: 0 auto 26px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: linear-gradient(155deg, #ffdd93 0%, var(--gold) 46%, #e0894a 100%);
+      border-radius: 46% 54% 48% 52% / 53% 46% 54% 47%;
+      box-shadow: 0 20px 46px rgba(75,23,79,.20);
+      animation: morph 16s ease-in-out infinite;
+    }
+    .hero-portrait img {
+      height: 112%;
+      width: auto;
+      max-width: none;
+      filter: drop-shadow(0 10px 20px rgba(36,0,47,.22));
+    }
+    @keyframes morph {
+      0%, 100% { border-radius: 46% 54% 48% 52% / 53% 46% 54% 47%; }
+      50%      { border-radius: 54% 46% 53% 47% / 47% 54% 46% 53%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .hero-portrait { animation: none; } }
+
     .hero-kicker {
-      margin-bottom: 18px;
-      color: var(--gold);
+      margin-bottom: 14px;
+      color: var(--plum);
       font-family: var(--heading);
-      font-size: 25px;
+      font-size: 23px;
       line-height: 1.25;
     }
     .hero h1 {
-      margin-bottom: 24px;
-      color: var(--white);
-      font-size: 42px;
+      margin-bottom: 22px;
+      color: var(--ink);
+      font-size: 40px;
     }
-    .hero h1 span { color: var(--gold); }
+    .hero h1 span {
+      background: linear-gradient(transparent 62%, rgba(242,177,53,.62) 62%);
+      padding-inline: 4px;
+    }
     .hero-sub {
-      max-width: 610px;
-      margin-bottom: 30px;
-      color: rgba(255,255,255,.93);
+      max-width: 640px;
+      margin: 0 auto 26px;
+      color: var(--text);
       font-size: 20px;
       line-height: 1.55;
     }
@@ -106,17 +133,22 @@
       display: flex;
       gap: 11px;
       align-items: center;
-      margin: 0 0 28px;
-      color: rgba(255,255,255,.84);
+      justify-content: center;
+      max-width: 560px;
+      margin: 0 auto 26px;
+      color: var(--muted);
       font-size: 16px;
+      text-align: center;
     }
     .event-date {
       width: fit-content;
-      margin: 0 0 22px;
-      padding: 12px 18px;
+      margin: 0 auto 22px;
+      padding: 12px 20px;
+      border-radius: 6px;
       border-right: 4px solid var(--gold);
-      background: rgba(255,255,255,.1);
-      color: var(--white);
+      background: var(--white);
+      box-shadow: 0 8px 22px rgba(75,23,79,.10);
+      color: var(--ink);
       font-size: 20px;
       font-weight: 700;
     }
@@ -357,10 +389,11 @@
 
     @media (min-width: 760px) {
       section { padding: 94px 28px; }
-      .hero { min-height: 820px; padding: 92px 28px 106px; }
-      .hero h1 { font-size: 66px; }
-      .hero-kicker { font-size: 29px; }
+      .hero { padding: 74px 28px 88px; }
+      .hero h1 { font-size: 58px; }
+      .hero-kicker { font-size: 27px; }
       .hero-sub { font-size: 22px; }
+      .hero-portrait { width: 300px; margin-bottom: 30px; }
       .section-kicker { font-size: 28px; }
       .section-title { font-size: 46px; }
       .equation { grid-template-columns: repeat(3, 1fr); }
@@ -374,19 +407,12 @@
     }
 
     @media (max-width: 759px) {
-      .hero {
-        min-height: 650px;
-        padding-top: 28px;
-        padding-bottom: 28px;
-        background-image:
-          linear-gradient(90deg, rgba(25,4,32,.9) 0%, rgba(36,0,47,.76) 60%, rgba(36,0,47,.42) 100%),
-          url("/images/webinar-hero-clinic.jpg");
-        background-position: 63% center;
-      }
+      .hero { padding-top: 34px; padding-bottom: 46px; }
       .hero-content { padding-top: 0; }
-      .hero h1 { font-size: 36px; }
+      .hero h1 { font-size: 34px; }
       .hero-sub { font-size: 18px; }
-      .hero-note { align-items: flex-start; }
+      .hero-kicker { font-size: 20px; }
+      .hero-note { align-items: flex-start; font-size: 15px; }
       .event-date { padding: 10px 14px; font-size: 18px; }
       .ceiling { padding-top: 40px; }
       .btn { width: 100%; padding-inline: 18px; }
@@ -411,12 +437,15 @@
   <header class="hero">
     <div class="wrap">
       <div class="hero-content">
+        <div class="hero-portrait">
+          <img src="/images/nissim-cutout.webp" alt="ניסים לוי" width="520" height="857">
+        </div>
         <p class="hero-kicker">הדרכה מעשית למטפלים, מאמנים ויועצים</p>
         <h1>איך להגדיל את ההכנסות שלכם באלפי שקלים, <span>בלי להוסיף עוד פגישות ביומן</span></h1>
         <p class="hero-sub">בואו לגלות איך להפוך נושא שחוזר אצלכם בקליניקה למוצר דיגיטלי שיכול לעזור להרבה אנשים, ולהימכר בלי שתוסיפו עוד פגישה ליומן.</p>
         <p class="event-date"><strong>מתי:</strong> יום שלישי ה-8/9 ב-10 בבוקר</p>
         <p class="hero-note">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#f2b135" stroke-width="2"/><path d="M12 7v5l3 2" stroke="#f2b135" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#b07d1f" stroke-width="2"/><path d="M12 7v5l3 2" stroke="#b07d1f" stroke-width="2" stroke-linecap="round"/></svg>
           <span>הדרכה שבה תגלו איזה מוצר דיגיטלי כבר מסתתר בתוך הידע והניסיון שלכם.</span>
         </p>
         <!-- CTA #1 -->
