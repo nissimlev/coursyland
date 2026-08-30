@@ -191,24 +191,25 @@
     .section-intro { max-width: 740px; margin: 0 auto 34px; font-size: 19px; text-align: center; }
 
     .ceiling { background: var(--paper); }
-    .equation {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      max-width: 900px;
-      margin: 42px auto 0;
+    .prose {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 19px;
+      line-height: 1.8;
+      text-align: right;
     }
-    .equation-card {
-      padding: 28px 24px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--white);
-      text-align: center;
+    .prose p { margin-bottom: 22px; }
+    .prose p:last-child { margin-bottom: 0; }
+    .lead-line { font-size: 22px; font-weight: 700; color: var(--ink); }
+    /* פסקת האמינות — קו זהב, לא מסגרת */
+    .from-me {
+      margin-top: 34px;
+      padding: 4px 22px 4px 0;
+      border-right: 4px solid var(--gold);
+      font-size: 20px;
+      line-height: 1.65;
     }
-    .equation-card strong { display: block; color: var(--ink); font-family: var(--heading); font-size: 27px; }
-    .equation-card span { color: var(--muted); }
-    .equation-card.limit { border-color: rgba(215,102,89,.44); background: #fff5f2; }
-    .equation-card.limit strong { color: #aa4137; }
+    .from-me strong { color: var(--plum); }
 
     .ten-sessions { background: var(--ink); color: var(--white); }
     .ten-sessions .section-kicker { color: var(--gold); }
@@ -396,7 +397,7 @@
       .hero-portrait { width: 300px; margin: 40px auto 30px; }
       .section-kicker { font-size: 28px; }
       .section-title { font-size: 46px; }
-      .equation { grid-template-columns: repeat(3, 1fr); }
+      .prose { font-size: 20px; }
       .big-question { font-size: 52px; }
       .steps { grid-template-columns: repeat(2, 1fr); }
       .fit-list { grid-template-columns: repeat(2, 1fr); }
@@ -459,11 +460,12 @@
       <div class="wrap fade">
         <h2 class="section-title">לפגישות אחד על אחד יש תקרת הכנסה</h2>
         <div class="divider"></div>
-        <p class="section-intro">כמה פגישות אתם יכולים להכניס בשבוע? בסוף הזמן שלכם מוגבל, וגם הכוחות שלכם.</p>
-        <div class="equation" aria-label="המשוואה של הכנסה מפגישות אישיות">
-          <div class="equation-card"><strong>מחיר פגישה</strong><span>כפול</span></div>
-          <div class="equation-card"><strong>שעות פנויות</strong><span>שווה</span></div>
-          <div class="equation-card limit"><strong>תקרת ההכנסה</strong><span>ואין ביומן קומה נוספת</span></div>
+        <div class="prose">
+          <p class="lead-line">תחשבו על זה רגע: כמה פגישות אתם באמת יכולים להכניס בשבוע?</p>
+          <p>יש מספר שמעליו כבר אי אפשר, גם אם תרצו מאוד. הזמן שלכם מוגבל, והכוחות שלכם מוגבלים אפילו יותר. תכפילו את מחיר הפגישה במספר השעות שנשארו לכם פנויות — וזאת תקרת ההכנסה שלכם. אין ביומן קומה נוספת.</p>
+          <p>וזאת עוד לפני שהחיים מתערבים. מגיעים החגים והיומן מתרוקן. אוגוסט, וכל המשפחה בחופש. ילד חולה, מילואים, בלת"ם שמוחק שבוע שלם. אתם לא עובדים — אתם לא מרוויחים. פשוט ככה.</p>
+          <p>וזאת בדיוק הבעיה עם מקור הכנסה אחד: כשהוא נעצר, הכל נעצר. <strong class="strong">לא כדאי להחזיק עסק שלם על רגל אחת.</strong></p>
+          <p class="from-me">ואני מדבר אתכם כמטפל, לא כמישהו מבחוץ. <strong>בניתי עשרות קורסים שהכניסו לי מיליונים במרוצת השנים</strong> — במקביל לפגישות אחד על אחד, לא במקומן.</p>
         </div>
       </div>
     </section>
