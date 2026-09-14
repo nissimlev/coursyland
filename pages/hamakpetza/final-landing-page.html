@@ -843,7 +843,7 @@ alt=""></noscript>
 
     <form class="form-shell reveal" data-lead data-form-id="lp-mid"
           action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
-          method="post" target="lead-webhook-target" accept-charset="UTF-8">
+          method="post" target="lead-webhook-target" accept-charset="UTF-8" novalidate>
       <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n1">שם מלא</label><input id="n1" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
       <div class="field"><label for="e1">מייל</label><input id="e1" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
@@ -1049,7 +1049,7 @@ alt=""></noscript>
     </div>
     <form class="form-shell reveal" data-lead data-form-id="lp-final"
           action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
-          method="post" target="lead-webhook-target" accept-charset="UTF-8"
+          method="post" target="lead-webhook-target" accept-charset="UTF-8" novalidate
           style="--d:120ms">
       <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n2">שם מלא</label><input id="n2" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
@@ -1220,8 +1220,13 @@ alt=""></noscript>
       if (form.checkValidity && !form.checkValidity()) {
         ev.preventDefault();
         var msg = form.querySelector('.form-msg');
-        if (msg) msg.textContent = 'נא למלא את כל שדות החובה ולאשר קבלת דיוור.';
-        if (form.reportValidity) form.reportValidity();
+        var invalid = form.querySelector(':invalid');
+        if (msg) {
+          msg.textContent = invalid && invalid.name === 'consent'
+            ? 'כדי לשלוח את הטופס יש לסמן את אישור הדיוור.'
+            : 'נא למלא את כל שדות החובה בצורה תקינה.';
+        }
+        if (invalid && invalid.focus) invalid.focus();
         return;
       }
       if (!prepareSubmission(form)) ev.preventDefault();
