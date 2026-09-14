@@ -841,7 +841,10 @@ alt=""></noscript>
       <p class="lead">השאירו פרטים ונקבע שיחת אבחון אישית. נבדוק יחד אם יש כאן בסיס לקורס דיגיטלי שאפשר לבנות ממנו נכס עסקי.</p>
     </div>
 
-    <form class="form-shell reveal" data-lead data-form-id="lp-mid" novalidate>
+    <form class="form-shell reveal" data-lead data-form-id="lp-mid"
+          action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
+          method="post" target="lead-webhook-target" accept-charset="UTF-8"
+          onsubmit="window.setTimeout(function(){window.location.href='final-thank-you.html';},800)">
       <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n1">שם מלא</label><input id="n1" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
       <div class="field"><label for="e1">מייל</label><input id="e1" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
@@ -1045,7 +1048,11 @@ alt=""></noscript>
       <div class="bar"></div>
       <p class="lead" style="color:rgba(255,255,255,.82)">השאירו פרטים ונקבע שיחת אבחון אישית להשפעה גדולה ולהכנסה שמתאימה לידע ולניסיון שלכם.</p>
     </div>
-    <form class="form-shell reveal" data-lead data-form-id="lp-final" novalidate style="--d:120ms">
+    <form class="form-shell reveal" data-lead data-form-id="lp-final"
+          action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
+          method="post" target="lead-webhook-target" accept-charset="UTF-8"
+          onsubmit="window.setTimeout(function(){window.location.href='final-thank-you.html';},800)"
+          style="--d:120ms">
       <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n2">שם מלא</label><input id="n2" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
       <div class="field"><label for="e2">מייל</label><input id="e2" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
@@ -1076,6 +1083,8 @@ alt=""></noscript>
 
 <div class="sticky"><a class="btn" href="#form">אני רוצה לבדוק אם זה מתאים לי</a></div>
 
+<iframe name="lead-webhook-target" title="שליחת טופס" hidden></iframe>
+
 <script>
 (function () {
   'use strict';
@@ -1083,20 +1092,23 @@ alt=""></noscript>
   var WEBHOOK = 'https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3';
   var THANKS  = (document.documentElement.getAttribute('data-thanks') || 'thank-you.html');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var each = function (list, callback) {
+    Array.prototype.forEach.call(list, callback);
+  };
 
   /* ---------- reveal on scroll ---------- */
   var revealables = document.querySelectorAll('.reveal');
   if (reduced || !('IntersectionObserver' in window)) {
-    revealables.forEach(function (el) { el.classList.add('in'); });
+    each(revealables, function (el) { el.classList.add('in'); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { rootMargin: '0px 0px -9% 0px', threshold: 0.08 });
-    revealables.forEach(function (el) { io.observe(el); });
+    each(revealables, function (el) { io.observe(el); });
     /* stagger siblings inside a marked group */
-    document.querySelectorAll('[data-stagger]').forEach(function (group) {
+    each(document.querySelectorAll('[data-stagger]'), function (group) {
       var step = parseInt(group.getAttribute('data-stagger'), 10) || 80;
       Array.prototype.forEach.call(group.children, function (child, i) {
         if (child.classList.contains('reveal')) child.style.setProperty('--d', (i * step) + 'ms');
@@ -1123,19 +1135,19 @@ alt=""></noscript>
   var counters = document.querySelectorAll('[data-count]');
   if (counters.length) {
     if (!('IntersectionObserver' in window)) {
-      counters.forEach(countUp);
+      each(counters, countUp);
     } else {
       var cio = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) { countUp(e.target); cio.unobserve(e.target); }
         });
       }, { threshold: 0.4 });
-      counters.forEach(function (el) { cio.observe(el); });
+      each(counters, function (el) { cio.observe(el); });
     }
   }
 
   /* ---------- click-to-load video embeds ---------- */
-  document.querySelectorAll('[data-embed]').forEach(function (holder) {
+  each(document.querySelectorAll('[data-embed]'), function (holder) {
     holder.addEventListener('click', function () {
       if (holder.dataset.loaded) return;
       holder.dataset.loaded = '1';
@@ -1168,12 +1180,17 @@ alt=""></noscript>
     if (msg) msg.textContent = '';
     if (btn) btn.setAttribute('data-busy', '1');
 
-    var data = new URLSearchParams();
-    new FormData(form).forEach(function (v, k) { if (k !== 'company_website') data.append(k, v); });
-    data.append('form_id',   form.getAttribute('data-form-id') || 'lead');
-    data.append('page_url',  location.href);
-    data.append('page_name', document.title);
-    data.append('submitted_at', new Date().toISOString());
+    var fields = [];
+    Array.prototype.forEach.call(form.elements, function (field) {
+      if (!field.name || field.disabled || field.name === 'company_website') return;
+      if ((field.type === 'checkbox' || field.type === 'radio') && !field.checked) return;
+      fields.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
+    });
+    fields.push('form_id=' + encodeURIComponent(form.getAttribute('data-form-id') || 'lead'));
+    fields.push('page_url=' + encodeURIComponent(location.href));
+    fields.push('page_name=' + encodeURIComponent(document.title));
+    fields.push('submitted_at=' + encodeURIComponent(new Date().toISOString()));
+    var data = fields.join('&');
 
     function finish() {
       try { sessionStorage.setItem('lead_name', (form.elements.name && form.elements.name.value) || ''); } catch (e) {}
@@ -1182,25 +1199,43 @@ alt=""></noscript>
 
     var queued = false;
     if (navigator.sendBeacon) {
-      try { queued = navigator.sendBeacon(WEBHOOK, data); } catch (e) {}
+      try {
+        queued = navigator.sendBeacon(WEBHOOK, new Blob([data], {
+          type: 'application/x-www-form-urlencoded;charset=UTF-8'
+        }));
+      } catch (e) {}
     }
-    if (!queued) {
-      fetch(WEBHOOK, {
+    if (!queued && window.fetch) {
+      window.fetch(WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: data.toString(),
+        body: data,
         keepalive: true,
         mode: 'no-cors'
       }).catch(function () {});
+      queued = true;
+    }
+    if (!queued) {
+      try {
+        var request = new XMLHttpRequest();
+        request.open('POST', WEBHOOK, true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        request.send(data);
+      } catch (e) {}
     }
 
     finish();
   }
 
-  document.querySelectorAll('form[data-lead]').forEach(function (form) {
+  each(document.querySelectorAll('form[data-lead]'), function (form) {
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
-      if (!form.reportValidity()) return;
+      if (form.checkValidity && !form.checkValidity()) {
+        var msg = form.querySelector('.form-msg');
+        if (msg) msg.textContent = 'נא למלא את כל שדות החובה ולאשר קבלת דיוור.';
+        if (form.reportValidity) form.reportValidity();
+        return;
+      }
       send(form);
     });
   });
