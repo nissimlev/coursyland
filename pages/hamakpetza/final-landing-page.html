@@ -432,7 +432,7 @@ section{padding:clamp(74px,10vw,132px) 0;position:relative}
 .consent{display:flex;gap:11px;align-items:flex-start;margin:18px 0 6px;font-size:15px;color:var(--muted);line-height:1.65}
 .consent input{width:19px;height:19px;flex:none;margin-top:3px;accent-color:var(--violet)}
 .form-shell .btn{width:100%;margin-top:18px}
-.hp{position:absolute;inset-inline-start:-9999px;opacity:0;height:0;width:0;overflow:hidden}
+.hp{display:none}
 .form-msg{margin-top:14px;font-size:15.5px;color:#B0234C;min-height:1px;text-align:center}
 .form-note{margin-top:14px;font-size:14.5px;color:var(--muted);text-align:center;line-height:1.6}
 .btn[data-busy="1"]{pointer-events:none;opacity:.72}
@@ -846,7 +846,7 @@ alt=""></noscript>
     <form class="form-shell reveal" data-lead data-form-id="lp-mid"
           action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
           method="post" target="lead-webhook-target" accept-charset="UTF-8" novalidate>
-      <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="hp_trap" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n1">שם מלא</label><input id="n1" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
       <div class="field"><label for="e1">מייל</label><input id="e1" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
       <div class="field"><label for="p1">נייד</label><input id="p1" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000"></div>
@@ -1053,7 +1053,7 @@ alt=""></noscript>
           action="https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3"
           method="post" target="lead-webhook-target" accept-charset="UTF-8" novalidate
           style="--d:120ms">
-      <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="hp"><label>אל תמלאו שדה זה<input type="text" name="hp_trap" tabindex="-1" autocomplete="off"></label></div>
       <div class="field"><label for="n2">שם מלא</label><input id="n2" name="name" type="text" required autocomplete="name" placeholder="איך קוראים לכם?"></div>
       <div class="field"><label for="e2">מייל</label><input id="e2" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
       <div class="field"><label for="p2">נייד</label><input id="p2" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="050-0000000"></div>
@@ -1199,7 +1199,7 @@ alt=""></noscript>
 
     var data = new URLSearchParams();
     each(form.elements, function (el) {
-      if (!el.name || el.disabled) return;
+      if (!el.name || el.disabled || el.name === 'hp_trap') return;
       if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
       data.append(el.name, el.value);
     });
