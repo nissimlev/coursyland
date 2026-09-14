@@ -1087,7 +1087,6 @@ alt=""></noscript>
 (function () {
   'use strict';
 
-  var WEBHOOK = 'https://hook.eu2.make.com/fu6vdr6r6kx8wbllkf7drqydutlxsdl3';
   var THANKS  = (document.documentElement.getAttribute('data-thanks') || 'thank-you.html');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var each = function (list, callback) {
@@ -1170,63 +1169,62 @@ alt=""></noscript>
   }
 
   /* ---------- lead forms ---------- */
-  function send(form) {
+  function prepareSubmission(form) {
     var btn  = form.querySelector('button[type="submit"]');
     var msg  = form.querySelector('.form-msg');
-    if (form.querySelector('.hp input') && form.querySelector('.hp input').value) return; /* bot */
+    var honeypot = form.querySelector('.hp input');
+    if (honeypot && honeypot.value) return false; /* bot */
+    if (form.getAttribute('data-submitting') === '1') return false;
 
     if (msg) msg.textContent = '';
     if (btn) btn.setAttribute('data-busy', '1');
+    form.setAttribute('data-submitting', '1');
 
-    var fields = [];
-    Array.prototype.forEach.call(form.elements, function (field) {
-      if (!field.name || field.disabled || field.name === 'company_website') return;
-      if ((field.type === 'checkbox' || field.type === 'radio') && !field.checked) return;
-      fields.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
-    });
-    fields.push('form_id=' + encodeURIComponent(form.getAttribute('data-form-id') || 'lead'));
-    fields.push('page_url=' + encodeURIComponent(location.href));
-    fields.push('page_name=' + encodeURIComponent(document.title));
-    fields.push('submitted_at=' + encodeURIComponent(new Date().toISOString()));
-    var data = fields.join('&');
+    function setHidden(name, value) {
+      var field = form.querySelector('input[type="hidden"][name="' + name + '"]');
+      if (!field) {
+        field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = name;
+        form.appendChild(field);
+      }
+      field.value = value;
+    }
+    setHidden('form_id', form.getAttribute('data-form-id') || 'lead');
+    setHidden('page_url', location.href);
+    setHidden('page_name', document.title);
+    setHidden('submitted_at', new Date().toISOString());
 
+    var done = false;
+    var target = document.querySelector('iframe[name="lead-webhook-target"]');
     function finish() {
+      if (done) return;
+      done = true;
       try { sessionStorage.setItem('lead_name', (form.elements.name && form.elements.name.value) || ''); } catch (e) {}
-      location.assign(THANKS);
+      window.location.href = THANKS;
     }
 
-    function fail() {
-      if (btn) btn.removeAttribute('data-busy');
-      if (msg) msg.textContent = 'לא הצלחנו לשלוח את הפרטים. נסו שוב בעוד רגע.';
+    function targetLoaded() {
+      if (target) target.removeEventListener('load', targetLoaded);
+      finish();
     }
+    if (target) target.addEventListener('load', targetLoaded);
 
-    try {
-      var request = new XMLHttpRequest();
-      request.open('POST', WEBHOOK, true);
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-      request.timeout = 12000;
-      request.onload = function () {
-        if (request.status >= 200 && request.status < 300) finish();
-        else fail();
-      };
-      request.onerror = fail;
-      request.ontimeout = fail;
-      request.send(data);
-    } catch (e) {
-      fail();
-    }
+    /* Safety net in case an embedded browser suppresses the iframe load event. */
+    window.setTimeout(finish, 5000);
+    return true;
   }
 
   each(document.querySelectorAll('form[data-lead]'), function (form) {
     form.addEventListener('submit', function (ev) {
-      ev.preventDefault();
       if (form.checkValidity && !form.checkValidity()) {
+        ev.preventDefault();
         var msg = form.querySelector('.form-msg');
         if (msg) msg.textContent = 'נא למלא את כל שדות החובה ולאשר קבלת דיוור.';
         if (form.reportValidity) form.reportValidity();
         return;
       }
-      send(form);
+      if (!prepareSubmission(form)) ev.preventDefault();
     });
   });
 
