@@ -1175,26 +1175,26 @@ alt=""></noscript>
     data.append('page_name', document.title);
     data.append('submitted_at', new Date().toISOString());
 
-    var done = false;
     function finish() {
-      if (done) return;
-      done = true;
       try { sessionStorage.setItem('lead_name', (form.elements.name && form.elements.name.value) || ''); } catch (e) {}
-      location.href = THANKS;
+      location.assign(THANKS);
     }
-    var guard = setTimeout(finish, 4500);
 
-    fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: data.toString(),
-      keepalive: true
-    }).catch(function () {
-      /* CORS or network: the POST still leaves the browser, continue to thank-you */
-    }).finally(function () {
-      clearTimeout(guard);
-      finish();
-    });
+    var queued = false;
+    if (navigator.sendBeacon) {
+      try { queued = navigator.sendBeacon(WEBHOOK, data); } catch (e) {}
+    }
+    if (!queued) {
+      fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: data.toString(),
+        keepalive: true,
+        mode: 'no-cors'
+      }).catch(function () {});
+    }
+
+    finish();
   }
 
   document.querySelectorAll('form[data-lead]').forEach(function (form) {
