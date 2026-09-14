@@ -573,6 +573,8 @@ fbq('init','1130443299275601');
 fbq('track','PageView');
 </script>
 <!-- End Meta Pixel Code -->
+<!-- Analytics -->
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <!-- Meta Pixel Code (noscript) -->
@@ -1169,7 +1171,7 @@ alt=""></noscript>
   }
 
   /* ---------- lead forms ---------- */
-  function prepareSubmission(form) {
+  function submitLead(form) {
     var btn  = form.querySelector('button[type="submit"]');
     var msg  = form.querySelector('.form-msg');
     var honeypot = form.querySelector('.hp input');
@@ -1195,30 +1197,30 @@ alt=""></noscript>
     setHidden('page_name', document.title);
     setHidden('submitted_at', new Date().toISOString());
 
-    var done = false;
-    var target = document.querySelector('iframe[name="lead-webhook-target"]');
-    function finish() {
-      if (done) return;
-      done = true;
-      try { sessionStorage.setItem('lead_name', (form.elements.name && form.elements.name.value) || ''); } catch (e) {}
-      window.location.href = THANKS;
+    var data = new URLSearchParams();
+    each(form.elements, function (el) {
+      if (!el.name || el.disabled) return;
+      if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+      data.append(el.name, el.value);
+    });
+
+    /* sendBeacon is queued by the browser and survives the page unload,
+       so we can move to the thank-you page without waiting for Make. */
+    var webhook = form.getAttribute('action');
+    var sent = false;
+    try { sent = !!(navigator.sendBeacon && navigator.sendBeacon(webhook, data)); } catch (e) {}
+    if (!sent) {
+      try { fetch(webhook, { method: 'POST', body: data, mode: 'no-cors', keepalive: true }); } catch (e) {}
     }
 
-    function targetLoaded() {
-      if (target) target.removeEventListener('load', targetLoaded);
-      finish();
-    }
-    if (target) target.addEventListener('load', targetLoaded);
-
-    /* Safety net in case an embedded browser suppresses the iframe load event. */
-    window.setTimeout(finish, 5000);
-    return true;
+    try { sessionStorage.setItem('lead_name', (form.elements.name && form.elements.name.value) || ''); } catch (e) {}
+    window.location.href = THANKS;
   }
 
   each(document.querySelectorAll('form[data-lead]'), function (form) {
     form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
       if (form.checkValidity && !form.checkValidity()) {
-        ev.preventDefault();
         var msg = form.querySelector('.form-msg');
         var invalid = form.querySelector(':invalid');
         if (msg) {
@@ -1229,7 +1231,7 @@ alt=""></noscript>
         if (invalid && invalid.focus) invalid.focus();
         return;
       }
-      if (!prepareSubmission(form)) ev.preventDefault();
+      submitLead(form);
     });
   });
 
