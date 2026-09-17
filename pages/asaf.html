@@ -341,6 +341,9 @@ footer .fstrings{height:3px;background:var(--mint);margin:0 auto 24px;opacity:.8
 footer p{margin:0 0 8px;font-family:var(--font-a);font-size:16px;}
 footer strong{color:var(--mint);font-family:var(--font-h);font-weight:800;font-size:18px;}
 footer .legal{font-size:14px;color:rgba(255,255,255,.42);margin-top:14px;}
+footer nav{margin-top:14px;display:flex;justify-content:center;flex-wrap:wrap;gap:6px 16px;font-size:14px}
+footer nav a{color:rgba(255,255,255,.42)}
+footer nav a:hover{color:var(--mint)}
 
 /* ---------- fit — the one black band, like the reference ---------- */
 .fit{background:var(--ink);color:#fff;overflow:hidden;}
@@ -897,7 +900,12 @@ img{max-width:100%;height:auto;}
 <footer>
   <div class="fstrings"></div>
   <p>נוצר על ידי <strong>קורסילנד</strong></p>
-  <p class="legal">הצהרת נגישות :: הצהרת פרטיות</p>
+  <nav aria-label="קישורי תחתית">
+    <a href="/מסמכים/files/accessibility.html">הצהרת נגישות</a>
+    <a href="/מסמכים/files/privacy.html">מדיניות פרטיות</a>
+    <a href="/מסמכים/files/terms.html">תנאי שימוש</a>
+    <a href="/מסמכים/files/refunds.html">ביטולים והחזרים</a>
+  </nav>
 </footer>
 
 </body>
