@@ -155,7 +155,7 @@ GA4 `G-68WQD2QLSZ`, נטען מקובץ משותף אחד.
 
 ```html
 <!-- Analytics -->
-<script src="/assets/analytics.js" defer></script>
+<script src="/assets/analytics.js?v=20260922" defer></script>
 ```
 
 הכלל הוא על **פרסום, לא על מי כתב את הדף**: דפים שקלוד בנה, דפים שניסים מביא
@@ -167,6 +167,45 @@ GA4 `G-68WQD2QLSZ`, נטען מקובץ משותף אחד.
 - דף שמגיע מבחוץ עלול להביא סניפט משלו או מזהה זר — **להסיר**, לא להשאיר לצד שלנו
 - `landing-page-creator` ו-`sales-page-builder` **לא** מוסיפים את התג לבד
 - פטורים: `dashboard/` ו-`admintools/` — הקוד ממילא מסרב לרוץ שם
+- **מספר הגרסה ב-`?v=` הוא חובה, לא קישוט** — ראה §10 "Cloudflare מגיש
+  עותק ישן של `analytics.js`"
+
+### Cloudflare מגיש עותק ישן של `analytics.js` — ולא ניתן ל-purge אמין
+
+`assets/analytics.js` משותף לכל האתר ומוגש דרך Cloudflare עם
+`cache-control: public, max-age=604800` (**שבוע**). כל שינוי בקובץ לא מגיע
+למבקרים עד שה-cache פג — אלא אם משנים את ה-URL.
+
+**מאומת ב-22 בספטמבר 2026:** אחרי שינוי בקובץ ו-push ל-`main`, `curl` בלי
+cache-bust החזיר עדיין את הגרסה הישנה (`cf-cache-status: HIT`, `last-modified`
+של הגרסה הקודמת), בעוד ש-`curl` עם `?v=<משהו-זמני>` החזיר מיד את הגרסה
+החדשה (`cf-cache-status: MISS`). כלומר הקובץ החדש קיים בשרת המקור, אבל
+ה-edge cache של Cloudflare ממשיך להגיש את הישן.
+
+**`hosting_clearWebsiteCacheV1` של Hostinger MCP לא עוזר.** נבדק: הקריאה
+מחזירה `{"message":"Request accepted"}`, אבל בבדיקות חוזרות במשך כ-90
+שניות אחריה ה-`cf-cache-status` נשאר `HIT` וה-`age` header ממשיך לעלות
+ברציפות — כלומר שום purge לא קרה בפועל. הסבר סביר: Cloudflare על הדומיין
+הזה מוגדר ברמת ה-DNS/רג'יסטרר, לא דרך "Website CDN" הפנימי של Hostinger,
+אז הכלי מנקה רק cache בצד השרת (LiteSpeed — נראה ב-header
+`x-turbo-charged-by: LiteSpeed`) ולא נוגע ב-edge cache האמיתי. אין כלי
+MCP של Cloudflare זמין בסביבה הזו לביצוע purge ישיר.
+
+**הפתרון היחיד שעובד בפועל: cache-busting ב-URL, לא purge.** כל שינוי
+ב-`assets/analytics.js` (או בכל asset סטטי משותף אחר עם cache ארוך דומה)
+חייב לעלות את מספר הגרסה ב-query string **בכל דף שמפנה אליו** — זה מכריח
+את הדפדפן ואת Cloudflare לראות משאב חדש. קונבנציה: תאריך בפורמט `YYYYMMDD`
+(דוגמה נוכחית: `?v=20260922`). בעדכון הבא — תאריך העדכון, לא מספר עולה.
+
+בזמן כתיבת השורות האלה 21 קבצים מפנים ל-`assets/analytics.js`. `grep -r`
+**מחמיץ בדיוק 3 מהם** (`pages/asaf.html`, `pages/online-squad.html`,
+`pages/reboot.html`) — התברר שהסיבה היא ש-`grep` בסביבה הזו הוא alias
+ל-`ugrep --ignore-files`, שמכבד תבניות `.gitignore` **גם על קבצים
+שכבר tracked** בפועל (למרות ש-`.gitignore` אמור לא לחול על tracked —
+`--ignore-files` של ugrep לא בודק tracked/untracked, רק מתאים תבנית
+נתיב). מכיוון ש-`pages/*.html` מסונן ב-`.gitignore` (§8/§10), שלושת
+הקבצים האלה נעלמים משקט מכל `grep -r`. **פתרון: `command grep -r`**
+(עוקף את ה-alias), או סקריפט/`find` שלא תלוי ב-grep בכלל.
 
 ### המודל: אופט-אין
 
@@ -286,7 +325,8 @@ GA4 `G-68WQD2QLSZ`, נטען מקובץ משותף אחד.
 | **`pages/*.html` ב-`.gitignore`** | **דף חדש בשורש `pages/` לא נדחף — בלי שום שגיאה** | **תת-תיקייה: `pages/<לקוח>/index.html`**. חריג יחיד: `pages/thankyou.html` דרך שורת נגציה |
 | `check-ignore` נקי על קובץ tracked | `.gitignore` לא חל על קבצים במעקב — הבדיקה מטעה | אמין רק על קובץ שטרם נכנס ל-index |
 | הריפו זז מעצמו | הכלים החיים דוחפים ל-main | `git fetch` לפני כל עבודה |
-| `grep -r` לא אמין כאן | החמיץ 3 קבצים ב-`pages/` | ביקורת קובץ-קובץ |
+| `grep -r` לא אמין כאן | ה-`grep` בסביבה הזו הוא alias ל-`ugrep --ignore-files`, שמכבד את `pages/*.html` ב-`.gitignore` גם על קבצים tracked — מחמיץ `asaf.html`, `online-squad.html`, `reboot.html` | `command grep -r` (עוקף את ה-alias), או ביקורת קובץ-קובץ שלא תלויה ב-grep |
+| `analytics.js` לא מתעדכן אצל מבקרים אחרי push | Cloudflare edge cache, `max-age=604800`; `hosting_clearWebsiteCacheV1` לא מטהר אותו בפועל (מאומת) | cache-busting: להעלות `?v=<תאריך>` בכל 21 הדפים שמפנים לקובץ (§7) |
 | בדיקת התג של Google נכשלת | מודל אופט-אין | תקין. אמת ב-Realtime |
 | `file://` לא נפתח בדפדפן | נתיב עם עברית | שרת מקומי במקום |
 | `config.php` | סודות פרודקשן | קריאה בלבד. לעולם לא ב-git |
