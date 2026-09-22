@@ -1,11 +1,16 @@
 /* ============================================================
-   קורסילנד — Google Analytics 4 + באנר הסכמה
+   קורסילנד — Google Analytics 4 + Meta Pixel + באנר הסכמה
    ------------------------------------------------------------
    עקרון: איסוף נתונים הוא OPT-IN בלבד.
-   כל עוד המבקר לא אישר במפורש — לא נטען gtag, לא נשלחת שום
-   בקשה ל-Google, ולא נשמרת אף עוגיית אנליטיקה.
+   כל עוד המבקר לא אישר במפורש — לא נטען gtag, לא נטען fbq,
+   לא נשלחת שום בקשה ל-Google או ל-Facebook, ולא נשמרת אף עוגיית
+   אנליטיקה/פרסום.
 
-   להחלפת נכס — יש לשנות רק את GA_MEASUREMENT_ID.
+   Meta Pixel נטען רק בדפים שמפורטים ב-META_PIXEL_PAGES — לא בכל
+   האתר. להוספת דף — מוסיפים את הנתיב שלו למערך, לא הופכים את זה
+   לגלובלי.
+
+   להחלפת נכס GA — יש לשנות רק את GA_MEASUREMENT_ID.
    ============================================================ */
 (function () {
   'use strict';
@@ -13,6 +18,14 @@
   var GA_MEASUREMENT_ID = 'G-68WQD2QLSZ';
   var STORAGE_KEY       = 'coursyland.consent.v1';
   var PRIVACY_URL       = '/מסמכים/files/privacy.html';
+
+  /* Meta Pixel (Facebook) — מדידת פרסום/רימרקטינג.
+     בכוונה מוגבל לדפי נחיתה ספציפיים, לא לכל האתר.
+     להוספת דף נוסף — הוסיפו את הנתיב למערך הזה בלבד. */
+  var META_PIXEL_ID    = '795788145571339';
+  var META_PIXEL_PAGES = [
+    '/pages/dikla-teler/present-of-gaps.html'
+  ];
 
   /* ---------- בדיקות סביבה ---------- */
 
@@ -58,6 +71,39 @@
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
     document.head.appendChild(s);
+  }
+
+  /* ---------- טעינת Meta Pixel (מוגבל לדפים ב-META_PIXEL_PAGES) ---------- */
+
+  function metaPixelApplies() {
+    var path = location.pathname;
+    for (var i = 0; i < META_PIXEL_PAGES.length; i++) {
+      if (path === META_PIXEL_PAGES[i] || path.indexOf(META_PIXEL_PAGES[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  var metaLoaded = false;
+  function loadMetaPixel() {
+    if (metaLoaded || !measurable() || !metaPixelApplies()) return;
+    metaLoaded = true;
+
+    /* fbq לא מוגדר בכלל עד שיש הסכמה — כלומר שום קריאה לא יכולה
+       לצאת ל-Facebook לפני הרגע הזה, בדיוק כמו gtag למעלה. */
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+      t = b.createElement(e); t.async = true; t.src = v;
+      s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+    window.fbq('consent', 'grant');
+    window.fbq('init', META_PIXEL_ID);
+    window.fbq('track', 'PageView');
   }
 
   /* ---------- עיצוב הבאנר ---------- */
@@ -119,9 +165,14 @@
     var text = document.createElement('p');
     text.className = 'cl-consent-text';
     text.id = 'cl-consent-title';
-    text.innerHTML = 'אנחנו משתמשים ב-Google Analytics כדי להבין איך משתמשים באתר ולשפר אותו. ' +
-      'לא נאסף מידע מזהה, ואין פרסום מותאם אישית. ' +
-      '<a href="' + PRIVACY_URL + '">למדיניות הפרטיות</a>';
+    var msg = 'אנחנו משתמשים ב-Google Analytics כדי להבין איך משתמשים באתר ולשפר אותו. ';
+    if (metaPixelApplies()) {
+      msg += 'בדף הזה אנחנו משתמשים גם בפיקסל פרסום של Facebook (Meta), לצורך מדידת פרסום ורימרקטינג. ' +
+        'לא נאסף מידע מזהה, ורק אם תאשרו יופעל גם פרסום מותאם אישית ברשתות כמו פייסבוק. ';
+    } else {
+      msg += 'לא נאסף מידע מזהה, ואין פרסום מותאם אישית. ';
+    }
+    text.innerHTML = msg + '<a href="' + PRIVACY_URL + '">למדיניות הפרטיות</a>';
 
     var actions = document.createElement('div');
     actions.className = 'cl-consent-actions';
@@ -130,7 +181,7 @@
     yes.type = 'button';
     yes.className = 'cl-consent-btn cl-consent-yes';
     yes.textContent = 'אני מאשר';
-    yes.onclick = function () { writeChoice('granted'); closeBanner(); loadGA(); };
+    yes.onclick = function () { writeChoice('granted'); closeBanner(); loadGA(); loadMetaPixel(); };
 
     var no = document.createElement('button');
     no.type = 'button';
@@ -174,7 +225,7 @@
   window.coursylandConsent = {
     status: function () { return readChoice() || 'unset'; },
     open:   showBanner,
-    grant:  function () { writeChoice('granted'); closeBanner(); loadGA(); },
+    grant:  function () { writeChoice('granted'); closeBanner(); loadGA(); loadMetaPixel(); },
     revoke: function () { writeChoice('denied'); closeBanner(); }
   };
 
@@ -184,7 +235,7 @@
     if (!measurable()) return;      // סביבת פיתוח / אזור ניהול — אין באנר ואין מדידה
     addSettingsLink();
     var choice = readChoice();
-    if (choice === 'granted') loadGA();
+    if (choice === 'granted') { loadGA(); loadMetaPixel(); }
     else if (choice !== 'denied') showBanner();
   }
 
