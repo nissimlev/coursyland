@@ -29,6 +29,22 @@ try {
     if (!empty($result['errors'])) {
         $msg .= ' שגיאות: ' . implode('; ', $result['errors']);
     }
+    if (!empty($result['diagnostics'])) {
+        $d = $result['diagnostics'];
+        // ההודעה נכנסת ל-innerHTML בדשבורד, והערכים מגיעים מ-iCount
+        $esc = fn(array $xs) => htmlspecialchars(implode(', ', $xs), ENT_QUOTES, 'UTF-8');
+        $msg .= " | אבחון: טווח {$d['range']}, נשלפו {$d['docs_fetched']} מסמכים מ-iCount,"
+              . " {$d['docs_no_page_id']} בלי מזהה דף תשלום";
+        if ($d['unmatched_page_ids']) {
+            $msg .= ', מזהי דף שלא תואמים לאף קורס: ' . $esc($d['unmatched_page_ids']);
+        }
+        $msg .= '. מזהים בקורסים: ' . ($esc($d['course_page_ids']) ?: 'אין');
+        if ($d['docs_fetched'] === 0) {
+            $msg .= '. שדות בתשובה: ' . $esc($d['response_keys']);
+        } elseif ($d['docs_no_page_id'] > 0) {
+            $msg .= '. שדות במסמך: ' . $esc($d['doc_keys']);
+        }
+    }
 
     if (CLI_RUN) {
         echo $msg . PHP_EOL;

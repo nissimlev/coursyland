@@ -160,7 +160,8 @@ async function syncICount() {
     const res  = await fetch('/dashboard/api/icount_sync.php');
     const data = await res.json();
     msgEl.innerHTML = `<div class="alert alert-${data.success ? 'success' : 'error'}" data-auto-dismiss>${data.message}</div>`;
-    if (data.success) setTimeout(() => location.reload(), 2000);
+    // רענון רק כשנוספו רכישות — אחרת הוא מוחק את הודעת האבחון לפני שאפשר לקרוא אותה
+    if (data.success && data.data && data.data.inserted > 0) setTimeout(() => location.reload(), 2000);
   } catch(e) {
     msgEl.innerHTML = '<div class="alert alert-error">שגיאה בסנכרון.</div>';
   }

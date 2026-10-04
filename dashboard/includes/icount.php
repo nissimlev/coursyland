@@ -95,11 +95,13 @@ class ICountClient {
         $skipped  = 0;
         $errors   = [];
         $allDocs  = [];
+        $firstResponseKeys = [];
 
         // שלוף את כל המסמכים עם paging
         $offset = 0;
         do {
             $data = $this->searchDocs($fromDate, $toDate, 'invrec', $offset);
+            if (!$firstResponseKeys) $firstResponseKeys = array_keys($data);
             if (empty($data['results_list'])) break;
 
             $allDocs = array_merge($allDocs, $data['results_list']);
@@ -113,16 +115,20 @@ class ICountClient {
             $courseByPageId[$course['icount_payment_page_id']] = $course;
         }
 
+        // מוני אבחון — כדי ש"0 רכישות" יגיד איפה העסקאות נפלו
+        $noPageId         = 0;
+        $unmatchedPageIds = [];
+
         // כנס כל עסקה לפי cc_page_id
         foreach ($allDocs as $tx) {
             // שלוף את ה-cc_page_id מתוך custom
             $pageId = $tx['custom']['cc_page_id'] ?? null;
 
             // אם אין cc_page_id — דלג
-            if (!$pageId) continue;
+            if (!$pageId) { $noPageId++; continue; }
 
             // מצא את הקורס המתאים
-            if (!isset($courseByPageId[$pageId])) continue;
+            if (!isset($courseByPageId[$pageId])) { $unmatchedPageIds[(string)$pageId] = true; continue; }
 
             $course = $courseByPageId[$pageId];
             $amount = (float)($tx['totalwithvat'] ?? $tx['paid'] ?? 0);
@@ -144,6 +150,17 @@ class ICountClient {
             else $skipped++;
         }
 
-        return compact('inserted', 'skipped', 'errors');
+        $diagnostics = [
+            'range'              => "$fromDate..$toDate",
+            'docs_fetched'       => count($allDocs),
+            'docs_no_page_id'    => $noPageId,
+            'unmatched_page_ids' => array_slice(array_keys($unmatchedPageIds), 0, 10),
+            'course_page_ids'    => array_map('strval', array_keys($courseByPageId)),
+            // מבנה בלבד (שמות שדות), בלי ערכים — כדי לאתר איפה iCount שם את מזהה דף התשלום
+            'response_keys'      => $firstResponseKeys,
+            'doc_keys'           => $allDocs ? array_keys($allDocs[0]) : [],
+        ];
+
+        return compact('inserted', 'skipped', 'errors', 'diagnostics');
     }
 }
