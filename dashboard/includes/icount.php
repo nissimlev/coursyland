@@ -79,8 +79,39 @@ class ICountClient {
         ]);
     }
 
+    /** השנה הראשונה שממנה מושכים מכירות מ-iCount */
+    private const SYNC_FIRST_YEAR = 2020;
+
     /**
-     * סנכרון כל הקורסים הפעילים
+     * כל המסמכים בטווח אחד, עם paging — ממשיכים כל עוד חוזר עמוד מלא,
+     * בלי להסתמך על מונה הסה"כ של iCount. התקרה רק נגד לולאה אינסופית.
+     */
+    private function fetchAllDocs(string $fromDate, string $toDate, array &$firstResponseKeys): array {
+        $pageSize = 100;
+        $maxPages = 500; // 50,000 מסמכים לשנה
+        $offset   = 0;
+        $docs     = [];
+        $lastBatchKey = null;
+        for ($page = 0; $page < $maxPages; $page++) {
+            $data = $this->searchDocs($fromDate, $toDate, 'invrec', $offset);
+            if (!$firstResponseKeys) $firstResponseKeys = array_keys($data);
+            $batch = $data['results_list'] ?? [];
+            if (empty($batch)) break;
+
+            // אם iCount מתעלם מ-offset, אותו עמוד יחזור שוב ושוב — עוצרים
+            $batchKey = ($batch[0]['docnum'] ?? '') . '|' . count($batch);
+            if ($batchKey === $lastBatchKey) break;
+            $lastBatchKey = $batchKey;
+
+            $docs = array_merge($docs, $batch);
+            if (count($batch) < $pageSize) break;
+            $offset += $pageSize;
+        }
+        return $docs;
+    }
+
+    /**
+     * סנכרון כל הקורסים
      * iCount לא מחזיר payment_page_id בעסקאות — מזהים לפי שם/מייל הקונה
      * רכישות שנוצרו דרך עמוד תשלום מקושרות לפי course_id
      */
@@ -89,10 +120,13 @@ class ICountClient {
         $courses = $db->query("SELECT * FROM courses")->fetchAll(\PDO::FETCH_ASSOC);
         if (empty($courses)) return ['inserted' => 0, 'skipped' => 0, 'errors' => ['אין קורסים']];
 
-        // כל ההיסטוריה, בלי מגבלת תקופה. כפילויות לא נוצרות — INSERT IGNORE
-        // על icount_transaction_id — כך שמשיכה חוזרת של הכל בטוחה.
-        $fromDate = '2000-01-01';
-        $toDate   = date('Y-m-d');
+        // כל ההיסטוריה, בלי מגבלת תקופה, בחלוקה לשנים — חיפוש אחד על טווח של
+        // שנים רבות עלול להיחסם או להיחתך ב-iCount. כפילויות לא נוצרות —
+        // INSERT IGNORE על icount_transaction_id — כך שמשיכה חוזרת של הכל בטוחה.
+        $firstYear = self::SYNC_FIRST_YEAR;
+        $lastYear  = (int)date('Y');
+        $fromDate  = "$firstYear-01-01";
+        $toDate    = date('Y-m-d');
 
         // משיכה מלאה יכולה לקחת יותר מ-30 השניות של ברירת המחדל
         @set_time_limit(300);
@@ -103,25 +137,10 @@ class ICountClient {
         $allDocs  = [];
         $firstResponseKeys = [];
 
-        // שלוף את כל המסמכים עם paging — ממשיכים כל עוד חוזר עמוד מלא,
-        // בלי להסתמך על מונה הסה"כ של iCount. התקרה רק נגד לולאה אינסופית.
-        $pageSize = 100;
-        $maxPages = 500; // 50,000 מסמכים
-        $offset   = 0;
-        for ($page = 0; $page < $maxPages; $page++) {
-            $data = $this->searchDocs($fromDate, $toDate, 'invrec', $offset);
-            if (!$firstResponseKeys) $firstResponseKeys = array_keys($data);
-            $batch = $data['results_list'] ?? [];
-            if (empty($batch)) break;
-
-            // אם iCount מתעלם מ-offset, אותו עמוד יחזור שוב ושוב — עוצרים
-            $batchKey = ($batch[0]['docnum'] ?? '') . '|' . count($batch);
-            if (isset($lastBatchKey) && $batchKey === $lastBatchKey) break;
-            $lastBatchKey = $batchKey;
-
-            $allDocs = array_merge($allDocs, $batch);
-            if (count($batch) < $pageSize) break;
-            $offset += $pageSize;
+        for ($year = $lastYear; $year >= $firstYear; $year--) {
+            $yearFrom = "$year-01-01";
+            $yearTo   = $year === $lastYear ? $toDate : "$year-12-31";
+            $allDocs  = array_merge($allDocs, $this->fetchAllDocs($yearFrom, $yearTo, $firstResponseKeys));
         }
 
         // בנה מפה של payment_page_id → course

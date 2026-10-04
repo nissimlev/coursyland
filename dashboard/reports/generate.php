@@ -149,8 +149,9 @@ $currentQ = currentQuarter();
             <div class="form-group">
               <label>שנה *</label>
               <select name="year" class="form-control">
-                <?php for ($y = date('Y'); $y >= 2023; $y--): ?>
-                  <option value="<?= $y ?>" <?= $y === $currentQ['year'] ? 'selected' : '' ?>><?= $y ?></option>
+                <?php // (int): date() מחזיר מחרוזת, ו-=== מול int לא סימן אף שנה כנבחרת
+                for ($y = (int)date('Y'); $y >= 2023; $y--): ?>
+                  <option value="<?= $y ?>" <?= $y === (int)($_POST['year'] ?? $currentQ['year']) ? 'selected' : '' ?>><?= $y ?></option>
                 <?php endfor; ?>
               </select>
             </div>
