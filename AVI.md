@@ -122,6 +122,14 @@ PHP + MySQL ב-`admin.coursyland.com`. מנהל לקוחות, קורסים, מכ
 - `includes/config_load.php` מתפקד גם בלי הקובץ ומשלים ברירות מחדל ריקות
 - הסודות האמיתיים יושבים מחוץ ל-public_html (`db_login.txt`, `admin_login.txt`)
 
+### iCount — המפתח ב-`icount_login.txt`
+
+מפתח ה-API של iCount נקרא מ-`icount_login.txt` (שורה אחת), לצד `db_login.txt`
+מחוץ ל-public_html. רק אם הקובץ חסר — נפילה ל-`ICOUNT_API_KEY` מ-`config.php`.
+**מלכודת שהייתה:** אחרי ש-`config.php` ירד מ-git המפתח נשאר ריק בשרת, iCount
+דחה את הבקשה, והקוד לא בדק `status` בתשובה — אז הכפתור "סנכרן מ-iCount" דיווח
+"סנכרון הושלם: 0 רכישות חדשות" במקום שגיאה. היום כל `status=false` מוצג כשגיאה.
+
 **אל תחזיר את `config.php` למעקב git.** בדיקת בריאות: `/dashboard/` אמור
 להחזיר 302 (הפניה ללוגין). 500 = תקלה אמיתית, לא הבאג ההיסטורי.
 

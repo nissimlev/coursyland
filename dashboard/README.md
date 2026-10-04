@@ -54,7 +54,7 @@ define('SITE_URL', 'https://admin.coursyland.com');
 
 1. התחבר ל-iCount → הגדרות חשבון
 2. API → צור מפתח API חדש
-3. העתק את ה-Key וה-Company ID לקונפיג
+3. שמור את ה-Key בקובץ `icount_login.txt` (שורה אחת) לצד `db_login.txt`, מחוץ ל-public_html
 
 ---
 
@@ -137,7 +137,7 @@ Options -Indexes
 |------|--------|
 | PDF לא נוצר | וודא mPDF מותקן + תיקיית reports_pdf כתיבה |
 | מייל לא נשלח | בדוק GMAIL_APP_PASSWORD, Gmail 2FA פעיל |
-| iCount לא מסנכרן | בדוק API Key + Company ID |
+| iCount לא מסנכרן | קרא את הודעת השגיאה בדשבורד; בדוק את `icount_login.txt` |
 | שגיאת DB | בדוק DB_USER/DB_PASS ב-Hostinger |
 
 ---

@@ -7,7 +7,27 @@ class ICountClient {
     private string $baseUrl = 'https://api.icount.co.il/api/v3.php';
 
     public function __construct() {
-        $this->apiKey = ICOUNT_API_KEY;
+        $this->apiKey = self::loadApiKey();
+        if ($this->apiKey === '') {
+            throw new RuntimeException(
+                'מפתח iCount לא מוגדר בשרת. צור קובץ icount_login.txt לצד db_login.txt '
+                . '(מחוץ ל-public_html) ובו שורה אחת: מפתח ה-API של iCount.'
+            );
+        }
+    }
+
+    /**
+     * מפתח ה-API יושב בקובץ שמחוץ ל-public_html, לצד db_login.txt — מקום
+     * שהדיפלוי לא נוגע בו. config.php כבר לא במעקב git ויכול לא להיות קיים
+     * בשרת, ואז ICOUNT_API_KEY נשאר ריק (ברירת המחדל של config_load.php).
+     */
+    private static function loadApiKey(): string {
+        $file = dirname(__DIR__, 3) . '/icount_login.txt';
+        if (is_readable($file)) {
+            $key = trim((string)file_get_contents($file));
+            if ($key !== '') return $key;
+        }
+        return trim((string)ICOUNT_API_KEY);
     }
 
     private function request(string $endpoint, array $body = []): array {
@@ -26,11 +46,19 @@ class ICountClient {
         ]);
         $response = curl_exec($ch);
         $err      = curl_error($ch);
+        $httpCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($err) throw new RuntimeException("iCount cURL error: $err");
         $data = json_decode($response, true);
-        if (!$data) throw new RuntimeException("iCount invalid JSON");
+        if (!is_array($data)) throw new RuntimeException("iCount invalid JSON (HTTP $httpCode)");
+
+        // iCount מחזיר status=false עם reason כשהבקשה נכשלה (מפתח שגוי, הרשאה וכו').
+        // בלי הבדיקה הזו כישלון נראה כמו "אין עסקאות" והסנכרון מדווח הצלחה עם 0.
+        if (($data['status'] ?? null) === false || $httpCode >= 400) {
+            $reason = $data['reason'] ?? $data['error_description'] ?? $data['message'] ?? 'unknown error';
+            throw new RuntimeException("iCount: $reason (HTTP $httpCode)");
+        }
         return $data;
     }
 
