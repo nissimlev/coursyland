@@ -100,7 +100,7 @@
     color: var(--purple);
   }
 
-  /* כפתור "חדש! Online Squad" בתפריט */
+  /* כפתור "קורס משלך ב-60 יום" בתפריט — מוצג גם בנייד, בניגוד ל-nav-link */
   .nav-new {
     display: inline-flex;
     align-items: center;
@@ -110,7 +110,7 @@
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 800;
-    padding: 0.45rem 0.5rem 0.45rem 1rem;
+    padding: 0.45rem 1.1rem;
     border-radius: 50px;
     box-shadow: 0 4px 14px rgba(242,177,53,0.45);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -120,21 +120,6 @@
   .nav-new:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(242,177,53,0.6);
-  }
-
-  .nav-new-badge {
-    background: #2B1200;
-    color: #FFD27A;
-    font-size: 0.72rem;
-    font-weight: 800;
-    padding: 0.15rem 0.55rem;
-    border-radius: 50px;
-    animation: newPulse 1.8s ease-in-out infinite;
-  }
-
-  @keyframes newPulse {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.09); }
   }
 
   .btn-login {
@@ -503,7 +488,12 @@
     .hero { padding: 2.5rem 1.2rem 3rem; }
     nav { padding: 0 1rem; }
     .nav-links .nav-link { display: none; }
-    .nav-new { font-size: 0.8rem; padding: 0.4rem 0.4rem 0.4rem 0.75rem; }
+    .nav-new { font-size: 0.75rem; padding: 0.4rem 0.7rem; }
+    /* שלושת הפריטים בכותרת חייבים להיכנס ב-360px בלי גלילה אופקית */
+    .nav-inner { gap: 0.4rem; }
+    .logo { gap: 0.35rem; }
+    .logo-text { font-size: 1.05rem; }
+    .btn-login { font-size: 0.78rem; padding: 0.45rem 0.8rem; }
   }
 
   /* ── נגישות ── */
@@ -565,11 +555,7 @@
       <span class="logo-text">קורסילנד</span>
     </a>
     <div class="nav-links">
-      <a href="/pages/online-squad.html" class="nav-new" aria-label="חדש! Online Squad">
-        <span class="nav-new-badge">חדש!</span>
-        <span>Online Squad</span>
-      </a>
-      <a href="https://lp.vp4.me/i89n?cs=coursyland" target="_blank" rel="noopener noreferrer" class="nav-link" aria-label="קורס משלך – נפתח בחלון חדש">קורס משלך</a>
+      <a href="https://lp.vp4.me/i89n?cs=coursyland" target="_blank" rel="noopener noreferrer" class="nav-new" aria-label="קורס משלך ב-60 יום – נפתח בחלון חדש">קורס משלך ב-60 יום</a>
       <a href="#" class="nav-link">על הפרוייקט</a>
     </div>
     <div class="nav-actions">
