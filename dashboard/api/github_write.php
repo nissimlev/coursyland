@@ -261,6 +261,16 @@ function parseEntry(string $text): array {
  * סדר השדות ברשומה. שדה שאינו ברשימה נשמר ונכתב אחרי המוכרים,
  * כדי ששדה עתידי לא ייעלם בעריכה.
  */
+/**
+ * האם הקורס מוצג באתר כ"קורס לדוגמה" — אותו כלל כמו isSample() ב-index.html.
+ * דגל sample מפורש קובע; בלעדיו — קורס ותיק נחשב לדוגמה, חוץ משניים לפי שם.
+ */
+function isSampleCourse(array $f): bool {
+    if (isset($f['sample']) && is_bool($f['sample'])) return $f['sample'];
+    $title = (string)($f['title'] ?? '');
+    return $title !== 'אומן במיטה' && $title !== 'הקשר שמעבר';
+}
+
 const FIELD_ORDER = ['id','title','desc','category','price','oldPrice','duration','instructor','img','sample','link'];
 
 function orderFields(array $course): array {
@@ -418,6 +428,7 @@ switch ($action) {
                 'category'   => (string)($f['category']   ?? ''),
                 'img'        => (string)($f['img']        ?? ''),
                 'link'       => (string)($f['link']       ?? ''),
+                'sample'     => isSampleCourse($f),
             ];
         }
         echo json_encode(['courses' => $out], JSON_UNESCAPED_UNICODE);
@@ -438,7 +449,7 @@ switch ($action) {
         if ($pos === null) fail(404, 'הקורס לא נמצא בקטלוג.');
 
         // מתחילים מהרשומה הקיימת ודורסים רק מה שהטופס שלח, כדי ששדות
-        // שהכלי לא מציג — דגל sample למשל — יישארו בדיוק כפי שהם.
+        // שהכלי לא מציג יישארו בדיוק כפי שהם.
         $course   = parseEntry($entries[$pos]['text']);
         $editable = ['title','desc','category','price','oldPrice','duration','instructor','img','link'];
         $required = ['title','desc','category','price','duration','instructor'];
@@ -449,6 +460,10 @@ switch ($action) {
             if ($v === '' && in_array($k, $required, true)) fail(400, "חסר שדה חובה: {$k}");
             // ריק בשדה אופציונלי = הסרת השדה מהרשומה; jsEntry מדלג על ריקים
             $course[$k] = $v;
+        }
+        // צ'קבוקס "קורס לדוגמה" — נכתב תמיד כדגל מפורש, כדי שלא ייפול לכלל ברירת המחדל
+        if (array_key_exists('sample', $_POST)) {
+            $course['sample'] = ((string)$_POST['sample'] === '1');
         }
         $course['id'] = $id;   // המזהה לא ניתן לעריכה
 

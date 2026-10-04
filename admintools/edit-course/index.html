@@ -210,6 +210,13 @@
 
   .field-hint { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
 
+  .check-row {
+    display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+    font-size: 0.95rem; font-weight: 600; color: var(--text);
+    text-transform: none; letter-spacing: 0;
+  }
+  .check-row input { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; }
+
   .price-wrap { position: relative; }
   .price-prefix {
     position: absolute; right: 0.85rem; top: 50%;
@@ -413,6 +420,14 @@
           <label for="duration">אורך הקורס <span class="req">*</span></label>
           <input type="text" id="duration" placeholder="10 שיעורים" required>
           <div class="field-hint">הטקסט נשמר כפי שהוא — למשל "10 שיעורים" או "5 פרקים"</div>
+        </div>
+
+        <div class="form-group full">
+          <label class="check-row" for="sample">
+            <input type="checkbox" id="sample">
+            קורס לדוגמה
+          </label>
+          <div class="field-hint">מסומן = באתר תופיע על הקורס התווית "קורס לדוגמה" והוא יוצג אחרי הקורסים הרגילים</div>
         </div>
 
       </div>
@@ -633,6 +648,7 @@ async function startEdit(id) {
   document.getElementById('old-price').value   = priceDigits(c.oldPrice);
   document.getElementById('duration').value    = c.duration;
   document.getElementById('link').value        = c.link || '';
+  document.getElementById('sample').checked    = !!c.sample;
   document.getElementById('img').value         = c.img || '';
   document.getElementById('img-file').value    = '';
   document.getElementById('img-upload-status').style.display = 'none';
@@ -722,7 +738,7 @@ document.getElementById('course-form').addEventListener('submit', async function
     }
 
     // השרת קורא את הקטלוג, מחליף את הרשומה הזו בלבד וכותב בחזרה.
-    // שדות שאינם כאן — דגל sample למשל — נשארים כפי שהם.
+    // שדות שאינם כאן נשארים כפי שהם.
     await api({
       action: 'update_course',
       id: editing.id,
@@ -730,7 +746,8 @@ document.getElementById('course-form').addEventListener('submit', async function
       price: '₪' + priceNum,
       oldPrice: oldPriceNum ? '₪' + oldPriceNum : '',
       img: resolvedImg,
-      link
+      link,
+      sample: document.getElementById('sample').checked ? '1' : '0'
     });
 
     showToast('הקורס עודכן בהצלחה. האתר יתעדכן תוך מספר שניות.');

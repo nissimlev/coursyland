@@ -649,6 +649,7 @@ const courses = [
     duration: "5 פרקים",
     instructor: "ניסים לוי",
     img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+    sample: false,
     link: "https://lp.vp4.me/wc1m?cs=coursyland"
   },
   {
@@ -797,9 +798,12 @@ const courses = [
 
 ];
 
-// קורסים לדוגמה מזוהים בדגל sample (שני קורסים ותיקים מזוהים לפי שם)
+// קורסים לדוגמה מזוהים בדגל sample (נקבע בצ'קבוקס בכלי עריכת קורס).
+// בלי דגל מפורש — קורס ותיק נחשב לדוגמה, חוץ משניים שמזוהים לפי שם.
+// אותו כלל בדיוק ב-isSampleCourse() ב-dashboard/api/github_write.php.
 function isSample(c) {
-  return c.title !== "אומן במיטה" && c.title !== "הקשר שמעבר" && c.sample !== false;
+  if (typeof c.sample === "boolean") return c.sample;
+  return c.title !== "אומן במיטה" && c.title !== "הקשר שמעבר";
 }
 
 const categories = ["הכל", ...new Set(courses.map(c => c.category))];
