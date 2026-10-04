@@ -8,6 +8,10 @@ requireLogin();
 
 $db = getDB();
 
+// סנכרון iCount אוטומטי — פעם אחת אחרי כל כניסה (הדגל נקבע ב-login.php)
+$autoSyncICount = !empty($_SESSION['icount_sync_pending']);
+unset($_SESSION['icount_sync_pending']);
+
 // ===== פילטר =====
 $filterMode  = $_GET['filter']  ?? 'month';
 $filterYear  = (int)($_GET['year']    ?? date('Y'));
@@ -390,6 +394,28 @@ $years = range(date('Y'), 2024);
 </div>
 <div class="toast-container"></div>
 <script src="/dashboard/assets/script.js"></script>
+<?php if ($autoSyncICount): ?>
+<script>
+(async () => {
+  showToast('מסנכרן נתונים מ-iCount...', 'info');
+  try {
+    const res  = await fetch('/dashboard/api/icount_sync.php');
+    const data = await res.json();
+    const inserted = data.data ? data.data.inserted : 0;
+    if (!data.success) {
+      showToast(data.message, 'error');
+    } else if (inserted > 0) {
+      showToast(`נוספו ${inserted} רכישות חדשות מ-iCount. מרענן...`, 'success');
+      setTimeout(() => location.reload(), 2000);
+    } else {
+      showToast('iCount מסונכרן — אין רכישות חדשות.', 'success');
+    }
+  } catch (e) {
+    showToast('הסנכרון האוטומטי עם iCount נכשל. אפשר לסנכרן ידנית מדף המכירות.', 'error');
+  }
+})();
+</script>
+<?php endif; ?>
 <?php if ($hasChartData): ?>
 <script>
 const ctx = document.getElementById('salesChart').getContext('2d');

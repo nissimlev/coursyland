@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'] ?? '';
         if (login($username, $password)) {
             unset($_SESSION['login_attempts'][$ip]);
+            // הסנכרון עם iCount רץ ברקע מהדף הראשון, לא כאן — הוא יכול לקחת עשרות שניות
+            $_SESSION['icount_sync_pending'] = true;
             redirect('/dashboard/index.php');
         } else {
             $attempts[] = time();
