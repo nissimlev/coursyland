@@ -85,11 +85,17 @@ class ICountClient {
      * רכישות שנוצרו דרך עמוד תשלום מקושרות לפי course_id
      */
     public function syncAllCourses(\PDO $db): array {
-        $courses = $db->query("SELECT * FROM courses WHERE status='active'")->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($courses)) return ['inserted' => 0, 'skipped' => 0, 'errors' => ['אין קורסים פעילים']];
+        // כל הקורסים, גם לא פעילים — מכירות עבר של קורס שהושבת עדיין שייכות לדוחות
+        $courses = $db->query("SELECT * FROM courses")->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($courses)) return ['inserted' => 0, 'skipped' => 0, 'errors' => ['אין קורסים']];
 
-        $fromDate = date('Y-m-d', strtotime('-30 days'));
+        // כל ההיסטוריה, בלי מגבלת תקופה. כפילויות לא נוצרות — INSERT IGNORE
+        // על icount_transaction_id — כך שמשיכה חוזרת של הכל בטוחה.
+        $fromDate = '2000-01-01';
         $toDate   = date('Y-m-d');
+
+        // משיכה מלאה יכולה לקחת יותר מ-30 השניות של ברירת המחדל
+        @set_time_limit(300);
 
         $inserted = 0;
         $skipped  = 0;
@@ -97,17 +103,26 @@ class ICountClient {
         $allDocs  = [];
         $firstResponseKeys = [];
 
-        // שלוף את כל המסמכים עם paging
-        $offset = 0;
-        do {
+        // שלוף את כל המסמכים עם paging — ממשיכים כל עוד חוזר עמוד מלא,
+        // בלי להסתמך על מונה הסה"כ של iCount. התקרה רק נגד לולאה אינסופית.
+        $pageSize = 100;
+        $maxPages = 500; // 50,000 מסמכים
+        $offset   = 0;
+        for ($page = 0; $page < $maxPages; $page++) {
             $data = $this->searchDocs($fromDate, $toDate, 'invrec', $offset);
             if (!$firstResponseKeys) $firstResponseKeys = array_keys($data);
-            if (empty($data['results_list'])) break;
+            $batch = $data['results_list'] ?? [];
+            if (empty($batch)) break;
 
-            $allDocs = array_merge($allDocs, $data['results_list']);
-            $offset += 100;
-            $total = (int)($data['results_count'] ?? 0);
-        } while ($offset < $total && $offset < 1000);
+            // אם iCount מתעלם מ-offset, אותו עמוד יחזור שוב ושוב — עוצרים
+            $batchKey = ($batch[0]['docnum'] ?? '') . '|' . count($batch);
+            if (isset($lastBatchKey) && $batchKey === $lastBatchKey) break;
+            $lastBatchKey = $batchKey;
+
+            $allDocs = array_merge($allDocs, $batch);
+            if (count($batch) < $pageSize) break;
+            $offset += $pageSize;
+        }
 
         // בנה מפה של payment_page_id → course
         $courseByPageId = [];
