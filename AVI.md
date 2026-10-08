@@ -341,6 +341,7 @@ MCP של Cloudflare זמין בסביבה הזו לביצוע purge ישיר.
 | מלכודת | מה קורה | מה לעשות |
 |---|---|---|
 | **`pages/*.html` ב-`.gitignore`** | **דף חדש בשורש `pages/` לא נדחף — בלי שום שגיאה** | **תת-תיקייה: `pages/<לקוח>/index.html`**. חריג יחיד: `pages/thankyou.html` דרך שורת נגציה |
+| **`pages/assets/` ב-`.gitignore`** | תמונות שנשמרות שם לא נדחפות, והדף עולה עם תמונות שבורות | תמונות משותפות לדפים: `assets/<נושא>/` בשורש (למשל `assets/showcase/` של דוגמאות דפי הנחיתה ב-Online Squad), או בתוך תיקיית הלקוח |
 | `check-ignore` נקי על קובץ tracked | `.gitignore` לא חל על קבצים במעקב — הבדיקה מטעה | אמין רק על קובץ שטרם נכנס ל-index |
 | הריפו זז מעצמו | הכלים החיים דוחפים ל-main | `git fetch` לפני כל עבודה |
 | `grep -r` לא אמין כאן | ה-`grep` בסביבה הזו הוא alias ל-`ugrep --ignore-files`, שמכבד את `pages/*.html` ב-`.gitignore` גם על קבצים tracked — מחמיץ `asaf.html`, `online-squad.html`, `reboot.html` | `command grep -r` (עוקף את ה-alias), או ביקורת קובץ-קובץ שלא תלויה ב-grep |
