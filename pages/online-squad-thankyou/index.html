@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>נרשמתם ל-Online Squad, איזה כיף!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111111;
+  --pink:#ff2470;
+  --pink-deep:#e0115c;
+  --gold:#f4f71a;
+  --cream:#fff6f9;
+  --white:#ffffff;
+  --text:#222222;
+  --font:'Rubik',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);font-size:17px;line-height:1.7;color:var(--text);background:var(--cream);text-align:center;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+.next{flex:1}
+h1,h2{font-weight:800;line-height:1.2;color:var(--ink)}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--pink);color:var(--white);padding:48px 20px 96px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:48px;background:var(--cream);clip-path:ellipse(75% 100% at 50% 100%)}
+.wrap{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.badge{width:88px;height:88px;margin:0 auto 22px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 34px rgba(0,0,0,.18);animation:pop .6s cubic-bezier(.3,1.6,.5,1) .15s both}
+.badge svg{width:44px;height:44px;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.badge path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s ease .6s forwards}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.eyebrow{display:block;font-weight:500;color:var(--gold);font-size:17px;margin-bottom:10px}
+.hero h1{color:var(--white);font-size:40px}
+.hero h1 .mark{display:inline-block;color:var(--ink);padding:0 10px;margin-top:6px;background:linear-gradient(transparent 12%,var(--gold) 12%,var(--gold) 92%,transparent 92%) no-repeat right center/0% 100%;animation:mark 1s cubic-bezier(.6,.1,.3,1) .9s forwards}
+@keyframes mark{to{background-size:100% 100%}}
+.hero .sub{max-width:520px;margin:20px auto 0;font-size:19px;font-weight:300;color:rgba(255,255,255,.94)}
+
+/* confetti, falls once */
+.confetti{position:absolute;inset:0;pointer-events:none;z-index:0}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;opacity:0;animation:fall 3.2s ease-in forwards}
+.confetti i:nth-child(3n){background:var(--gold)}
+.confetti i:nth-child(3n+1){background:var(--white)}
+.confetti i:nth-child(3n+2){background:var(--ink)}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(560px) rotate(540deg)}}
+
+/* ---------- NEXT STEPS ---------- */
+.next{padding:40px 20px 72px}
+.next h2{font-size:28px;margin-bottom:28px}
+.steps{display:grid;gap:16px;max-width:560px;margin:0 auto;text-align:start}
+.step{display:flex;gap:16px;align-items:flex-start;background:var(--white);border:1px solid #f6d3e0;border-radius:18px;padding:22px 20px;box-shadow:0 10px 26px rgba(17,17,17,.06)}
+.step-num{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--pink);color:var(--white);font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;line-height:1}
+.step h3{font-size:19px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:4px}
+.step p{font-size:16px;color:#4a4a4a}
+.step.main{background:var(--ink);border-color:var(--ink)}
+.step.main .step-num{background:var(--gold);color:var(--ink)}
+.step.main h3{color:var(--white)}
+.step.main p{color:rgba(255,255,255,.8)}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;margin-top:16px;background:var(--gold);color:var(--ink);font-family:var(--font);font-weight:800;font-size:18px;border-radius:14px;padding:15px 26px;min-height:54px;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.25);transition:transform .15s ease}
+.btn-wa:hover{transform:translateY(-2px)}
+.btn-wa svg{width:24px;height:24px;flex-shrink:0}
+.sign{margin-top:40px;font-size:18px;color:var(--text)}
+.sign strong{display:block;font-size:24px;font-weight:800;color:var(--ink)}
+
+footer{background:var(--ink);color:rgba(255,255,255,.85);padding:32px 20px;font-size:15px}
+footer p{margin:0}
+footer strong{color:var(--gold)}
+footer nav{margin-top:12px;display:flex;justify-content:center;flex-wrap:wrap;gap:6px 16px;font-size:13px}
+footer nav a{color:rgba(255,255,255,.65)}
+footer nav a:hover{color:var(--gold)}
+
+@media (prefers-reduced-motion:reduce){
+  .badge,.badge path,.hero h1 .mark{animation:none}
+  .badge path{stroke-dashoffset:0}
+  .hero h1 .mark{background-size:100% 100%}
+  .confetti{display:none}
+}
+@media (min-width:768px){
+  .hero{padding:64px 24px 120px}
+  .hero h1{font-size:60px}
+  .hero .sub{font-size:21px}
+  .next h2{font-size:34px}
+}
+</style>
+<!-- Analytics -->
+<script src="/assets/analytics.js?v=20260922" defer></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="confetti" aria-hidden="true">
+    <i style="right:6%;animation-delay:.1s"></i><i style="right:14%;animation-delay:.5s"></i><i style="right:22%;animation-delay:.2s"></i>
+    <i style="right:31%;animation-delay:.7s"></i><i style="right:39%;animation-delay:.3s"></i><i style="right:47%;animation-delay:.9s"></i>
+    <i style="right:55%;animation-delay:.15s"></i><i style="right:63%;animation-delay:.6s"></i><i style="right:71%;animation-delay:.35s"></i>
+    <i style="right:79%;animation-delay:.8s"></i><i style="right:87%;animation-delay:.25s"></i><i style="right:94%;animation-delay:.55s"></i>
+  </div>
+  <div class="wrap">
+    <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <span class="eyebrow">Online Squad</span>
+    <h1>נרשמתם בהצלחה,<br><span class="mark">איזה כיף!!</span></h1>
+    <p class="sub">עשיתם את הצעד הראשון לקורס הדיגיטלי שלכם. מכאן אנחנו עושים את הדרך יחד.</p>
+  </div>
+</header>
+
+<section class="next">
+  <h2>מה עכשיו?</h2>
+  <div class="steps">
+    <div class="step main">
+      <span class="step-num">1</span>
+      <div>
+        <h3>הצטרפו לקבוצת הווצאפ של התוכנית</h3>
+        <p>שם נהיה בקשר לאורך כל התוכנית, ושם יעלו כל העדכונים.</p>
+        <a class="btn-wa" href="https://chat.whatsapp.com/BvSdU5xwrYlBYFSjdfJtdx" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4C9.4 4 4 9.1 4 15.4c0 2.4.8 4.6 2.1 6.4L4.5 27l5.4-1.6c1.8 1 3.9 1.5 6.1 1.5 6.6 0 12-5.1 12-11.4S22.6 4 16 4z" stroke="#111111" stroke-width="2.4" stroke-linejoin="round"/><path d="M11.5 12.5c.6 3.4 3.6 6.4 7 7l1.6-1.8-2.4-1.4-1.2 1c-1.3-.6-2.4-1.7-3-3l1-1.2-1.4-2.4-1.6 1.8z" fill="#111111"/></svg>
+          להצטרפות לקבוצה
+        </a>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <div>
+        <h3>בדקו את המייל</h3>
+        <p>שלחתי לכם מייל עם כל הפרטים. לא מוצאים? הציצו בתיקיית הספאם או בקידומי מכירות.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <div>
+        <h3>ניפגש בתחילת התוכנית</h3>
+        <p>המפגש הראשון ביום שלישי, <bdi dir="ltr">3.11</bdi> בשעה <bdi dir="ltr">10:00</bdi>.</p>
+      </div>
+    </div>
+  </div>
+  <p class="sign">מחכה לראות אתכם,<strong>ניסים</strong></p>
+</section>
+
+<footer>
+  <p>נוצר על ידי <strong>קורסילנד</strong></p>
+  <nav aria-label="קישורי תחתית">
+    <a href="/מסמכים/files/accessibility.html">הצהרת נגישות</a>
+    <a href="/מסמכים/files/privacy.html">מדיניות פרטיות</a>
+    <a href="/מסמכים/files/terms.html">תנאי שימוש</a>
+    <a href="/מסמכים/files/refunds.html">ביטולים והחזרים</a>
+  </nav>
+</footer>
+
+</body>
+</html>
