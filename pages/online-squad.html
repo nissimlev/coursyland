@@ -31,24 +31,25 @@ section{padding:64px 20px}
 p{margin-bottom:20px;white-space:pre-line}
 
 /* ---------- HERO ---------- */
-.hero{background:var(--pink);color:var(--white);padding:36px 20px 88px;position:relative}
-.hero::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:48px;background:var(--cream);clip-path:ellipse(75% 100% at 50% 100%)}
-.hero .eyebrow{display:inline-block;font-weight:500;letter-spacing:.02em;color:var(--gold);font-size:16px;margin-bottom:18px}
-.hero h1{color:var(--white);font-size:42px;margin-bottom:8px}
+.hero{background:var(--pink);color:var(--white);padding:28px 20px 64px;position:relative}
+.hero::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:40px;background:var(--cream);clip-path:ellipse(75% 100% at 50% 100%)}
+.hero .eyebrow{display:inline-block;font-weight:500;letter-spacing:.02em;color:var(--gold);font-size:16px;margin-bottom:12px}
+.hero h1{color:var(--white);font-size:min(42px,9.6vw);margin-bottom:8px}
 .hero h1 .hl{color:var(--gold)}
-.hero .no-tech{display:inline-block;color:var(--ink);font-family:var(--font-heading);font-weight:700;font-size:22px;line-height:1.3;padding:2px 10px;margin:22px auto 0;background:linear-gradient(transparent 14%,var(--gold) 14%,var(--gold) 92%,transparent 92%) no-repeat right center/0% 100%;animation:hero-mark 1s cubic-bezier(.6,.1,.3,1) .6s forwards}
+.hero .no-tech{display:inline-block;color:var(--ink);font-family:var(--font-heading);font-weight:700;font-size:22px;line-height:1.3;padding:2px 10px;margin:16px auto 0;background:linear-gradient(transparent 14%,var(--gold) 14%,var(--gold) 92%,transparent 92%) no-repeat right center/0% 100%;animation:hero-mark 1s cubic-bezier(.6,.1,.3,1) .6s forwards}
 @keyframes hero-mark{to{background-size:100% 100%}}
 @media (prefers-reduced-motion:reduce){.hero .no-tech{animation:none;background-size:100% 100%}}
-.hero .sub{max-width:680px;margin:14px auto 0;font-size:19px;font-weight:300;color:rgba(255,255,255,.92)}
+.hero .sub{max-width:680px;margin:10px auto 0;font-size:19px;font-weight:300;color:rgba(255,255,255,.92)}
 .hero .sub strong{color:var(--gold);font-weight:700}
-.hero .fit{margin-top:18px;font-size:15px;color:rgba(255,255,255,.75)}
+.hero .fit{margin:12px 0 0;font-size:15px;color:rgba(255,255,255,.75)}
 .hero .fit svg{vertical-align:-3px;margin-inline-start:6px}
-.hero .start{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:8px 18px;border:1.5px solid var(--gold);border-radius:999px;font-weight:500;font-size:17px;color:var(--white)}
+.hero .start{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:6px 16px;border:1.5px solid var(--gold);border-radius:999px;font-weight:500;font-size:16px;line-height:1.4;color:var(--white)}
+.hero .start svg{flex:none}
 .hero .start .d{color:var(--gold);font-weight:700}
 .btn{display:inline-block;background:var(--ink);color:var(--white);font-family:var(--font-body);font-weight:800;font-size:18px;border:none;border-radius:14px;padding:18px 34px;min-height:56px;cursor:pointer;text-decoration:none;box-shadow:0 10px 24px rgba(17,17,17,.22);transition:transform .15s ease,box-shadow .15s ease}
 .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(17,17,17,.3)}
 .hero .btn,.price .btn,.tech .btn{background:var(--gold);color:var(--ink);box-shadow:0 10px 24px rgba(0,0,0,.18)}
-.hero .btn{margin-top:34px}
+.hero .btn{margin-top:22px}
 
 /* ---------- QUOTES ---------- */
 .quote-band{background:var(--cream);padding:56px 20px}
@@ -362,8 +363,8 @@ footer nav a:hover{color:var(--gold)}
 
 @media (min-width:768px){
   section{padding:88px 24px}
-  .hero{padding:44px 24px 120px}
-  .hero h1{font-size:76px}
+  .hero{padding:32px 24px 80px}
+  .hero h1{font-size:min(76px,9vh)}
   .hero .eyebrow{font-size:18px}
   .hero .no-tech{font-size:26px}
   .hero .sub{font-size:23px}
@@ -396,13 +397,8 @@ footer nav a:hover{color:var(--gold)}
     <h1>ב-6 שבועות יש לכם<br><span class="hl">קורס דיגיטלי מוכן למכירה</span></h1>
     <p class="no-tech">ללא צורך בידע טכני</p>
     <p class="sub">תהליך קבוצתי בלייב שבו נבנה שלב אחר שלב את הקורס הדיגיטלי שלכם משלב הרעיון ועד להשקה, <strong>מבלי להסתבך עם הפן הטכני</strong></p>
-    <p class="fit">מתאים לאנשים שכבר מצלמים סרטונים
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#f4f71a" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#f4f71a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </p>
-    <p><span class="start">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="#f4f71a" stroke-width="2"/><path d="M3 10h18" stroke="#f4f71a" stroke-width="2"/><path d="M8 3v4M16 3v4" stroke="#f4f71a" stroke-width="2" stroke-linecap="round"/></svg>
-      מתחילים ב־<bdi class="d" dir="ltr">3/11/26</bdi>
-    </span></p>
+    <p class="fit">מתאים לאנשים שכבר מצלמים סרטונים <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#f4f71a" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#f4f71a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+    <div><span class="start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="#f4f71a" stroke-width="2"/><path d="M3 10h18" stroke="#f4f71a" stroke-width="2"/><path d="M8 3v4M16 3v4" stroke="#f4f71a" stroke-width="2" stroke-linecap="round"/></svg><span>מתחילים ב־<bdi class="d" dir="ltr">3/11/26</bdi></span></span></div>
     <!-- CTA #1 -->
     <a class="btn" href="#lead-mid">ניסים, אני רוצה קורס דיגיטלי משלי</a>
   </div>
