@@ -406,7 +406,7 @@ footer nav a:hover{color:var(--gold)}
     <p class="fit">מתאים לאנשים שכבר מצלמים סרטונים <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#f4f71a" stroke-width="2"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="#f4f71a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
     <div><span class="start"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" stroke="#f4f71a" stroke-width="2"/><path d="M3 10h18" stroke="#f4f71a" stroke-width="2"/><path d="M8 3v4M16 3v4" stroke="#f4f71a" stroke-width="2" stroke-linecap="round"/></svg><span>מתחילים ב־<bdi class="d" dir="ltr">3/11/26</bdi></span></span></div>
     <!-- CTA #1 -->
-    <a class="btn" href="#lead-mid">ניסים, אני רוצה קורס דיגיטלי משלי</a>
+    <a class="btn" href="#purchase">ניסים, אני רוצה קורס דיגיטלי משלי</a>
   </div>
 </header>
 
@@ -538,31 +538,6 @@ footer nav a:hover{color:var(--gold)}
 </section>
 
 
-<!-- ============ למי זה מתאים ============ -->
-<section class="fit-check">
-  <div class="wrap">
-    <h2 class="sec-title fade">למי זה מתאים, ולמי לא</h2>
-    <div class="fit-grid">
-      <div class="fit-card yes fade">
-        <h3>מתאים לכם אם</h3>
-        <ul>
-          <li>יש לכם ידע שעובד, ואתם כבר מצלמים סרטונים</li>
-          <li>אתם הולכים עד הסוף, גם כשזה לא קל</li>
-          <li>אתם יודעים שיש לכם ידע שיכול לעזור להרבה אנשים</li>
-        </ul>
-      </div>
-      <div class="fit-card no fade">
-        <h3>לא מתאים לכם אם</h3>
-        <ul>
-          <li>אתם רק חושבים שאולי יום אחד תעשו קורס</li>
-          <li>אתם מחפשים מישהו שיצלם ויערוך במקומכם</li>
-          <li>אתם לא מאמינים שיש לכם ידע שיכול לעזור לאנשים</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ הצד הטכני עלינו ============ -->
 <section class="tech">
   <div class="wrap">
@@ -690,21 +665,6 @@ footer nav a:hover{color:var(--gold)}
           <span class="lp-name">השיטה של דנה כהן הלוי</span>
         </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ טופס אמצע + CTA #2 ============ -->
-<section class="form-sec" id="lead-mid">
-  <div class="wrap fade">
-    <form class="form-card" onsubmit="return handleLeadSubmit(event, 'lead-mid')">
-      <h3>משאירים פרטים ועוברים לשלב הבא</h3>
-      <p class="form-sub">שבו אפשר לשלוח לי שאלה בווצאפ או לקפוץ להרשמה.</p>
-      <div class="field"><label><span class="req">∗</span> שם</label><input type="text" name="name" required></div>
-      <div class="field"><label><span class="req">∗</span> מייל</label><input type="email" name="email" required></div>
-      <label class="consent"><input type="checkbox" name="consent" value="yes" required><span><span class="req">∗</span> אני מרשה לשלוח לי דיוור במייל ו/או SMS &nbsp;<a href="#">מדיניות פרטיות</a></span></label>
-      <!-- CTA #2 -->
-      <button class="btn" type="submit">אני רוצה לראות אם זה מתאים לי</button>
-    </form>
   </div>
 </section>
 
@@ -966,6 +926,45 @@ footer nav a:hover{color:var(--gold)}
   </div>
 </section>
 
+<!-- ============ טופס אחרי המחיר + CTA ============ -->
+<section class="form-sec" id="lead-price">
+  <div class="wrap fade">
+    <form class="form-card" onsubmit="return handleLeadSubmit(event, 'lead-price')">
+      <h3>רוצים להבטיח את המקום שלכם בין 10 הראשונים?</h3>
+      <div class="field"><label><span class="req">∗</span> שם</label><input type="text" name="name" required></div>
+      <div class="field"><label><span class="req">∗</span> מייל</label><input type="email" name="email" required></div>
+      <label class="consent"><input type="checkbox" name="consent" value="yes" required><span><span class="req">∗</span> אני מרשה לשלוח לי דיוור במייל ו/או SMS &nbsp;<a href="#">מדיניות פרטיות</a></span></label>
+      <!-- CTA -->
+      <button class="btn" type="submit">אני רוצה להבטיח את המקום שלי</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============ למי זה מתאים ============ -->
+<section class="fit-check">
+  <div class="wrap">
+    <h2 class="sec-title fade">למי זה מתאים, ולמי לא</h2>
+    <div class="fit-grid">
+      <div class="fit-card yes fade">
+        <h3>מתאים לכם אם</h3>
+        <ul>
+          <li>יש לכם ידע שעובד, ואתם כבר מצלמים סרטונים</li>
+          <li>אתם הולכים עד הסוף, גם כשזה לא קל</li>
+          <li>אתם יודעים שיש לכם ידע שיכול לעזור להרבה אנשים</li>
+        </ul>
+      </div>
+      <div class="fit-card no fade">
+        <h3>לא מתאים לכם אם</h3>
+        <ul>
+          <li>אתם רק חושבים שאולי יום אחד תעשו קורס</li>
+          <li>אתם מחפשים מישהו שיצלם ויערוך במקומכם</li>
+          <li>אתם לא מאמינים שיש לכם ידע שיכול לעזור לאנשים</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ מחשבון החזר השקעה ============ -->
 <section class="roi">
   <div class="wrap">
@@ -998,20 +997,6 @@ footer nav a:hover{color:var(--gold)}
       <p>על כל מכירה דרך קורסילנד נגבים 5% דמי שימוש. <span class="howto"><span class="howto-trigger" tabindex="0" role="button" aria-expanded="false">איך זה עובד</span><span class="howto-panel" role="tooltip"><span class="hp-eyebrow">התחשבנות</span><span class="hp-title">איך מגיע אליכם הכסף</span><span class="hp-lead">התשלומים נכנסים דרך מערכת הסליקה שלנו, ומועברים אליכם אחת לרבעון.</span><span class="hp-label">אחת לרבעון</span><span class="hp-row"><span class="hp-k">דוח מכירות</span><span class="hp-v">פירוט מסודר של כל המכירות של הקורס שלכם באותו רבעון</span></span><span class="hp-row"><span class="hp-k">העברת תשלום</span><span class="hp-v">התשלום מועבר אליכם בהתאם למכירות, כנגד חשבונית</span></span><span class="hp-row"><span class="hp-k">עמלה</span><span class="hp-v">5% מהמכירות</span></span><span class="hp-note"><span class="hp-note-title">עוסק פטור</span>הסליקה מתבצעת דרך העסק שלי, שהוא עוסק מורשה, ולכן משולם מע״מ בשיעור 18% על כל עסקה. עוסק מורשה מקזז את המע״מ הזה בחשבונית שהוא מוציא לי, ולכן העמלה נטו היא 5%. עוסק פטור אינו יכול לקזז מע״מ, ולכן ההתחשבנות מולו היא 23%: 5% עמלה בתוספת 18% המע״מ שכבר שולם. זו אינה עמלה גבוהה יותר, אלא אותה עמלה בתוספת מס שלא ניתן להשיב.</span></span></span></p>
       <p>רוצים שבסוף התהליך דף הנחיתה יעבור אליכם, ולא יישאר בקורסילנד? תוספת חד פעמית של 700 ש״ח.</p>
     </div>
-  </div>
-</section>
-
-<!-- ============ טופס אחרי המחיר + CTA ============ -->
-<section class="form-sec" id="lead-price">
-  <div class="wrap fade">
-    <form class="form-card" onsubmit="return handleLeadSubmit(event, 'lead-price')">
-      <h3>רוצים להבטיח את המקום שלכם בין 10 הראשונים?</h3>
-      <div class="field"><label><span class="req">∗</span> שם</label><input type="text" name="name" required></div>
-      <div class="field"><label><span class="req">∗</span> מייל</label><input type="email" name="email" required></div>
-      <label class="consent"><input type="checkbox" name="consent" value="yes" required><span><span class="req">∗</span> אני מרשה לשלוח לי דיוור במייל ו/או SMS &nbsp;<a href="#">מדיניות פרטיות</a></span></label>
-      <!-- CTA -->
-      <button class="btn" type="submit">אני רוצה להבטיח את המקום שלי</button>
-    </form>
   </div>
 </section>
 
