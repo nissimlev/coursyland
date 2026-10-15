@@ -445,21 +445,23 @@ img{max-width:100%;height:auto;}
 .habit em.on{background-size:100% 100%;}
 .habit-proof{font-family:var(--font-a);font-size:20px;max-width:700px;margin:0 auto;}
 @media (prefers-reduced-motion:reduce){.habit em{transition:none;background-size:100% 100%;}}
-.circles{display:flex;flex-wrap:wrap;justify-content:center;max-width:340px;margin:0 auto;}
-.circles span{
-  width:160px;height:160px;border-radius:50%;margin:-8px -6px;
-  display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;
-  font-family:var(--font-h);font-weight:800;font-size:20px;line-height:1.25;color:var(--ink);
-  background:rgba(85,191,184,.30);border:2px solid var(--mint);mix-blend-mode:multiply;
-}
-.circles span:nth-child(2),.circles span:nth-child(3){background:rgba(255,107,0,.16);border-color:var(--orange);}
+.pillars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px;max-width:980px;margin:0 auto;text-align:start;}
+.pillar{padding:4px 18px;}
+.pillar:nth-child(even){border-inline-start:1px solid var(--line);}
+.pillar .n{font-family:var(--font-h);font-weight:900;font-size:44px;line-height:1;color:var(--mint-dark);}
+.pillar h3{font-size:21px;margin:12px 0 6px;}
+.pillar p{margin:0;font-family:var(--font-a);font-size:16px;color:var(--text-muted);line-height:1.55;}
 .no-fit-title{color:#ff8a80;}
 .out-list.no-fit li{background:rgba(255,255,255,.06);border-color:rgba(255,138,128,.35);color:rgba(255,255,255,.82);}
 .out-list.no-fit .chk{background:rgba(255,138,128,.18);color:#ff8a80;border:1.5px solid #ff8a80;}
 .bonus-note{max-width:740px;margin:28px auto 0;text-align:center;}
-.howto{padding:40px 0;background:var(--bg-alt);}
-.howto h3{font-size:22px;margin-bottom:8px;}
-.howto p{margin:0;font-family:var(--font-a);font-size:17px;color:var(--text-muted);}
+.howto{padding:52px 0 0;background:var(--bg-soft);border-top:1px solid var(--line);}
+.howto p{margin:0 auto;max-width:760px;font-family:var(--font-h);font-weight:700;font-size:23px;line-height:1.5;color:var(--ink);}
+.howto p strong{display:block;font-weight:900;font-size:1.25em;color:var(--orange);margin-bottom:6px;}
+.howto .nudge{display:block;width:34px;height:34px;margin:18px auto 0;color:var(--orange);animation:nudge 1.4s ease-in-out infinite;}
+@keyframes nudge{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+@media (prefers-reduced-motion:reduce){.howto .nudge{animation:none;}}
+.howto + .cta-band{border-top:0;padding-top:14px;}
 .pitch{max-width:720px;margin:0 auto 42px;text-align:center;font-family:var(--font-a);font-size:19px;line-height:1.75;}
 .pitch p:first-child{font-family:var(--font-h);font-weight:800;font-size:24px;color:var(--ink);}
 .pitch strong{color:var(--ink);}
@@ -472,11 +474,13 @@ img{max-width:100%;height:auto;}
   .truths dd{font-size:21px;}
   .habit{font-size:34px;}
   .habit-proof{font-size:23px;}
-  .circles{max-width:none;flex-wrap:nowrap;}
-  .circles span{width:220px;height:220px;margin:0 -16px;font-size:24px;}
-  .circles span:nth-child(3){background:rgba(85,191,184,.30);border-color:var(--mint);}
-  .circles span:nth-child(4){background:rgba(255,107,0,.16);border-color:var(--orange);}
-  .howto h3{font-size:26px;}
+  .pillars{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .pillar{padding:4px 26px;}
+  .pillar + .pillar{border-inline-start:1px solid var(--line);}
+  .pillar .n{font-size:58px;}
+  .pillar h3{font-size:24px;}
+  .pillar p{font-size:17px;}
+  .howto p{font-size:30px;}
   .pitch{font-size:21px;}
   .pitch p:first-child{font-size:30px;}
 }
@@ -586,11 +590,11 @@ img{max-width:100%;height:auto;}
       <div class="rule"></div>
       <p class="sec-sub">שיטת תכל'ס גיטרה בנויה מתוך הניסיון שלי ומהניסיון של מאות תלמידים שלימדתי. בלב השיטה: לימוד באנרגיה של כיף, עם דרך מדויקת, פשוטה ותבניתית, כדי שיהיה כיף להתמיד ולנגן עוד ועוד שירים.</p>
     </div>
-    <div class="circles" role="list">
-      <span role="listitem">פשוט</span>
-      <span role="listitem">תבניתי וברור</span>
-      <span role="listitem">הדרגתי</span>
-      <span role="listitem">מעשי</span>
+    <div class="pillars">
+      <div class="pillar"><div class="n">1</div><h3>פשוט</h3><p>בלי להציף במושגים שלא צריך כרגע. רק מה שעוזר לכם לנגן.</p></div>
+      <div class="pillar"><div class="n">2</div><h3>תבניתי וברור</h3><p>יודעים בדיוק מה לעשות ועל מה להתאמן בכל שלב.</p></div>
+      <div class="pillar"><div class="n">3</div><h3>הדרגתי</h3><p>כל שלב בנוי על השלב שלפניו, בלי קפיצות מבלבלות.</p></div>
+      <div class="pillar"><div class="n">4</div><h3>מעשי</h3><p>מתחילים מהנגינה, לא מהתאוריה.</p></div>
     </div>
   </div>
 </section>
@@ -740,7 +744,8 @@ img{max-width:100%;height:auto;}
 <!-- ============ איך הכל מתנהל ============ -->
 <section class="howto">
   <div class="wrap wrap-narrow center">
-    <p>אז עכשיו לוחצים על הכפתור, עוברים לדף התשלום, נרשמים, ומיד מקבלים במייל חשבונית, פרטי גישה וקישור לקבוצת הוואטסאפ. כל התכנים נפתחים מיד.</p>
+    <p><strong>אז עכשיו לוחצים על הכפתור</strong> עוברים לדף התשלום, נרשמים, ומיד מקבלים במייל חשבונית, פרטי גישה וקישור לקבוצת הוואטסאפ. כל התכנים נפתחים מיד.</p>
+    <svg class="nudge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15"/><path d="M5 12l7 7 7-7"/></svg>
   </div>
 </section>
 
