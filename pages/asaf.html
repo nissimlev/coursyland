@@ -454,10 +454,13 @@ img{max-width:100%;height:auto;}
 .no-fit-title{color:#ff8a80;}
 .out-list.no-fit li{background:rgba(255,255,255,.06);border-color:rgba(255,138,128,.35);color:rgba(255,255,255,.82);}
 .out-list.no-fit .chk{background:rgba(255,138,128,.18);color:#ff8a80;border:1.5px solid #ff8a80;}
+.bonus-stack{max-width:780px;margin:0 auto;}
+.btn-assure{display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 0;font-family:var(--font-a);font-size:15px;font-weight:700;color:var(--text-muted);}
+.btn-assure svg{width:17px;height:17px;flex:none;color:var(--mint-dark);}
 .bonus-note{max-width:740px;margin:28px auto 0;text-align:center;}
 .howto{padding:52px 0 0;background:var(--bg-soft);border-top:1px solid var(--line);}
-.howto p{margin:0 auto;max-width:760px;font-family:var(--font-h);font-weight:700;font-size:23px;line-height:1.5;color:var(--ink);}
-.howto p strong{display:block;font-weight:900;font-size:1.25em;color:var(--orange);margin-bottom:6px;}
+.howto p{margin:0 auto;max-width:760px;font-family:var(--font-h);font-weight:700;font-size:20px;line-height:1.5;color:var(--ink);}
+.howto p strong{display:block;font-weight:900;font-size:29px;color:var(--orange);margin-bottom:6px;}
 .howto .nudge{display:block;width:34px;height:34px;margin:18px auto 0;color:var(--orange);animation:nudge 1.4s ease-in-out infinite;}
 @keyframes nudge{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
 @media (prefers-reduced-motion:reduce){.howto .nudge{animation:none;}}
@@ -475,14 +478,58 @@ img{max-width:100%;height:auto;}
   .habit{font-size:34px;}
   .habit-proof{font-size:23px;}
   .pillars{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .bonus-stack .bonus-body{display:grid;grid-template-columns:170px 1fr;column-gap:28px;align-items:center;text-align:start;}
+  .bonus-stack .bonus-img{grid-row:1 / 3;margin:0;}
+  .bonus-stack .bonus-body p{margin:0 0 4px;}
+  .bonus-stack .worth{justify-self:start;margin-top:10px;}
   .pillar{padding:4px 26px;}
   .pillar + .pillar{border-inline-start:1px solid var(--line);}
   .pillar .n{font-size:58px;}
   .pillar h3{font-size:24px;}
   .pillar p{font-size:17px;}
-  .howto p{font-size:30px;}
+  .howto p{font-size:25px;}
+  .howto p strong{font-size:37px;}
   .pitch{font-size:21px;}
   .pitch p:first-child{font-size:30px;}
+}
+
+/* ---------- hero fits one screen, up to the sign-up button ---------- */
+@media (max-width:767px){
+  .hero{padding:14px 0 26px;}
+  .hero .brand-logo{max-width:150px;margin-bottom:8px;}
+  .hero-kicker{font-size:14px;margin-bottom:6px;}
+  .hero h1{font-size:25px;line-height:1.22;margin-bottom:8px;}
+  .hero .lede{font-size:15.5px;line-height:1.5;margin-bottom:12px;}
+  .hero-media{margin-bottom:12px;}
+  .hero .price-flash{margin-bottom:10px;gap:8px;flex-wrap:nowrap;}
+  .hero .price-flash .now{font-size:36px;}
+  .hero .price-flash .was{font-size:16px;}
+  .hero .price-flash .tag{font-size:13px;}
+  .hero .btn{min-height:56px;padding:12px 24px;font-size:19px;}
+  .hero .btn-assure{margin-top:8px;}
+}
+@media (min-width:768px) and (max-width:1023px){
+  .hero{padding:32px 0 48px;}
+  .hero h1{font-size:40px;}
+  .hero .lede{font-size:20px;margin-bottom:18px;}
+  .hero-media{max-width:580px;margin-bottom:20px;}
+  .hero .price-flash{margin-bottom:16px;}
+}
+@media (min-width:1024px){
+  .hero{padding:30px 0 40px;}
+  .hero-copy{
+    max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+    column-gap:52px;align-items:center;text-align:start;
+  }
+  .hero-copy > *{grid-column:1;}
+  .hero-copy > .hero-media{grid-column:2;grid-row:1 / span 9;margin:0;max-width:none;}
+  .hero .brand-logo{margin:0 0 14px;max-width:190px;}
+  .hero-kicker{margin-bottom:10px;}
+  .hero h1{font-size:40px;margin-bottom:12px;}
+  .hero .lede{font-size:19px;margin:0 0 18px;}
+  .hero .price-flash{justify-content:flex-start;margin-bottom:16px;}
+  .hero .btn-assure{justify-content:flex-start;}
+  .hero-cta-note{text-align:start;}
 }
 </style>
 <!-- Analytics -->
@@ -520,6 +567,7 @@ img{max-width:100%;height:auto;}
         התחילו לנגן עכשיו!
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </a>
+      <p class="btn-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>התוכנית פתוחה ל-3 שנים, אחריות מלאה ל-14 יום</p>
       <p class="hero-cta-note">הצטרפו לתוכנית ותתחילו ליהנות מהגיטרה!</p>
     </div>
 
@@ -691,7 +739,7 @@ img{max-width:100%;height:auto;}
       <div class="rule"></div>
       <p class="sec-sub">אם אתם מצטרפים עכשיו, אתם מקבלים גם את כל אלה:</p>
     </div>
-    <div class="grid grid-2">
+    <div class="grid bonus-stack">
       <article class="bonus-card">
         <div class="bonus-top">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7.5 4v16M12 4v16M16.5 4v16"/><circle cx="7.5" cy="13" r="1.4" fill="currentColor"/><circle cx="12" cy="16" r="1.4" fill="currentColor"/><circle cx="16.5" cy="12" r="1.4" fill="currentColor"/></svg>
@@ -757,6 +805,7 @@ img{max-width:100%;height:auto;}
       אני רוצה להצטרף לתוכנית!
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </a>
+  <p class="btn-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>התוכנית פתוחה ל-3 שנים, אחריות מלאה ל-14 יום</p>
   </div>
 </div>
 
@@ -912,6 +961,7 @@ img{max-width:100%;height:auto;}
             אני רוצה להרשם לתוכנית
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </a>
+          <p class="btn-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>התוכנית פתוחה ל-3 שנים, אחריות מלאה ל-14 יום</p>
           <p class="cta-note">97 ₪ בלבד, במקום שווי של 903 ש״ח</p>
         </div>
 
@@ -965,6 +1015,7 @@ img{max-width:100%;height:auto;}
       לחצו כאן להצטרפות
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </a>
+  <p class="btn-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>התוכנית פתוחה ל-3 שנים, אחריות מלאה ל-14 יום</p>
   </div>
 </div>
 
