@@ -436,20 +436,20 @@ img{max-width:100%;height:auto;}
 .thoughts li{font-family:var(--font-h);font-weight:700;font-size:22px;color:var(--text-muted);padding:6px 0;}
 .thoughts-after{font-family:var(--font-a);font-size:19px;margin:22px 0 40px;}
 .truth-lead{font-family:var(--font-h);font-weight:800;font-size:24px;color:var(--ink);margin-bottom:10px;}
-.truths{margin:0 auto 46px;max-width:620px;text-align:start;}
-.truths div{display:flex;gap:18px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);}
-.truths dt{flex:none;width:120px;font-family:var(--font-h);font-weight:800;font-size:20px;color:var(--ink);}
+.truths{margin:0 auto 46px;max-width:620px;text-align:center;}
+.truths div{padding:16px 0;border-bottom:1px solid var(--line);}
+.truths dt{margin-bottom:4px;font-family:var(--font-h);font-weight:800;font-size:20px;color:var(--ink);}
 .truths dd{margin:0;font-family:var(--font-a);font-size:18px;}
 .habit{font-family:var(--font-h);font-weight:800;font-size:25px;line-height:1.5;color:var(--ink);margin:0 auto 18px;max-width:760px;}
 .habit em{font-style:normal;background:linear-gradient(transparent 58%,var(--mint-tint) 58%) no-repeat right/0% 100%;transition:background-size .9s ease;}
 .habit em.on{background-size:100% 100%;}
 .habit-proof{font-family:var(--font-a);font-size:20px;max-width:700px;margin:0 auto;}
 @media (prefers-reduced-motion:reduce){.habit em{transition:none;background-size:100% 100%;}}
-.pillars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px;max-width:980px;margin:0 auto;text-align:start;}
-.pillar{padding:4px 18px;}
-.pillar:nth-child(even){border-inline-start:1px solid var(--line);}
-.pillar .n{font-family:var(--font-h);font-weight:900;font-size:44px;line-height:1;color:var(--mint-dark);}
-.pillar h3{font-size:21px;margin:12px 0 6px;}
+.pillars{display:grid;row-gap:26px;max-width:620px;margin:0 auto;text-align:start;}
+.pillar{display:grid;grid-template-columns:40px 1fr;column-gap:16px;align-items:start;}
+.pillar .n{grid-row:1 / 3;width:40px;height:40px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;}
+.pillar .n svg{width:22px;height:22px;}
+.pillar h3{font-size:21px;margin:4px 0 4px;}
 .pillar p{margin:0;font-family:var(--font-a);font-size:16px;color:var(--text-muted);line-height:1.55;}
 .no-fit-title{color:#ff8a80;}
 .out-list.no-fit li{background:rgba(255,255,255,.06);border-color:rgba(255,138,128,.35);color:rgba(255,255,255,.82);}
@@ -475,14 +475,10 @@ img{max-width:100%;height:auto;}
   .dream{font-size:30px;}
   .thoughts li{font-size:27px;}
   .truth-lead{font-size:30px;}
-  .truths dt{font-size:23px;width:150px;}
+  .truths dt{font-size:23px;}
   .truths dd{font-size:21px;}
   .habit{font-size:34px;}
   .habit-proof{font-size:23px;}
-  .pillars{grid-template-columns:repeat(4,minmax(0,1fr));}
-  .pillar{padding:4px 26px;}
-  .pillar + .pillar{border-inline-start:1px solid var(--line);}
-  .pillar .n{font-size:58px;}
   .pillar h3{font-size:24px;}
   .pillar p{font-size:17px;}
   .howto p{font-size:25px;}
@@ -580,10 +576,10 @@ img{max-width:100%;height:auto;}
     <p class="thoughts-after">וכל המחשבות האלה עצרו אתכם מלהגשים את החלום.</p>
     <p class="truth-lead">כי האמת היא ש...</p>
     <dl class="truths">
-      <div><dt>כישרון</dt><dd>אין לך שאיפות להיות הג׳ימי הנדריקס הבא</dd></div>
-      <div><dt>זמן</dt><dd>עניין של סדר עדיפויות</dd></div>
-      <div><dt>קואורדינציה</dt><dd>אם אתה נוהג ברכב, יש לך את זה</dd></div>
-      <div><dt>קצב</dt><dd>אם יצא לך למחוא כפיים עם שיר, אז אתה בסדר גמור</dd></div>
+      <div><dt>כישרון</dt><dd>בינינו, אם אין לך שאיפות להיות הג׳ימי הנדריקס הבא, כישרון זה לא רלוונטי. אתה רק רוצה לנגן לכיף שלך.</dd></div>
+      <div><dt>זמן</dt><dd>כשנהנים מהנגינה מוצאים את הזמן, גם אם זה כמה דקות ביום.</dd></div>
+      <div><dt>קואורדינציה</dt><dd>אם אתה נוהג ברכב, יש לך מספיק קואורדינציה בשביל לנגן.</dd></div>
+      <div><dt>קצב</dt><dd>אם יצא לך למחוא כפיים עם שיר, אז אתה בסדר גמור.</dd></div>
     </dl>
     <p class="habit">תנסו להיזכר איך זה היה כשלמדתם רכיבה על אופניים, נהיגה ברכב או אפילו מגיל צעיר יותר - צחצוח שיניים. נגינה בגיטרה היא כמו <em>כל הרגל שהגוף לומד</em>. בהתחלה זה מרגיש מוזר, ואחר כך <em>זה חלק מכם</em>.</p>
     <p class="habit-proof">אני יודע את זה כי לאורך השנים לימדתי <strong>מאות תלמידים</strong> שלא אחזו בגיטרה, ותוך <strong>שבועות בודדים</strong> הם הצליחו לנגן שירים מוכרים בצורה זורמת.</p>
@@ -599,10 +595,10 @@ img{max-width:100%;height:auto;}
       <p class="sec-sub">שיטת תכל'ס גיטרה בנויה מתוך הניסיון שלי ומהניסיון של מאות תלמידים שלימדתי. בלב השיטה: לימוד באנרגיה של כיף, עם דרך מדויקת, פשוטה ותבניתית, כדי שיהיה כיף להתמיד ולנגן עוד ועוד שירים.</p>
     </div>
     <div class="pillars">
-      <div class="pillar"><div class="n">1</div><h3>פשוט</h3><p>בלי להציף במושגים שלא צריך כרגע. רק מה שעוזר לכם לנגן.</p></div>
-      <div class="pillar"><div class="n">2</div><h3>תבניתי וברור</h3><p>יודעים בדיוק מה לעשות ועל מה להתאמן בכל שלב.</p></div>
-      <div class="pillar"><div class="n">3</div><h3>הדרגתי</h3><p>כל שלב בנוי על השלב שלפניו, בלי קפיצות מבלבלות.</p></div>
-      <div class="pillar"><div class="n">4</div><h3>מעשי</h3><p>מתחילים מהנגינה, לא מהתאוריה.</p></div>
+      <div class="pillar"><div class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div><h3>פשוט</h3><p>בלי להציף במושגים שלא צריך כרגע. רק מה שעוזר לכם לנגן.</p></div>
+      <div class="pillar"><div class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div><h3>תבניתי וברור</h3><p>יודעים בדיוק מה לעשות ועל מה להתאמן בכל שלב.</p></div>
+      <div class="pillar"><div class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div><h3>הדרגתי</h3><p>כל שלב בנוי על השלב שלפניו, בלי קפיצות מבלבלות.</p></div>
+      <div class="pillar"><div class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div><h3>מעשי</h3><p>מתחילים מהנגינה, לא מהתאוריה.</p></div>
     </div>
   </div>
 </section>
@@ -1051,7 +1047,6 @@ img{max-width:100%;height:auto;}
 
 <footer>
   <div class="fstrings"></div>
-  <p>נוצר על ידי <strong>קורסילנד</strong></p>
   <nav aria-label="קישורי תחתית">
     <a href="/מסמכים/files/accessibility.html">הצהרת נגישות</a>
     <a href="/מסמכים/files/privacy.html">מדיניות פרטיות</a>
