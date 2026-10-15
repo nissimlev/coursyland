@@ -461,9 +461,11 @@ img{max-width:100%;height:auto;}
 .howto{padding:52px 0 0;background:var(--bg-soft);border-top:1px solid var(--line);}
 .howto p{margin:0 auto;max-width:760px;font-family:var(--font-h);font-weight:700;font-size:20px;line-height:1.5;color:var(--ink);}
 .howto p strong{display:block;font-weight:900;font-size:29px;color:var(--orange);margin-bottom:6px;}
-.howto .nudge{display:block;width:34px;height:34px;margin:18px auto 0;color:var(--orange);animation:nudge 1.4s ease-in-out infinite;}
+.nudge{display:block;width:34px;height:34px;margin:18px auto 0;color:var(--orange);animation:nudge 1.4s ease-in-out infinite;}
 @keyframes nudge{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
-@media (prefers-reduced-motion:reduce){.howto .nudge{animation:none;}}
+@media (prefers-reduced-motion:reduce){.nudge{animation:none;}}
+.cta-band .nudge{margin:-8px auto 14px;}
+.short-lines{max-width:560px;margin:0 auto 1.3em;line-height:1.75;}
 .howto + .cta-band{border-top:0;padding-top:14px;}
 .pitch{max-width:720px;margin:0 auto 42px;text-align:center;font-family:var(--font-a);font-size:19px;line-height:1.75;}
 .pitch p:first-child{font-family:var(--font-h);font-weight:800;font-size:24px;color:var(--ink);}
@@ -955,11 +957,28 @@ img{max-width:100%;height:auto;}
 <!-- ============ בשורה התחתונה ============ -->
 <section style="background:var(--bg-soft);">
   <div class="wrap wrap-narrow center">
-    <h2 class="sec-title">גם אתם יכולים לנגן בגיטרה וליהנות מזה באמת!</h2>
+    <h2 class="sec-title">ובנימה אישית</h2>
     <div class="rule"></div>
-    <p>אם הגעתם עד לכאן, כנראה שאתם רוצים לנגן בגיטרה כבר לא מעט זמן. ואולי אפילו ניסיתם פעם ללמוד, נתקעתם בדרך, התייאשתם, או פשוט הגעתם למסקנה שזה כנראה לא בשבילכם.</p>
-    <p>זה יפתיע אתכם, אבל ללמוד לנגן בגיטרה לא דורש כישרון יוצא דופן. מה שצריך זו בעיקר דרך נכונה, הדרכה טובה והתקדמות מסודרת. אם אחרים הצליחו והיום הם מנגנים בכיף, אין שום סיבה שגם אתם לא תגיעו לשם.</p>
-    <p>נגינה היא לא כישרון ששמור ליחידי סגולה. זו מיומנות שאפשר ללמוד, לתרגל ולפתח צעד אחרי צעד. ובדיוק בשביל זה יצרתי את התוכנית: דרך ברורה, פשוטה ומסודרת שנבנתה במיוחד למי שמתחיל מאפס, עם כל הידע, הקיצורים והתובנות שאספתי לאורך השנים כמורה לגיטרה, כדי לחסוך לכם את הבלבול, הטעויות והתסכול שכל כך הרבה מתחילים חווים בדרך.</p>
+    <p class="short-lines">אם הגעתם עד לכאן,<br>
+      כנראה שאתם רוצים לנגן בגיטרה כבר לא מעט זמן.<br>
+      ואולי אפילו ניסיתם פעם ללמוד,<br>
+      נתקעתם בדרך, התייאשתם,<br>
+      או פשוט הגעתם למסקנה שזה כנראה לא בשבילכם.</p>
+    <p class="short-lines">זה יפתיע אתכם, אבל<br>
+      ללמוד לנגן בגיטרה לא דורש כישרון יוצא דופן.<br>
+      מה שצריך זו בעיקר דרך נכונה,<br>
+      הדרכה טובה והתקדמות מסודרת.<br>
+      אם אחרים הצליחו והיום הם מנגנים בכיף,<br>
+      אין שום סיבה שגם אתם לא תגיעו לשם.</p>
+    <p class="short-lines">נגינה היא לא כישרון ששמור ליחידי סגולה.<br>
+      זו מיומנות שאפשר ללמוד, לתרגל ולפתח צעד אחרי צעד.<br>
+      ובדיוק בשביל זה יצרתי את התוכנית:<br>
+      דרך ברורה, פשוטה ומסודרת<br>
+      שנבנתה במיוחד למי שמתחיל מאפס,<br>
+      עם כל הידע, הקיצורים והתובנות<br>
+      שאספתי לאורך השנים כמורה לגיטרה,<br>
+      כדי לחסוך לכם את הבלבול, הטעויות והתסכול<br>
+      שכל כך הרבה מתחילים חווים בדרך.</p>
     <div class="stage-note">השיר הראשון שלכם לא ילמד את עצמו 🙂 אבל הוא הרבה יותר קרוב ממה שאתם חושבים.</div>
   </div>
 </section>
@@ -967,8 +986,9 @@ img{max-width:100%;height:auto;}
 <!-- CTA #3 -->
 <div class="cta-band">
   <div class="wrap">
-    <h3>התחילו לנגן עכשיו!</h3>
+    <h3 style="color:var(--orange);">התחילו לנגן עכשיו!</h3>
     <p>הצטרפו לתוכנית ותתחילו ליהנות מהגיטרה!</p>
+    <svg class="nudge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15"/><path d="M5 12l7 7 7-7"/></svg>
     <a class="btn" href="#purchase">
       לחצו כאן להצטרפות
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -981,9 +1001,9 @@ img{max-width:100%;height:auto;}
 <section class="faq">
   <div class="wrap wrap-narrow">
     <div class="center">
-      <h2 class="sec-title">מה חשוב לדעת לפני שנרשמים</h2>
+      <h2 class="sec-title">עדיין מתלבטים?</h2>
       <div class="rule"></div>
-      <p class="sec-sub">עדיין מתלבטים? זה טבעי. ריכזתי כאן את השאלות שכולם שואלים אותי, כדי שתוכלו לקבל את ההחלטה הכי טובה בשבילכם.</p>
+      <p class="sec-sub">זה טבעי... ריכזתי כאן את השאלות שכולם שואלים אותי, כדי שתוכלו לקבל את ההחלטה הכי טובה בשבילכם.</p>
     </div>
 
 
