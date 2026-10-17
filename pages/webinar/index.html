@@ -92,11 +92,12 @@
   .who span { display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--color-line); border-radius: 999px; padding: 10px 18px; font-weight: 700; font-family: var(--font-heading); font-size: 17px; }
   .who span.all { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
   .who svg { width: 18px; height: 18px; }
+  .who span:not(.all) { font-weight: 600; font-size: 16px; padding: 8px 16px; }
 
   /* ---------- What you get ---------- */
   .gets { display: grid; gap: 14px; margin-top: 24px; }
-  .get { display: flex; gap: 16px; align-items: flex-start; background: #fff; border-radius: var(--radius); padding: 20px; border: 1px solid var(--color-line); box-shadow: 0 8px 28px rgba(26,19,48,.05); }
-  .get-icon { flex: none; width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+  .get { display: flex; gap: 16px; align-items: center; background: #fff; border-radius: var(--radius); padding: 20px; border: 1px solid var(--color-line); box-shadow: 0 8px 28px rgba(26,19,48,.05); }
+  .get-icon { flex: none; width: 54px; height: 54px; border-radius: 16px; background: #FFE0EC; display: flex; align-items: center; justify-content: center; }
   .get-icon svg { width: 28px; height: 28px; }
   .get p { color: var(--color-muted); margin-top: 4px; font-size: 16px; }
   .c1 { background: #FFE0EC; } .c2 { background: #F1E4FF; } .c3 { background: #E2ECFF; } .c4 { background: #FFF6C2; }
@@ -240,12 +241,27 @@
 <section style="padding-top:0">
   <div class="wrap narrow">
     <span class="eyebrow">למי הוובינר הזה</span>
-    <h2>לכל מי שיודע לעשות משהו, ויכול ללמד אותו</h2>
+    <h2>למטפלים, מאמנים, יועצים ולכל מי שיש לו משהו ללמד</h2>
     <div class="who">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> מטפלים</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> יועצים</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> מאמנים</span>
-      <span class="all"><svg viewBox="0 0 24 24" fill="none" stroke="#F4F71A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> וכל מי שיש לו ידע ושיטה שעובדים</span>
+      <span>דייטינג</span>
+      <span>זוגיות</span>
+      <span>אורח חיים</span>
+      <span>התנהלות כלכלית</span>
+      <span>פיננסים והשקעות</span>
+      <span>ויסות רגשי</span>
+      <span>הורות</span>
+      <span>תזונה</span>
+      <span>כושר ותנועה</span>
+      <span>יוגה ומדיטציה</span>
+      <span>קריירה</span>
+      <span>שיווק ומכירות</span>
+      <span>צילום</span>
+      <span>עיצוב</span>
+      <span>בישול ואפייה</span>
+      <span>שפות</span>
+      <span>תקשורת ודיבור מול קהל</span>
+      <span>התפתחות אישית</span>
+      <span class="all">ועוד המון תחומים</span>
     </div>
   </div>
 </section>
@@ -253,13 +269,12 @@
 <!-- ======================= WHAT YOU'LL GET ======================= -->
 <section style="background:#fff">
   <div class="wrap">
-    <span class="eyebrow">מה תקבלו בוובינר</span>
-    <h2>ארבעה דברים שישנו לכם את החשבון</h2>
+    <h2>מה תקבלו בהדרכה</h2>
     <div class="gets">
-      <div class="get"><div class="get-icon c1"><svg viewBox="0 0 24 24" fill="none" stroke="#7B2FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h5a4 4 0 0 1 4 4v5"/><path d="M15 12l3 3 3-3"/></svg></div><div><h3>המכונה שאני מפעיל</h3><p>איך קורס דיגיטלי הופך למקור הכנסה קבוע, ולמה כמעט אף אחד לא משתמש בו נכון</p></div></div>
-      <div class="get"><div class="get-icon c2"><svg viewBox="0 0 24 24" fill="none" stroke="#0047D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h2M12 18h4"/></svg></div><div><h3>החישוב המלא, במספרים אמיתיים</h3><p>איך מגיעים לעוד 20-30 אלף ש״ח בחודש, שורה אחרי שורה</p></div></div>
-      <div class="get"><div class="get-icon c3"><svg viewBox="0 0 24 24" fill="none" stroke="#B0089A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9"/><path d="M16 7l3 3"/></svg></div><div><h3>הטעות שגורמת לרוב האנשים לוותר</h3><p>החשבון שכולם עושים בראש לפני שהם מתחילים, ולמה הוא פשוט לא נכון</p></div></div>
-      <div class="get"><div class="get-icon c4"><svg viewBox="0 0 24 24" fill="none" stroke="#6B5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6 16l12-8"/><circle cx="12" cy="12" r="2"/><path d="M17 4l2 2-2 2"/></svg></div><div><h3>איך עוקפים את מה שעוצר אתכם</h3><p>"התחום שלי לא מתאים", המצלמה, הטכנולוגיה, הזמן</p></div></div>
+      <div class="get"><div class="get-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>ההזדמנות הגדולה ולמה דווקא קורס דיגיטלי</h3></div>
+      <div class="get"><div class="get-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>כל הסודות: המכונה שעובדת בעסק שלי</h3></div>
+      <div class="get"><div class="get-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>החישוב המלא עם מספרים אמיתיים</h3></div>
+      <div class="get"><div class="get-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF2470" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>המסלול הקל להגיע מוכנים ל-2027</h3></div>
     </div>
     <!-- CTA #2 -->
     <div class="cta-block center">
