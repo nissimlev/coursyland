@@ -21,9 +21,8 @@ if (!CLI_RUN) {
 }
 
 try {
-    $db     = getDB();
     $icount = new ICountClient();
-    $result = $icount->syncAllCourses($db);
+    $result = $icount->syncAllCourses('getDB');
 
     $msg = "סנכרון הושלם: {$result['inserted']} רכישות חדשות, {$result['skipped']} קיימות.";
     if (!empty($result['errors'])) {

@@ -120,12 +120,11 @@ class ICountClient {
      * סנכרון כל הקורסים
      * iCount לא מחזיר payment_page_id בעסקאות — מזהים לפי שם/מייל הקונה
      * רכישות שנוצרו דרך עמוד תשלום מקושרות לפי course_id
+     *
+     * $connect נקרא רק אחרי המשיכה מ-iCount. המשיכה של כל ההיסטוריה ארוכה,
+     * וחיבור שנפתח לפניה ועמד בטל נסגר ע"י MySQL ("server has gone away").
      */
-    public function syncAllCourses(\PDO $db): array {
-        // כל הקורסים, גם לא פעילים — מכירות עבר של קורס שהושבת עדיין שייכות לדוחות
-        $courses = $db->query("SELECT * FROM courses")->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($courses)) return ['inserted' => 0, 'skipped' => 0, 'errors' => ['אין קורסים']];
-
+    public function syncAllCourses(callable $connect): array {
         // כל ההיסטוריה, בלי מגבלת תקופה, בחלוקה לשנים — חיפוש אחד על טווח של
         // שנים רבות עלול להיחסם או להיחתך ב-iCount. כפילויות לא נוצרות —
         // INSERT IGNORE על icount_transaction_id — כך שמשיכה חוזרת של הכל בטוחה.
@@ -148,6 +147,12 @@ class ICountClient {
             $yearTo   = $year === $lastYear ? $toDate : "$year-12-31";
             $allDocs  = array_merge($allDocs, $this->fetchAllDocs($yearFrom, $yearTo, $firstResponseKeys));
         }
+
+        $db = $connect();
+
+        // כל הקורסים, גם לא פעילים — מכירות עבר של קורס שהושבת עדיין שייכות לדוחות
+        $courses = $db->query("SELECT * FROM courses")->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($courses)) return ['inserted' => 0, 'skipped' => 0, 'errors' => ['אין קורסים']];
 
         // בנה מפה של payment_page_id → course
         $courseByPageId = [];

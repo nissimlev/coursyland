@@ -135,6 +135,9 @@ PHP + MySQL ב-`admin.coursyland.com`. מנהל לקוחות, קורסים, מכ
 חוזר מ-iCount כ-`status=false` עם `reason=no_results_found`. זו תשובה ריקה, לא
 כישלון, ו-`request()` הופך אותה לרשימה ריקה. בלי זה הסנכרון שנה-שנה נפל עם
 "iCount: no_results_found (HTTP 200)".
+**סדר: קודם iCount, אחר כך DB.** משיכת כל ההיסטוריה ארוכה, וחיבור DB שנפתח לפניה
+ועמד בטל נסגר ע"י MySQL ("2006 MySQL server has gone away"). לכן
+`syncAllCourses()` מקבלת `getDB` כ-callable ומתחברת רק אחרי המשיכה.
 
 **סנכרון אוטומטי:** אחרי כל לוגין, `index.php` מריץ ברקע את
 `api/icount_sync.php` פעם אחת (דגל `icount_sync_pending` ב-session מ-`login.php`)
