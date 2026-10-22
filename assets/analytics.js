@@ -21,10 +21,14 @@
 
   /* Meta Pixel (Facebook) — מדידת פרסום/רימרקטינג.
      בכוונה מוגבל לדפי נחיתה ספציפיים, לא לכל האתר.
-     להוספת דף נוסף — הוסיפו את הנתיב למערך הזה בלבד. */
-  var META_PIXEL_ID    = '795788145571339';
+     כל דף מגדיר את הפיקסל שלו (id), ואופציונלית אירוע נוסף
+     שיישלח אחרי PageView (event: [שם, פרמטרים]).
+     להוספת דף נוסף — הוסיפו רשומה למערך הזה בלבד. */
   var META_PIXEL_PAGES = [
-    '/pages/dikla-teler/present-of-gaps.html'
+    { path: '/pages/dikla-teler/present-of-gaps.html', id: '795788145571339' },
+    /* דף התודה של WD40 — "הפיקסל של ניסים לוי", אירוע רכישה במחיר ההשקה */
+    { path: '/pages/wd40-thankyou', id: '389818648052641',
+      event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }] }
   ];
 
   /* ---------- בדיקות סביבה ---------- */
@@ -75,17 +79,19 @@
 
   /* ---------- טעינת Meta Pixel (מוגבל לדפים ב-META_PIXEL_PAGES) ---------- */
 
+  /* מחזיר את רשומת הפיקסל של הדף הנוכחי, או null */
   function metaPixelApplies() {
     var path = location.pathname;
     for (var i = 0; i < META_PIXEL_PAGES.length; i++) {
-      if (path === META_PIXEL_PAGES[i] || path.indexOf(META_PIXEL_PAGES[i]) !== -1) return true;
+      if (path.indexOf(META_PIXEL_PAGES[i].path) !== -1) return META_PIXEL_PAGES[i];
     }
-    return false;
+    return null;
   }
 
   var metaLoaded = false;
   function loadMetaPixel() {
-    if (metaLoaded || !measurable() || !metaPixelApplies()) return;
+    var page = metaPixelApplies();
+    if (metaLoaded || !measurable() || !page) return;
     metaLoaded = true;
 
     /* fbq לא מוגדר בכלל עד שיש הסכמה — כלומר שום קריאה לא יכולה
@@ -102,8 +108,9 @@
     }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
     window.fbq('consent', 'grant');
-    window.fbq('init', META_PIXEL_ID);
+    window.fbq('init', page.id);
     window.fbq('track', 'PageView');
+    if (page.event) window.fbq('track', page.event[0], page.event[1]);
   }
 
   /* ---------- עיצוב הבאנר ---------- */
