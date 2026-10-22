@@ -53,6 +53,12 @@ class ICountClient {
         $data = json_decode($response, true);
         if (!is_array($data)) throw new RuntimeException("iCount invalid JSON (HTTP $httpCode)");
 
+        // חיפוש בלי תוצאות (שנה בלי מכירות, עמוד אחרי האחרון) חוזר מ-iCount
+        // כ-status=false עם no_results_found. זו תשובה ריקה, לא כישלון.
+        if (($data['reason'] ?? null) === 'no_results_found' && $httpCode < 400) {
+            return ['status' => true, 'results_list' => []] + $data;
+        }
+
         // iCount מחזיר status=false עם reason כשהבקשה נכשלה (מפתח שגוי, הרשאה וכו').
         // בלי הבדיקה הזו כישלון נראה כמו "אין עסקאות" והסנכרון מדווח הצלחה עם 0.
         if (($data['status'] ?? null) === false || $httpCode >= 400) {

@@ -131,6 +131,10 @@ PHP + MySQL ב-`admin.coursyland.com`. מנהל לקוחות, קורסים, מכ
 **מלכודת שהייתה:** אחרי ש-`config.php` ירד מ-git המפתח נשאר ריק בשרת, iCount
 דחה את הבקשה, והקוד לא בדק `status` בתשובה — אז הכפתור "סנכרן מ-iCount" דיווח
 "סנכרון הושלם: 0 רכישות חדשות" במקום שגיאה. היום כל `status=false` מוצג כשגיאה.
+**חריג אחד:** חיפוש בלי תוצאות (שנה בלי מכירות, למשל 2020, או עמוד אחרי האחרון)
+חוזר מ-iCount כ-`status=false` עם `reason=no_results_found`. זו תשובה ריקה, לא
+כישלון, ו-`request()` הופך אותה לרשימה ריקה. בלי זה הסנכרון שנה-שנה נפל עם
+"iCount: no_results_found (HTTP 200)".
 
 **סנכרון אוטומטי:** אחרי כל לוגין, `index.php` מריץ ברקע את
 `api/icount_sync.php` פעם אחת (דגל `icount_sync_pending` ב-session מ-`login.php`)
