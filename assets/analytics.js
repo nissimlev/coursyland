@@ -26,9 +26,8 @@
      להוספת דף נוסף — הוסיפו רשומה למערך הזה בלבד. */
   var META_PIXEL_PAGES = [
     { path: '/pages/dikla-teler/present-of-gaps.html', id: '795788145571339' },
-    /* דף התודה של WD40 — "הפיקסל של ניסים לוי", אירוע רכישה במחיר ההשקה */
-    { path: '/pages/wd40-thankyou', id: '389818648052641',
-      event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }] }
+    /* דף התודה של WD40 — "הפיקסל של ניסים לוי", צפייה בלבד */
+    { path: '/pages/wd40-thankyou', id: '389818648052641' }
   ];
 
   /* ---------- בדיקות סביבה ---------- */
