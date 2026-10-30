@@ -23,12 +23,19 @@
      בכוונה מוגבל לדפי נחיתה ספציפיים, לא לכל האתר.
      כל דף מגדיר את הפיקסל שלו (id), ואופציונלית אירוע נוסף
      שיישלח אחרי PageView (event: [שם, פרמטרים]).
+     eventGuard (אופציונלי) מגן על האירוע מספירה שגויה:
+       from — האירוע נשלח רק למי שהגיע מאחד הדומיינים האלה (referrer),
+              או עם ?paid=1 בכתובת (גיבוי, אם ספק הסליקה לא מעביר referrer)
+       once — מפתח; האירוע נשלח פעם אחת בלבד לכל דפדפן (רענון לא נספר)
      להוספת דף נוסף — הוסיפו רשומה למערך הזה בלבד. */
   var META_PIXEL_PAGES = [
     { path: '/pages/dikla-teler/present-of-gaps.html', id: '795788145571339' },
-    /* דף התודה של WD40 — "הפיקסל של ניסים לוי", צפייה ואירוע רכישה במחיר ההשקה */
+    /* דף התודה של WD40 — "הפיקסל של ניסים לוי", צפייה ואירוע רכישה במחיר ההשקה.
+       הרכישה נספרת רק למי שהגיע מדף התשלום של iCount, ופעם אחת לדפדפן,
+       כדי שפתיחה ישירה של הדף (גם של ניסים עצמו) או רענון לא ייספרו כמכירה. */
     { path: '/pages/wd40-thankyou', id: '389818648052641',
-      event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }] },
+      event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }],
+      eventGuard: { from: ['icount.co.il'], once: 'wd40-purchase' } },
     /* דף המכירה של WD40 — אותו פיקסל, צפייה בלבד */
     { path: '/pages/wd40/', id: '389818648052641' }
   ];
@@ -90,6 +97,30 @@
     return null;
   }
 
+  /* האם לשלוח את האירוע הנוסף של הדף (למשל Purchase) לפי eventGuard */
+  var EVENT_SENT_PREFIX = 'coursyland.event.';
+  function metaEventAllowed(page) {
+    var g = page.eventGuard;
+    if (!g) return true;
+    if (g.from) {
+      var ref = '';
+      try { ref = new URL(document.referrer).hostname; } catch (e) { /* אין referrer */ }
+      var fromAllowed = false;
+      for (var i = 0; i < g.from.length; i++) {
+        if (ref === g.from[i] || ref.endsWith('.' + g.from[i])) fromAllowed = true;
+      }
+      if (!fromAllowed && !/[?&]paid=1(&|$)/.test(location.search)) return false;
+    }
+    if (g.once) {
+      try { if (localStorage.getItem(EVENT_SENT_PREFIX + g.once)) return false; } catch (e) { /* מצב פרטי */ }
+    }
+    return true;
+  }
+  function markMetaEventSent(page) {
+    if (!page.eventGuard || !page.eventGuard.once) return;
+    try { localStorage.setItem(EVENT_SENT_PREFIX + page.eventGuard.once, String(Date.now())); } catch (e) { /* מצב פרטי */ }
+  }
+
   var metaLoaded = false;
   function loadMetaPixel() {
     var page = metaPixelApplies();
@@ -112,7 +143,10 @@
     window.fbq('consent', 'grant');
     window.fbq('init', page.id);
     window.fbq('track', 'PageView');
-    if (page.event) window.fbq('track', page.event[0], page.event[1]);
+    if (page.event && metaEventAllowed(page)) {
+      window.fbq('track', page.event[0], page.event[1]);
+      markMetaEventSent(page);
+    }
   }
 
   /* ---------- עיצוב הבאנר ---------- */
