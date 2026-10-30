@@ -27,6 +27,8 @@
        from — האירוע נשלח רק למי שהגיע מאחד הדומיינים האלה (referrer),
               או עם ?paid=1 בכתובת (גיבוי, אם ספק הסליקה לא מעביר referrer)
        once — מפתח; האירוע נשלח פעם אחת בלבד לכל דפדפן (רענון לא נספר)
+     noBanner (אופציונלי) — הדף לא מציג באנר ומודד כל עוד המבקר לא סירב
+              במפורש (לדפי תודה, אחרי שהמבקר כבר אישר בדף המכירה)
      להוספת דף נוסף — הוסיפו רשומה למערך הזה בלבד. */
   var META_PIXEL_PAGES = [
     { path: '/pages/dikla-teler/present-of-gaps.html', id: '795788145571339' },
@@ -35,7 +37,9 @@
        כדי שפתיחה ישירה של הדף (גם של ניסים עצמו) או רענון לא ייספרו כמכירה. */
     { path: '/pages/wd40-thankyou', id: '389818648052641',
       event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }],
-      eventGuard: { from: ['icount.co.il'], once: 'wd40-purchase' } },
+      eventGuard: { from: ['icount.co.il'], once: 'wd40-purchase' },
+      /* בלי באנר: הקונה כבר אישר בדף המכירה. מי שסירב במפורש — לא נמדד */
+      noBanner: true },
     /* דף המכירה של WD40 — אותו פיקסל, צפייה בלבד */
     { path: '/pages/wd40/', id: '389818648052641' }
   ];
@@ -278,7 +282,8 @@
     if (!measurable()) return;      // סביבת פיתוח / אזור ניהול — אין באנר ואין מדידה
     addSettingsLink();
     var choice = readChoice();
-    if (choice === 'granted') { loadGA(); loadMetaPixel(); }
+    var page = metaPixelApplies();
+    if (choice === 'granted' || (page && page.noBanner && choice !== 'denied')) { loadGA(); loadMetaPixel(); }
     else if (choice !== 'denied') showBanner();
   }
 
