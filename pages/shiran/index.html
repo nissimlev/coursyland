@@ -370,6 +370,28 @@
   body{padding-bottom:76px}
   @media(min-width:860px){body{padding-bottom:0}}
 
+  /* video testimonials (click-to-play: nothing loads from YouTube until a visitor presses play) */
+  .vt-feature{max-width:720px;margin:0 auto 28px}
+  .vt-grid{display:grid;grid-template-columns:1fr;gap:28px;max-width:280px;margin:0 auto}
+  @media(min-width:760px){.vt-grid{grid-template-columns:repeat(3,1fr);max-width:900px}}
+  .vt-card figcaption{margin-top:12px;text-align:center;font-family:var(--font-heading);font-weight:700;font-size:19px;color:var(--color-primary-dark)}
+  .vt-player{
+    position:relative;display:block;width:100%;aspect-ratio:9/16;
+    border:none;padding:0;cursor:pointer;overflow:hidden;
+    border-radius:var(--radius);background:#000;box-shadow:var(--shadow);
+  }
+  .vt-feature .vt-player{aspect-ratio:16/9}
+  .vt-player img{width:100%;height:100%;object-fit:cover}
+  .vt-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vt-play{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:68px;height:68px;border-radius:50%;
+    background:var(--color-accent);box-shadow:0 8px 22px rgba(0,0,0,.3);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease;
+  }
+  .vt-player:hover .vt-play{transform:translate(-50%,-50%) scale(1.08)}
+
   /* fade in (progressive enhancement: visible by default, JS opts elements into the animated state) */
   .fade{transition:opacity .6s ease, transform .6s ease}
   .fade.pre{opacity:0;transform:translateY(18px)}
@@ -655,8 +677,6 @@
   </div>
 </section>
 
-<!-- חסר: הוכחות חברתיות / עדויות -->
-
 <!-- 11. מי אני -->
 <section>
   <div class="wrap">
@@ -694,6 +714,47 @@
     <div class="light-quote fade">"אני רוצה שתגיעי ללידה עם ביטחון. שתרגישי מחוברת לגוף שלך. שתדעי איך לעבוד עם הצירים. אני רוצה שהוא ירגיש שהוא יודע בדיוק איך להיות שם. אני רוצה שתעברו את הלידה הזאת כצוות."</div>
     <div class="fade" style="max-width:720px;margin:26px auto 0">
       <p>כי כשההתחלה מגיעה ממקום של ביטחון, אמון וחיבור, זה משפיע על כל התקופה שאחרי: על ההחלמה של הגוף, על הקשר עם התינוק, וגם על הקשר ביניכם. ובדיוק בשביל זה יצרתי את הקורס הזה. כדי לתת לך את הידע, את הכלים, את המגע ואת החיבור. כדי שתגיעי ללידה רגועה יותר, בטוחה יותר, ובעיקר מחוברת.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11.5 המלצות בווידאו -->
+<section class="sec-alt">
+  <div class="wrap">
+    <span class="eyebrow center" style="display:block;width:fit-content;margin-inline:auto">המלצות</span>
+    <h2 class="section-title fade">זוגות מספרים</h2>
+    <div class="divider"></div>
+    <div class="vt-feature fade">
+      <figure class="vt-card">
+        <button type="button" class="vt-player" data-video="IdZc6j3F25c" data-start="5" aria-label="צפייה בהמלצה של עדן ואליה">
+          <img src="https://i.ytimg.com/vi/IdZc6j3F25c/maxresdefault.jpg" alt="" loading="lazy">
+          <span class="vt-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <figcaption>עדן ואליה</figcaption>
+      </figure>
+    </div>
+    <div class="vt-grid fade">
+      <figure class="vt-card">
+        <button type="button" class="vt-player" data-video="KY3QkC07OTM" aria-label="צפייה בהמלצה של דקלה וגפן">
+          <img src="https://i.ytimg.com/vi/KY3QkC07OTM/hqdefault.jpg" alt="" loading="lazy">
+          <span class="vt-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <figcaption>דקלה וגפן</figcaption>
+      </figure>
+      <figure class="vt-card">
+        <button type="button" class="vt-player" data-video="mYjfQWVusdE" aria-label="צפייה בהמלצה של נועה ודרור">
+          <img src="https://i.ytimg.com/vi/mYjfQWVusdE/hqdefault.jpg" alt="" loading="lazy">
+          <span class="vt-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <figcaption>נועה ודרור</figcaption>
+      </figure>
+      <figure class="vt-card">
+        <button type="button" class="vt-player" data-video="Y1SzMioJ0JU" aria-label="צפייה בהמלצה של מור ודרור">
+          <img src="https://i.ytimg.com/vi/Y1SzMioJ0JU/hqdefault.jpg" alt="" loading="lazy">
+          <span class="vt-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <figcaption>מור ודרור</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -843,6 +904,17 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {threshold:.12});
   document.querySelectorAll('.fade').forEach(el=>{ el.classList.add('pre'); io.observe(el); });
+  document.querySelectorAll('.vt-player').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const start = btn.dataset.start ? '&start=' + btn.dataset.start : '';
+      const f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + btn.dataset.video + '?autoplay=1&rel=0&playsinline=1' + start;
+      f.title = btn.getAttribute('aria-label');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      btn.replaceChildren(f);
+    }, {once:true});
+  });
 </script>
 
 </body>
