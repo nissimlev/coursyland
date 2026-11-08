@@ -796,6 +796,26 @@ footer nav a:hover{color:#FFF9EC;opacity:1}
       <!-- ============ CTA #3: Ravpage form ============ -->
       <div class="center rav-form" style="margin-top:38px">
         <script type='text/javascript' src='https://form.ravpage.co.il/88e122bdfeb647bedf91c63dc50a79cd6AEBA299' charset='UTF-8'></script>
+        <script>
+        /* after the Ravpage form is sent, go to the iCount payment page */
+        (function(){
+          var PAY = 'https://app.icount.co.il/m/d4745/c691adcap156u6a9293?utm_source=iCount&utm_medium=paypage&utm_campaign=342';
+          var tries = 0;
+          (function hook(){
+            var form = document.querySelector('.rav-form form');
+            if (!form) { if (++tries < 40) setTimeout(hook, 250); return; }
+            var frame = document.createElement('iframe');
+            frame.name = 'rav-submit-frame';
+            frame.style.display = 'none';
+            document.body.appendChild(frame);
+            var armed = false;
+            frame.addEventListener('load', function(){ if (armed) window.location.href = PAY; });
+            form.target = frame.name;
+            form.addEventListener('submit', function(){ armed = true; }, true);
+            form.addEventListener('click', function(e){ if (e.target.closest('[type=submit]')) armed = true; }, true);
+          })();
+        })();
+        </script>
         <p class="btn-note">הקורס נפתח מיד לאחר התשלום.</p>
       </div>
     </div>
