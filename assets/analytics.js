@@ -36,7 +36,7 @@
        הרכישה נספרת רק למי שהגיע מדף התשלום של iCount, ופעם אחת לדפדפן,
        כדי שפתיחה ישירה של הדף (גם של ניסים עצמו) או רענון לא ייספרו כמכירה. */
     { path: '/pages/wd40-thankyou', id: '389818648052641',
-      event: ['Purchase', { value: 647, currency: 'ILS', content_name: 'WD40' }],
+      event: ['Purchase', { value: 390, currency: 'ILS', content_name: 'WD40' }],
       eventGuard: { from: ['icount.co.il'], once: 'wd40-purchase' },
       /* בלי באנר: הקונה כבר אישר בדף המכירה. מי שסירב במפורש — לא נמדד */
       noBanner: true },
