@@ -1,0 +1,541 @@
+{
+  "passages": [
+    {
+      "id": "safe-code",
+      "title": "קוד הכספת",
+      "text": "כדי להצפין מספר בן 4 ספרות פועלים כך:\n1. מוסיפים 3 לכל ספרה. אם התוצאה היא 10 או יותר, רושמים רק את ספרת האחדות (למשל, 8 הופכת ל-1).\n2. אחרי שכל הספרות הוחלפו, הופכים את סדר הספרות: הספרה הראשונה הופכת לאחרונה, השנייה לשלישית וכן הלאה.",
+      "spec": { "family": "digit-code", "all": [{ "op": "add", "v": 3 }], "reverse": true }
+    },
+    {
+      "id": "letter-shift",
+      "title": "הצפנת מילים",
+      "text": "כדי להצפין מילה פועלים כך:\n1. כל אות מוחלפת באות שבאה אחריה באלף-בית (א הופכת ל-ב, ב הופכת ל-ג, וכן הלאה; ת הופכת ל-א).\n2. אותיות סופיות (ך, ם, ן, ף, ץ) נחשבות כמו האותיות הרגילות (כ, מ, נ, פ, צ), ובקוד תמיד כותבים את האות הרגילה.\n3. לבסוף מחליפים בין האות הראשונה לאות האחרונה של המילה.",
+      "spec": { "family": "letter-code", "shift": 1, "swapEnds": true }
+    },
+    {
+      "id": "driving-course",
+      "title": "אישור לקורס נהיגה",
+      "text": "חייל יקבל אישור להשתתף בקורס נהיגה רק אם מתקיימים כל התנאים הבאים:\n1. ציון הכושר שלו 70 לפחות.\n2. יש לו רישיון נהיגה אזרחי כבר 12 חודשים לפחות.\n3. היו לו לכל היותר 2 עבירות משמעת בשנה האחרונה.\nחריג: חייל שהוא מצטיין פלוגתי יקבל אישור גם אם ציון הכושר שלו נמוך מ-70, בתנאי ששני התנאים האחרים מתקיימים.",
+      "spec": {
+        "family": "eligibility",
+        "rule": {
+          "all": [
+            { "any": [{ "attr": "fitness", "op": ">=", "value": 70 }, { "attr": "excellent", "op": "=", "value": true }] },
+            { "attr": "licenseMonths", "op": ">=", "value": 12 },
+            { "attr": "offenses", "op": "<=", "value": 2 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gym-discount",
+      "title": "הנחה בחדר הכושר",
+      "text": "מנוי או מנויה בחדר הכושר מקבלים הנחה של 20% אם מתקיים לפחות אחד מהתנאים הבאים:\nא. הם סטודנטים, וגילם מתחת ל-30.\nב. הם מתאמנים לפחות 3 פעמים בשבוע, והם מנויים כבר 6 חודשים לפחות.\nעם זאת, מי שיש לו חוב בתשלום לא מקבל הנחה בכלל, גם אם הוא עומד באחד התנאים.",
+      "spec": {
+        "family": "eligibility",
+        "rule": {
+          "all": [
+            { "not": { "attr": "debt", "op": "=", "value": true } },
+            {
+              "any": [
+                { "all": [{ "attr": "student", "op": "=", "value": true }, { "attr": "age", "op": "<", "value": 30 }] },
+                { "all": [{ "attr": "weekly", "op": ">=", "value": 3 }, { "attr": "months", "op": ">=", "value": 6 }] }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "number-machine",
+      "title": "מכונת המספרים",
+      "text": "המכונה מקבלת מספר שלם ומבצעת עליו את הפעולות הבאות, לפי הסדר:\n1. אם המספר זוגי, היא מחלקת אותו ב-2. אם הוא אי-זוגי, היא מוסיפה לו 5.\n2. אם התוצאה גדולה מ-20, היא מחסירה ממנה 10. אחרת היא לא משנה אותה.\n3. היא כופלת את התוצאה ב-3, וזה המספר שיוצא מהמכונה.",
+      "spec": {
+        "family": "procedure",
+        "repeat": 1,
+        "steps": [
+          { "if": { "even": true }, "then": [{ "op": "div", "v": 2 }], "else": [{ "op": "add", "v": 5 }] },
+          { "if": { "gt": 20 }, "then": [{ "op": "sub", "v": 10 }] },
+          { "then": [{ "op": "mul", "v": 3 }] }
+        ]
+      }
+    },
+    {
+      "id": "warehouse-robot",
+      "title": "הרובוט במחסן",
+      "text": "המחסן הוא לוח של 5 טורים ו-5 שורות. הטורים מסומנים באותיות א עד ה, מימין לשמאל (א הוא הטור הימני). השורות ממוספרות 1 עד 5, מלמטה למעלה. משבצת מסומנת באות הטור ובמספר השורה, למשל ג2.\nהרובוט מבצע פקודות לפי הסדר: מ = צעד למעלה, ט = צעד למטה, י = צעד ימינה, ש = צעד שמאלה.\nאם פקודה הייתה מוציאה את הרובוט מהלוח, הוא לא מבצע אותה ונשאר במקומו.\nבמשבצת ג3 יש מכשול: פקודה שהייתה מכניסה את הרובוט למשבצת ג3 לא מתבצעת, והרובוט נשאר במקומו.",
+      "spec": { "family": "robot", "cols": 5, "rows": 5, "obstacles": ["ג3"] }
+    },
+    {
+      "id": "dining-queue",
+      "title": "התור לחדר האוכל",
+      "text": "בבסיס נקבע סדר הכניסה לחדר האוכל:\n1. קודם נכנסים כל מי שיוצאים לשמירה בשעה הקרובה.\n2. אחריהם נכנסים כל השאר.\n3. בתוך כל קבוצה נכנסים לפי ותק בבסיס, מהוותיק ביותר לחדש ביותר.\n4. אם לשניים יש אותו ותק, נכנס קודם מי ששמו מוקדם יותר בסדר האלף-בית.\nהיום מחכים בתור: אביב (ותק 8 חודשים), ברק (ותק 14 חודשים), גל (ותק 3 חודשים, יוצא לשמירה), דור (ותק 14 חודשים), הדר (ותק 20 חודשים, יוצא לשמירה) וזיו (ותק 5 חודשים).",
+      "spec": {
+        "family": "priority",
+        "people": {
+          "אביב": { "guard": false, "seniority": 8 },
+          "ברק": { "guard": false, "seniority": 14 },
+          "גל": { "guard": true, "seniority": 3 },
+          "דור": { "guard": false, "seniority": 14 },
+          "הדר": { "guard": true, "seniority": 20 },
+          "זיו": { "guard": false, "seniority": 5 }
+        },
+        "keys": [{ "attr": "guard", "dir": "desc" }, { "attr": "seniority", "dir": "desc" }, { "attr": "name", "dir": "asc" }]
+      }
+    },
+    {
+      "id": "kitchen-duty",
+      "title": "שיבוץ תורנויות מטבח",
+      "text": "חמישה חיילים, אלון, בר, גיא, דנה ויובל, צריכים להיות משובצים לתורנות מטבח: אחד בכל יום, מיום ראשון עד יום חמישי. כל אחד משובץ בדיוק פעם אחת. האילוצים:\n1. דנה לא יכולה להיות משובצת ביום שני.\n2. גיא משובץ ביום שמגיע מיד אחרי היום של אלון (למשל, אם אלון ביום שני, גיא ביום שלישי).\n3. יובל משובץ ביום חמישי.\n4. בר משובצת ביום מוקדם יותר מדנה.",
+      "spec": {
+        "family": "assignment",
+        "people": ["אלון", "בר", "גיא", "דנה", "יובל"],
+        "slots": ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי"],
+        "constraints": [
+          { "type": "not", "person": "דנה", "slot": 2 },
+          { "type": "offset", "a": "אלון", "b": "גיא", "diff": 1 },
+          { "type": "is", "person": "יובל", "slot": 5 },
+          { "type": "before", "a": "בר", "b": "דנה" }
+        ]
+      }
+    },
+    {
+      "id": "gate-code",
+      "title": "קוד הכניסה לשער",
+      "text": "קוד הכניסה לשער מחושב ממספר בן 4 ספרות, כך:\n1. כל ספרה במקום אי-זוגי (הראשונה והשלישית) מוחלפת במשלימה שלה ל-9. למשל, 2 הופכת ל-7, כי 2 + 7 = 9.\n2. לכל ספרה במקום זוגי (השנייה והרביעית) מוסיפים 1. הספרה 9 הופכת ל-0.\n3. לבסוף מחליפים בין שני החצאים של המספר: שתי הספרות הראשונות עוברות לסוף. למשל, 1234 הופך ל-3412.",
+      "spec": { "family": "digit-code", "odd": [{ "op": "comp9" }], "even": [{ "op": "add", "v": 1 }], "swapHalves": true }
+    },
+    {
+      "id": "mirror-code",
+      "title": "הצפנת המראה",
+      "text": "בהצפנת המראה כל אות מוחלפת באות שעומדת מולה באלף-בית: האות הראשונה מתחלפת באחרונה, השנייה בלפני האחרונה, וכן הלאה. כלומר: א↔ת, ב↔ש, ג↔ר, ד↔ק, ה↔צ, ו↔פ, ז↔ע, ח↔ס, ט↔נ, י↔מ, כ↔ל.\nאותיות סופיות נחשבות כמו האותיות הרגילות, ובקוד תמיד כותבים את האות הרגילה. את סדר האותיות במילה לא משנים.",
+      "spec": { "family": "letter-code", "atbash": true }
+    },
+    {
+      "id": "counting-program",
+      "title": "תוכנית הספירה",
+      "text": "מתחילים מהמספר הנתון, וחוזרים 3 פעמים על הצעד הבא:\nאם המספר מתחלק ב-3 בלי שארית, מחלקים אותו ב-3. אחרת, מוסיפים לו את ספרת האחדות שלו (למשל, 14 הופך ל-18, ו-20 נשאר 20).\nהמספר שמתקבל אחרי שלוש החזרות הוא התוצאה.",
+      "spec": {
+        "family": "procedure",
+        "repeat": 3,
+        "steps": [{ "if": { "divisibleBy": 3 }, "then": [{ "op": "div", "v": 3 }], "else": [{ "op": "addUnits" }] }]
+      }
+    },
+    {
+      "id": "camera-loan",
+      "title": "השאלת מצלמה",
+      "text": "המחסן משאיל מצלמה רק למי שעומד בשני התנאים הבאים:\n1. החזיר בזמן את כל הציוד שהשאיל בעבר, או שזו ההשאלה הראשונה שלו.\n2. ההשאלה מבוקשת ל-5 ימים לכל היותר. מי שיש לו אישור מהמפקד יכול לבקש עד 10 ימים.",
+      "spec": {
+        "family": "eligibility",
+        "rule": {
+          "all": [
+            { "any": [{ "attr": "onTime", "op": "=", "value": true }, { "attr": "first", "op": "=", "value": true }] },
+            {
+              "any": [
+                { "attr": "days", "op": "<=", "value": 5 },
+                { "all": [{ "attr": "days", "op": "<=", "value": 10 }, { "attr": "approval", "op": "=", "value": true }] }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "call-center",
+      "title": "סדר הטיפול בפניות",
+      "text": "במוקד מטפלים בפניות לפי הכללים הבאים:\n1. פניות דחופות מטופלות לפני פניות רגילות.\n2. בתוך כל קבוצה, פנייה שהגיעה מוקדם יותר מטופלת קודם.\n3. יוצא מן הכלל: פנייה רגילה שממתינה יותר משעתיים נחשבת דחופה.\nעכשיו השעה 12:00, וממתינות 6 פניות: פנייה א (רגילה, הגיעה ב-09:30), פנייה ב (דחופה, הגיעה ב-11:10), פנייה ג (רגילה, הגיעה ב-10:30), פנייה ד (דחופה, הגיעה ב-10:50), פנייה ה (רגילה, הגיעה ב-09:50), פנייה ו (רגילה, הגיעה ב-11:30).",
+      "spec": {
+        "family": "priority",
+        "people": {
+          "פנייה א": { "urgent": false, "arrival": 570 },
+          "פנייה ב": { "urgent": true, "arrival": 670 },
+          "פנייה ג": { "urgent": false, "arrival": 630 },
+          "פנייה ד": { "urgent": true, "arrival": 650 },
+          "פנייה ה": { "urgent": false, "arrival": 590 },
+          "פנייה ו": { "urgent": false, "arrival": 690 }
+        },
+        "derived": {
+          "effectiveUrgent": { "any": [{ "attr": "urgent", "op": "=", "value": true }, { "attr": "arrival", "op": "<", "value": 600 }] }
+        },
+        "keys": [{ "attr": "effectiveUrgent", "dir": "desc" }, { "attr": "arrival", "dir": "asc" }]
+      }
+    },
+    {
+      "id": "team-rooms",
+      "title": "חדרים לצוותים",
+      "text": "ארבעה צוותים, אדום, כחול, ירוק וצהוב, צריכים לקבל ארבעה חדרים לאורך מסדרון, ממוספרים 1 עד 4. כל צוות מקבל חדר אחד. הכללים:\n1. הצוות הירוק לא נמצא בחדר 1.\n2. מספר החדר של הצוות הכחול גדול בדיוק ב-2 ממספר החדר של הצוות האדום.\n3. הצוות הצהוב לא נמצא בחדר 4.",
+      "spec": {
+        "family": "assignment",
+        "people": ["אדום", "כחול", "ירוק", "צהוב"],
+        "slots": ["חדר 1", "חדר 2", "חדר 3", "חדר 4"],
+        "constraints": [
+          { "type": "not", "person": "ירוק", "slot": 1 },
+          { "type": "offset", "a": "אדום", "b": "כחול", "diff": 2 },
+          { "type": "not", "person": "צהוב", "slot": 4 }
+        ]
+      }
+    }
+  ],
+
+  "questions": [
+    {
+      "id": "instr-safe-1", "passageId": "safe-code", "subtopic": "coding", "difficulty": "easy",
+      "prompt": "מה הקוד של המספר 1250?",
+      "choices": ["3854", "4583", "3584", "4853"], "correct": "a",
+      "explanation": "מוסיפים 3 לכל ספרה: 1→4, 2→5, 5→8, 0→3, ומקבלים 4583. אחר כך הופכים את הסדר ומקבלים 3854. (4583 הוא התוצאה לפני היפוך הסדר.)",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "1250" } }
+    },
+    {
+      "id": "instr-safe-2", "passageId": "safe-code", "subtopic": "coding", "difficulty": "medium",
+      "prompt": "מה הקוד של המספר 7096?",
+      "choices": ["0329", "9230", "9203", "1329"], "correct": "b",
+      "explanation": "מוסיפים 3 לכל ספרה: 7+3 = 10, ולכן רושמים 0; 0→3; 9+3 = 12, ולכן רושמים 2; 6+3 = 9. מתקבל 0329, ואחרי היפוך הסדר: 9230.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "7096" } }
+    },
+    {
+      "id": "instr-safe-3", "passageId": "safe-code", "subtopic": "coding", "difficulty": "hard",
+      "prompt": "הקוד שהתקבל הוא 5170. מה היה המספר המקורי?",
+      "choices": ["2847", "8415", "7482", "4815"], "correct": "c",
+      "explanation": "עובדים אחורה. קודם מבטלים את היפוך הסדר: 5170 הופך ל-0715. אחר כך מחסירים 3 מכל ספרה (ו'עוברים מעל האפס' כשצריך): 0→7, 7→4, 1→8, 5→2. המספר המקורי הוא 7482. בדיקה: 7482 → 0715 → 5170.",
+      "verify": { "kind": "instructions", "query": { "type": "decode", "output": "5170" } }
+    },
+
+    {
+      "id": "instr-letters-1", "passageId": "letter-shift", "subtopic": "coding", "difficulty": "easy",
+      "prompt": "מה הקוד של המילה 'דגל'?",
+      "choices": ["הדמ", "מדה", "מדג", "גבכ"], "correct": "b",
+      "explanation": "כל אות עוברת לאות הבאה: ד→ה, ג→ד, ל→מ, ומקבלים 'הדמ'. אחר כך מחליפים בין הראשונה לאחרונה: 'מדה'.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "דגל" } }
+    },
+    {
+      "id": "instr-letters-2", "passageId": "letter-shift", "subtopic": "coding", "difficulty": "medium",
+      "prompt": "מה הקוד של המילה 'שלום'?",
+      "choices": ["תמזנ", "נמות", "נמזת", "רכהל"], "correct": "c",
+      "explanation": "ש→ת, ל→מ, ו→ז, והאות הסופית ם נחשבת כמו מ, ולכן הופכת ל-נ. מתקבל 'תמזנ'. אחרי החלפת האות הראשונה והאחרונה: 'נמזת'.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "שלום" } }
+    },
+    {
+      "id": "instr-letters-3", "passageId": "letter-shift", "subtopic": "coding", "difficulty": "hard",
+      "prompt": "הקוד שהתקבל הוא 'אכג'. מה הייתה המילה המקורית?",
+      "choices": ["תיב", "בית", "אית", "גכא"], "correct": "b",
+      "explanation": "עובדים אחורה. קודם מחזירים את ההחלפה בין האות הראשונה לאחרונה: 'אכג' הופך ל-'גכא'. אחר כך מחליפים כל אות באות שלפניה באלף-בית: ג→ב, כ→י, א→ת. המילה המקורית היא 'בית'.",
+      "verify": { "kind": "instructions", "query": { "type": "decode", "output": "אכג" } }
+    },
+
+    {
+      "id": "instr-driving-1", "passageId": "driving-course", "subtopic": "rules-apply", "difficulty": "easy",
+      "prompt": ["מי מהחיילים הבאים יקבל אישור לקורס?", "אבי: ציון כושר 65, רישיון 24 חודשים, 0 עבירות, לא מצטיין.", "בני: ציון כושר 80, רישיון 6 חודשים, עבירה 1, לא מצטיין.", "גיל: ציון כושר 75, רישיון 36 חודשים, 3 עבירות, לא מצטיין.", "דן: ציון כושר 72, רישיון 12 חודשים, 2 עבירות, לא מצטיין."],
+      "choices": ["אבי", "בני", "גיל", "דן"], "correct": "d",
+      "explanation": "אבי נפסל בגלל ציון הכושר (65, והוא לא מצטיין). בני נפסל כי יש לו רישיון רק 6 חודשים. גיל נפסל כי היו לו 3 עבירות. דן עומד בכל התנאים: כושר 72, רישיון בדיוק 12 חודשים ובדיוק 2 עבירות. 'לפחות' ו'לכל היותר' כוללים את הגבול.",
+      "verify": { "kind": "instructions", "query": { "type": "eligible-one", "candidates": [
+        { "name": "אבי", "attrs": { "fitness": 65, "licenseMonths": 24, "offenses": 0, "excellent": false } },
+        { "name": "בני", "attrs": { "fitness": 80, "licenseMonths": 6, "offenses": 1, "excellent": false } },
+        { "name": "גיל", "attrs": { "fitness": 75, "licenseMonths": 36, "offenses": 3, "excellent": false } },
+        { "name": "דן", "attrs": { "fitness": 72, "licenseMonths": 12, "offenses": 2, "excellent": false } }
+      ] } }
+    },
+    {
+      "id": "instr-driving-2", "passageId": "driving-course", "subtopic": "rules-apply", "difficulty": "medium",
+      "prompt": ["מי מהחיילים הבאים יקבל אישור לקורס?", "רון: ציון כושר 60, רישיון 24 חודשים, עבירה 1, מצטיין פלוגתי.", "שי: ציון כושר 90, רישיון 48 חודשים, 3 עבירות, מצטיין פלוגתי.", "טל: ציון כושר 68, רישיון 60 חודשים, 0 עבירות, לא מצטיין.", "עדי: ציון כושר 85, רישיון 6 חודשים, 0 עבירות, מצטיין פלוגתי."],
+      "choices": ["רון", "שי", "טל", "עדי"], "correct": "a",
+      "explanation": "רון הוא מצטיין פלוגתי, ולכן ציון הכושר הנמוך (60) לא פוסל אותו, ושאר התנאים מתקיימים. שי נפסל בגלל 3 עבירות: החריג למצטיינים חל רק על ציון הכושר. טל נפסל בגלל ציון כושר 68 בלי הצטיינות. עדי נפסל בגלל רישיון של 6 חודשים בלבד.",
+      "verify": { "kind": "instructions", "query": { "type": "eligible-one", "candidates": [
+        { "name": "רון", "attrs": { "fitness": 60, "licenseMonths": 24, "offenses": 1, "excellent": true } },
+        { "name": "שי", "attrs": { "fitness": 90, "licenseMonths": 48, "offenses": 3, "excellent": true } },
+        { "name": "טל", "attrs": { "fitness": 68, "licenseMonths": 60, "offenses": 0, "excellent": false } },
+        { "name": "עדי", "attrs": { "fitness": 85, "licenseMonths": 6, "offenses": 0, "excellent": true } }
+      ] } }
+    },
+    {
+      "id": "instr-driving-3", "passageId": "driving-course", "subtopic": "rules-apply", "difficulty": "hard",
+      "prompt": ["כמה מהחיילים הבאים יקבלו אישור לקורס?", "איתי: ציון כושר 70, רישיון 12 חודשים, 2 עבירות, לא מצטיין.", "יונתן: ציון כושר 69, רישיון 30 חודשים, 0 עבירות, מצטיין פלוגתי.", "עומר: ציון כושר 95, רישיון 11 חודשים, 0 עבירות, מצטיין פלוגתי.", "נועם: ציון כושר 71, רישיון 20 חודשים, 3 עבירות, מצטיין פלוגתי.", "אורי: ציון כושר 50, רישיון 20 חודשים, עבירה 1, לא מצטיין."],
+      "choices": ["1", "2", "3", "4"], "correct": "b",
+      "explanation": "איתי עומד בדיוק בכל הגבולות (70, 12 חודשים, 2 עבירות) ומקבל אישור. יונתן מקבל אישור בזכות ההצטיינות, למרות ציון כושר 69. עומר נפסל כי יש לו רישיון 11 חודשים בלבד. נועם נפסל בגלל 3 עבירות. אורי נפסל בגלל ציון כושר 50 בלי הצטיינות. סך הכול 2 חיילים יקבלו אישור.",
+      "verify": { "kind": "instructions", "query": { "type": "count-eligible", "candidates": [
+        { "name": "איתי", "attrs": { "fitness": 70, "licenseMonths": 12, "offenses": 2, "excellent": false } },
+        { "name": "יונתן", "attrs": { "fitness": 69, "licenseMonths": 30, "offenses": 0, "excellent": true } },
+        { "name": "עומר", "attrs": { "fitness": 95, "licenseMonths": 11, "offenses": 0, "excellent": true } },
+        { "name": "נועם", "attrs": { "fitness": 71, "licenseMonths": 20, "offenses": 3, "excellent": true } },
+        { "name": "אורי", "attrs": { "fitness": 50, "licenseMonths": 20, "offenses": 1, "excellent": false } }
+      ] } }
+    },
+
+    {
+      "id": "instr-gym-1", "passageId": "gym-discount", "subtopic": "rules-apply", "difficulty": "easy",
+      "prompt": ["מי מהמנויות הבאות תקבל הנחה?", "מאיה: סטודנטית, בת 24, מתאמנת פעם 1 בשבוע, מנויה 2 חודשים, בלי חוב.", "נועה: לא סטודנטית, בת 35, מתאמנת 2 פעמים בשבוע, מנויה 12 חודשים, בלי חוב.", "תמר: סטודנטית, בת 22, מתאמנת 4 פעמים בשבוע, מנויה 8 חודשים, יש לה חוב.", "שירה: לא סטודנטית, בת 28, מתאמנת 3 פעמים בשבוע, מנויה 5 חודשים, בלי חוב."],
+      "choices": ["מאיה", "נועה", "תמר", "שירה"], "correct": "a",
+      "explanation": "מאיה סטודנטית מתחת לגיל 30 ובלי חוב, ולכן עומדת בתנאי א. נועה לא סטודנטית ומתאמנת רק פעמיים בשבוע. תמר עומדת בשני התנאים, אבל יש לה חוב, ולכן לא מקבלת הנחה. שירה מתאמנת 3 פעמים בשבוע, אבל מנויה רק 5 חודשים.",
+      "verify": { "kind": "instructions", "query": { "type": "eligible-one", "candidates": [
+        { "name": "מאיה", "attrs": { "student": true, "age": 24, "weekly": 1, "months": 2, "debt": false } },
+        { "name": "נועה", "attrs": { "student": false, "age": 35, "weekly": 2, "months": 12, "debt": false } },
+        { "name": "תמר", "attrs": { "student": true, "age": 22, "weekly": 4, "months": 8, "debt": true } },
+        { "name": "שירה", "attrs": { "student": false, "age": 28, "weekly": 3, "months": 5, "debt": false } }
+      ] } }
+    },
+    {
+      "id": "instr-gym-2", "passageId": "gym-discount", "subtopic": "rules-apply", "difficulty": "medium",
+      "prompt": ["מי מהמנויים הבאים לא יקבל הנחה?", "אורי: לא סטודנט, בן 40, מתאמן 3 פעמים בשבוע, מנוי 6 חודשים, בלי חוב.", "עידו: סטודנט, בן 29, לא מתאמן בכלל (0 פעמים בשבוע), מנוי חודש 1, בלי חוב.", "רועי: סטודנט, בן 30, מתאמן 2 פעמים בשבוע, מנוי 24 חודשים, בלי חוב.", "אלון: לא סטודנט, בן 19, מתאמן 5 פעמים בשבוע, מנוי 7 חודשים, בלי חוב."],
+      "choices": ["אורי", "עידו", "רועי", "אלון"], "correct": "c",
+      "explanation": "רועי סטודנט, אבל בן 30, והתנאי הוא גיל מתחת ל-30. הוא גם מתאמן רק פעמיים בשבוע, ולכן לא עומד גם בתנאי ב. כל השאר מקבלים הנחה: אורי ואלון לפי תנאי ב, ועידו לפי תנאי א (סטודנט בן 29).",
+      "verify": { "kind": "instructions", "query": { "type": "not-eligible-one", "candidates": [
+        { "name": "אורי", "attrs": { "student": false, "age": 40, "weekly": 3, "months": 6, "debt": false } },
+        { "name": "עידו", "attrs": { "student": true, "age": 29, "weekly": 0, "months": 1, "debt": false } },
+        { "name": "רועי", "attrs": { "student": true, "age": 30, "weekly": 2, "months": 24, "debt": false } },
+        { "name": "אלון", "attrs": { "student": false, "age": 19, "weekly": 5, "months": 7, "debt": false } }
+      ] } }
+    },
+    {
+      "id": "instr-gym-3", "passageId": "gym-discount", "subtopic": "rules-apply", "difficulty": "hard",
+      "prompt": ["כמה מהמנויים הבאים יקבלו הנחה?", "יעל: סטודנטית, בת 31, מתאמנת 3 פעמים בשבוע, מנויה 6 חודשים, בלי חוב.", "הילה: סטודנטית, בת 18, לא מתאמנת בכלל (0 פעמים בשבוע), מנויה חודש 1, יש לה חוב.", "דניאל: לא סטודנט, בן 45, מתאמן 4 פעמים בשבוע, מנוי 9 חודשים, בלי חוב.", "עדי: סטודנטית, בת 29, מתאמנת פעם 1 בשבוע, מנויה 3 חודשים, בלי חוב.", "נועם: לא סטודנט, בן 22, מתאמן 3 פעמים בשבוע, מנוי 10 חודשים, יש לו חוב."],
+      "choices": ["1", "2", "3", "4"], "correct": "c",
+      "explanation": "יעל מעל גיל 30, אבל עומדת בתנאי ב (3 פעמים בשבוע, 6 חודשים), ולכן מקבלת הנחה. הילה נפסלת בגלל החוב. דניאל עומד בתנאי ב. עדי עומדת בתנאי א (סטודנטית בת 29). נועם עומד בתנאי ב, אבל יש לו חוב. סך הכול 3 מקבלים הנחה: יעל, דניאל ועדי.",
+      "verify": { "kind": "instructions", "query": { "type": "count-eligible", "candidates": [
+        { "name": "יעל", "attrs": { "student": true, "age": 31, "weekly": 3, "months": 6, "debt": false } },
+        { "name": "הילה", "attrs": { "student": true, "age": 18, "weekly": 0, "months": 1, "debt": true } },
+        { "name": "דניאל", "attrs": { "student": false, "age": 45, "weekly": 4, "months": 9, "debt": false } },
+        { "name": "עדי", "attrs": { "student": true, "age": 29, "weekly": 1, "months": 3, "debt": false } },
+        { "name": "נועם", "attrs": { "student": false, "age": 22, "weekly": 3, "months": 10, "debt": true } }
+      ] } }
+    },
+
+    {
+      "id": "instr-machine-1", "passageId": "number-machine", "subtopic": "procedure", "difficulty": "easy",
+      "prompt": "איזה מספר ייצא מהמכונה אם מכניסים לה 14?",
+      "choices": ["21", "7", "57", "33"], "correct": "a",
+      "explanation": "14 זוגי, ולכן מחלקים ב-2 ומקבלים 7. 7 לא גדול מ-20, ולכן לא משנים אותו. כופלים ב-3: 7 × 3 = 21.",
+      "verify": { "kind": "instructions", "query": { "type": "run", "input": 14 } }
+    },
+    {
+      "id": "instr-machine-2", "passageId": "number-machine", "subtopic": "procedure", "difficulty": "medium",
+      "prompt": "איזה מספר ייצא מהמכונה אם מכניסים לה 37?",
+      "choices": ["126", "96", "32", "111"], "correct": "b",
+      "explanation": "37 אי-זוגי, ולכן מוסיפים 5 ומקבלים 42. 42 גדול מ-20, ולכן מחסירים 10 ומקבלים 32. כופלים ב-3: 32 × 3 = 96. מי ששוכח את שלב 2 מקבל 126.",
+      "verify": { "kind": "instructions", "query": { "type": "run", "input": 37 } }
+    },
+    {
+      "id": "instr-machine-3", "passageId": "number-machine", "subtopic": "procedure", "difficulty": "hard",
+      "prompt": "מהמכונה יצא המספר 45. איזה מהמספרים הבאים הוכנס אליה?",
+      "choices": ["20", "15", "30", "25"], "correct": "c",
+      "explanation": "בודקים כל אפשרות לפי שלושת השלבים: 20 → 10 → 10 → 30. 15 → 20 → 20 (לא גדול מ-20) → 60. 30 → 15 → 15 → 45. 25 → 30 → 20 → 60. רק 30 נותן 45. טיפ: אפשר גם לעבוד אחורה: 45 ÷ 3 = 15, ולכן לפני הכפל היה 15.",
+      "verify": { "kind": "instructions", "query": { "type": "find-input", "output": 45, "inputs": [20, 15, 30, 25] } }
+    },
+
+    {
+      "id": "instr-robot-1", "passageId": "warehouse-robot", "subtopic": "procedure", "difficulty": "easy",
+      "prompt": ["הרובוט נמצא בב1 ומקבל את הפקודות הבאות לפי הסדר:", "ש, ש, מ", "באיזו משבצת הוא יסיים?"],
+      "choices": ["ב2", "ד2", "ג2", "ד1"], "correct": "b",
+      "explanation": "מב1 שמאלה לג1, שוב שמאלה לד1, ואז למעלה לד2.",
+      "verify": { "kind": "instructions", "query": { "type": "robot-final", "start": "ב1", "commands": "ששמ" } }
+    },
+    {
+      "id": "instr-robot-2", "passageId": "warehouse-robot", "subtopic": "procedure", "difficulty": "medium",
+      "prompt": ["הרובוט נמצא בא5 ומקבל את הפקודות הבאות לפי הסדר:", "מ, י, ט, ט, ש, ש", "באיזו משבצת הוא יסיים?"],
+      "choices": ["ג3", "א3", "ב3", "ב4"], "correct": "c",
+      "explanation": "א5 נמצאת בשורה העליונה ובטור הימני, ולכן 'מ' ו-'י' היו מוציאות את הרובוט מהלוח והוא נשאר במקום. אחר כך שני צעדים למטה לא3, שמאלה לב3, ושוב שמאלה היה מכניס אותו למכשול בג3, ולכן הוא נשאר בב3.",
+      "verify": { "kind": "instructions", "query": { "type": "robot-final", "start": "א5", "commands": "מיטטשש" } }
+    },
+    {
+      "id": "instr-robot-3", "passageId": "warehouse-robot", "subtopic": "procedure", "difficulty": "hard",
+      "prompt": ["הרובוט נמצא בה1 ומקבל את הפקודות הבאות לפי הסדר:", "י, י, מ, מ, י, מ, מ, ש", "באיזו משבצת הוא יסיים?"],
+      "choices": ["ג5", "ג4", "ב4", "ד4"], "correct": "b",
+      "explanation": "מה1 ימינה לד1 ולג1. למעלה לג2. הפקודה הבאה (למעלה) הייתה מכניסה אותו למכשול בג3, ולכן הוא נשאר בג2. ימינה לב2, למעלה לב3 ולב4, ולבסוף שמאלה לג4.",
+      "verify": { "kind": "instructions", "query": { "type": "robot-final", "start": "ה1", "commands": "ייממיממש" } }
+    },
+
+    {
+      "id": "instr-queue-1", "passageId": "dining-queue", "subtopic": "scheduling", "difficulty": "easy",
+      "prompt": "מי ייכנס ראשון לחדר האוכל?",
+      "choices": ["ברק", "הדר", "גל", "דור"], "correct": "b",
+      "explanation": "קודם נכנסים היוצאים לשמירה: הדר וגל. ביניהם הדר ותיק יותר (20 חודשים מול 3), ולכן הדר נכנס ראשון.",
+      "verify": { "kind": "instructions", "query": { "type": "position", "n": 1 } }
+    },
+    {
+      "id": "instr-queue-2", "passageId": "dining-queue", "subtopic": "scheduling", "difficulty": "medium",
+      "prompt": "מי ייכנס רביעי לחדר האוכל?",
+      "choices": ["ברק", "אביב", "דור", "גל"], "correct": "c",
+      "explanation": "הסדר המלא: הדר וגל (יוצאים לשמירה, לפי ותק), ואחריהם ברק ודור (ותק 14 חודשים לשניהם; ב' קודמת ל-ד' באלף-בית, ולכן ברק לפני דור), אביב (8) וזיו (5). הרביעי הוא דור.",
+      "verify": { "kind": "instructions", "query": { "type": "position", "n": 4 } }
+    },
+    {
+      "id": "instr-queue-3", "passageId": "dining-queue", "subtopic": "scheduling", "difficulty": "hard",
+      "prompt": "באיזה מקום בתור ייכנס אביב?",
+      "choices": ["3", "4", "5", "6"], "correct": "c",
+      "explanation": "לפני אביב נכנסים שני היוצאים לשמירה (הדר וגל), ואחריהם ברק ודור, שהוותק שלהם (14 חודשים) גבוה משל אביב (8 חודשים). לכן אביב נכנס במקום ה-5, ואחריו רק זיו.",
+      "verify": { "kind": "instructions", "query": { "type": "position-of", "name": "אביב" } }
+    },
+
+    {
+      "id": "instr-kitchen-1", "passageId": "kitchen-duty", "subtopic": "scheduling", "difficulty": "easy",
+      "prompt": "באיזה יום משובצת דנה?",
+      "choices": ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי"], "correct": "d",
+      "explanation": "יובל ביום חמישי, ולכן ארבעת האחרים בימים ראשון עד רביעי. אם דנה הייתה ביום ראשון, בר לא הייתה יכולה להיות לפניה. ביום שני דנה לא יכולה. אם דנה ביום שלישי, בר צריכה להיות לפניה, ואז לא נשארים שני ימים צמודים לאלון ולגיא. לכן דנה ביום רביעי, וזה נכון בכל שיבוץ אפשרי.",
+      "verify": { "kind": "instructions", "query": { "type": "slot-of", "person": "דנה" } }
+    },
+    {
+      "id": "instr-kitchen-2", "passageId": "kitchen-duty", "subtopic": "scheduling", "difficulty": "medium",
+      "prompt": "ידוע שבר משובצת ביום ראשון. מי משובץ ביום שלישי?",
+      "choices": ["אלון", "גיא", "דנה", "יובל"], "correct": "b",
+      "explanation": "יובל ביום חמישי ודנה ביום רביעי (כמו בכל שיבוץ). בר ביום ראשון, ולכן נשארו ימים שני ושלישי לאלון ולגיא. גיא חייב להיות מיד אחרי אלון, ולכן אלון ביום שני וגיא ביום שלישי.",
+      "verify": { "kind": "instructions", "query": { "type": "who-in", "slot": 3, "extra": [{ "type": "is", "person": "בר", "slot": 1 }] } }
+    },
+    {
+      "id": "instr-kitchen-3", "passageId": "kitchen-duty", "subtopic": "scheduling", "difficulty": "hard",
+      "prompt": "איזה מהמשפטים הבאים חייב להיות נכון?",
+      "choices": ["אלון משובץ ביום ראשון.", "גיא משובץ ביום שלישי.", "בר משובצת ביום שלישי.", "דנה משובצת ביום רביעי."], "correct": "d",
+      "explanation": "יש שני שיבוצים אפשריים: (1) אלון בראשון, גיא בשני, בר בשלישי, דנה ברביעי; (2) בר בראשון, אלון בשני, גיא בשלישי, דנה ברביעי. בשניהם יובל בחמישי. המשפטים הראשונים נכונים רק באחד השיבוצים, ורק 'דנה משובצת ביום רביעי' נכון בשניהם.",
+      "verify": { "kind": "instructions", "query": { "type": "must-be-true", "options": [
+        { "person": "אלון", "slot": 1 }, { "person": "גיא", "slot": 3 }, { "person": "בר", "slot": 3 }, { "person": "דנה", "slot": 4 }
+      ] } }
+    },
+
+    {
+      "id": "instr-gate-1", "passageId": "gate-code", "subtopic": "coding", "difficulty": "easy",
+      "prompt": "מה קוד הכניסה שמחושב מהמספר 2468?",
+      "choices": ["7539", "3975", "3957", "7593"], "correct": "b",
+      "explanation": "במקומות האי-זוגיים: 2 הופכת ל-7 ו-6 הופכת ל-3. במקומות הזוגיים: 4 הופכת ל-5 ו-8 הופכת ל-9. מתקבל 7539. אחרי החלפת החצאים: 3975.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "2468" } }
+    },
+    {
+      "id": "instr-gate-2", "passageId": "gate-code", "subtopic": "coding", "difficulty": "medium",
+      "prompt": "מה קוד הכניסה שמחושב מהמספר 9091?",
+      "choices": ["0102", "0210", "0201", "9201"], "correct": "c",
+      "explanation": "מקום ראשון: 9 הופכת ל-0. מקום שני: 0 הופכת ל-1. מקום שלישי: 9 הופכת ל-0. מקום רביעי: 1 הופכת ל-2. מתקבל 0102. אחרי החלפת החצאים: 0201.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "9091" } }
+    },
+    {
+      "id": "instr-gate-3", "passageId": "gate-code", "subtopic": "coding", "difficulty": "hard",
+      "prompt": "קוד הכניסה הוא 5380. מאיזה מספר הוא חושב?",
+      "choices": ["8053", "1942", "4291", "1924"], "correct": "b",
+      "explanation": "עובדים אחורה. קודם מחזירים את החצאים למקומם: 5380 הופך ל-8053. במקומות האי-זוגיים מחליפים שוב במשלימה ל-9: 8 הופכת ל-1, ו-5 הופכת ל-4. במקומות הזוגיים מחסירים 1: 0 הופכת ל-9, ו-3 הופכת ל-2. המספר המקורי הוא 1942.",
+      "verify": { "kind": "instructions", "query": { "type": "decode", "output": "5380" } }
+    },
+
+    {
+      "id": "instr-mirror-1", "passageId": "mirror-code", "subtopic": "coding", "difficulty": "easy",
+      "prompt": "מה הקוד של המילה 'אבא'?",
+      "choices": ["שתש", "תשת", "בגב", "תבת"], "correct": "b",
+      "explanation": "א מתחלפת ב-ת, ו-ב מתחלפת ב-ש. לכן 'אבא' הופכת ל-'תשת'.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "אבא" } }
+    },
+    {
+      "id": "instr-mirror-2", "passageId": "mirror-code", "subtopic": "coding", "difficulty": "medium",
+      "prompt": "מה הקוד של המילה 'חיל'?",
+      "choices": ["כמס", "סמכ", "סנכ", "טמכ"], "correct": "b",
+      "explanation": "ח↔ס, י↔מ, ל↔כ. לכן 'חיל' הופכת ל-'סמכ'. סדר האותיות לא משתנה, ולכן 'כמס' שגוי.",
+      "verify": { "kind": "instructions", "query": { "type": "encode", "input": "חיל" } }
+    },
+    {
+      "id": "instr-mirror-3", "passageId": "mirror-code", "subtopic": "coding", "difficulty": "hard",
+      "prompt": "הקוד שהתקבל הוא 'ביב'. מה הייתה המילה המקורית?",
+      "choices": ["שמר", "שבש", "ביב", "שמש"], "correct": "d",
+      "explanation": "בהצפנת המראה כל זוג אותיות מתחלף זה בזה, ולכן כדי לפענח מפעילים שוב את אותה החלפה: ב↔ש, י↔מ. 'ביב' הופך ל-'שמש'.",
+      "verify": { "kind": "instructions", "query": { "type": "decode", "output": "ביב" } }
+    },
+
+    {
+      "id": "instr-count-1", "passageId": "counting-program", "subtopic": "procedure", "difficulty": "easy",
+      "prompt": "מה התוצאה אם מתחילים מהמספר 27?",
+      "choices": ["3", "9", "1", "0"], "correct": "c",
+      "explanation": "27 מתחלק ב-3, ולכן מקבלים 9. גם 9 מתחלק ב-3, ומקבלים 3. גם 3 מתחלק ב-3, ומקבלים 1. התוצאה אחרי שלוש חזרות היא 1.",
+      "verify": { "kind": "instructions", "query": { "type": "run", "input": 27 } }
+    },
+    {
+      "id": "instr-count-2", "passageId": "counting-program", "subtopic": "procedure", "difficulty": "medium",
+      "prompt": "מה התוצאה אם מתחילים מהמספר 14?",
+      "choices": ["6", "18", "4", "2"], "correct": "d",
+      "explanation": "14 לא מתחלק ב-3, ולכן מוסיפים את ספרת האחדות (4) ומקבלים 18. 18 מתחלק ב-3, ומקבלים 6. 6 מתחלק ב-3, ומקבלים 2.",
+      "verify": { "kind": "instructions", "query": { "type": "run", "input": 14 } }
+    },
+    {
+      "id": "instr-count-3", "passageId": "counting-program", "subtopic": "procedure", "difficulty": "hard",
+      "prompt": "מה התוצאה אם מתחילים מהמספר 25?",
+      "choices": ["30", "10", "11", "20"], "correct": "b",
+      "explanation": "25 לא מתחלק ב-3, ולכן מוסיפים 5 ומקבלים 30. 30 מתחלק ב-3, ומקבלים 10. 10 לא מתחלק ב-3, ולכן מוסיפים את ספרת האחדות, שהיא 0, והמספר נשאר 10.",
+      "verify": { "kind": "instructions", "query": { "type": "run", "input": 25 } }
+    },
+
+    {
+      "id": "instr-camera-1", "passageId": "camera-loan", "subtopic": "rules-apply", "difficulty": "easy",
+      "prompt": ["מי מהבאות תקבל את המצלמה?", "יעל: החזירה תמיד בזמן, מבקשת ל-7 ימים, בלי אישור מפקד.", "עדי: השאלה ראשונה, מבקשת ל-4 ימים, בלי אישור מפקד.", "הילה: איחרה בהחזרה בעבר, מבקשת ל-2 ימים, עם אישור מפקד.", "ליאור: החזירה תמיד בזמן, מבקשת ל-12 ימים, עם אישור מפקד."],
+      "choices": ["יעל", "עדי", "הילה", "ליאור"], "correct": "b",
+      "explanation": "עדי עומדת בשני התנאים: זו ההשאלה הראשונה שלה, והיא מבקשת 4 ימים. יעל מבקשת 7 ימים בלי אישור. הילה איחרה בעבר, ולכן אישור המפקד לא עוזר לה (הוא משפיע רק על מספר הימים). ליאור מבקשת 12 ימים, יותר מהמקסימום גם עם אישור.",
+      "verify": { "kind": "instructions", "query": { "type": "eligible-one", "candidates": [
+        { "name": "יעל", "attrs": { "onTime": true, "first": false, "days": 7, "approval": false } },
+        { "name": "עדי", "attrs": { "onTime": false, "first": true, "days": 4, "approval": false } },
+        { "name": "הילה", "attrs": { "onTime": false, "first": false, "days": 2, "approval": true } },
+        { "name": "ליאור", "attrs": { "onTime": true, "first": false, "days": 12, "approval": true } }
+      ] } }
+    },
+    {
+      "id": "instr-camera-2", "passageId": "camera-loan", "subtopic": "rules-apply", "difficulty": "medium",
+      "prompt": ["מי מהבאים לא יקבל את המצלמה?", "נועם: השאלה ראשונה, מבקש ל-9 ימים, עם אישור מפקד.", "אריאל: החזיר תמיד בזמן, מבקש ל-5 ימים, בלי אישור מפקד.", "עידו: החזיר תמיד בזמן, מבקש ל-10 ימים, עם אישור מפקד.", "רועי: איחר בהחזרה בעבר, מבקש ל-3 ימים, בלי אישור מפקד."],
+      "choices": ["נועם", "אריאל", "עידו", "רועי"], "correct": "d",
+      "explanation": "רועי איחר בעבר ואין זו השאלתו הראשונה, ולכן הוא לא עומד בתנאי 1. כל השאר עומדים בשני התנאים: נועם ועידו בזכות אישור המפקד (עד 10 ימים, כולל 10), ואריאל כי 5 ימים זה בדיוק המקסימום בלי אישור.",
+      "verify": { "kind": "instructions", "query": { "type": "not-eligible-one", "candidates": [
+        { "name": "נועם", "attrs": { "onTime": false, "first": true, "days": 9, "approval": true } },
+        { "name": "אריאל", "attrs": { "onTime": true, "first": false, "days": 5, "approval": false } },
+        { "name": "עידו", "attrs": { "onTime": true, "first": false, "days": 10, "approval": true } },
+        { "name": "רועי", "attrs": { "onTime": false, "first": false, "days": 3, "approval": false } }
+      ] } }
+    },
+    {
+      "id": "instr-camera-3", "passageId": "camera-loan", "subtopic": "rules-apply", "difficulty": "hard",
+      "prompt": ["כמה מהבאים יקבלו את המצלמה?", "איתי: השאלה ראשונה, מבקש ל-11 ימים, עם אישור מפקד.", "מאיה: החזירה תמיד בזמן, מבקשת ל-6 ימים, בלי אישור מפקד.", "אלון: איחר בהחזרה בעבר, מבקש ליום 1, עם אישור מפקד.", "תמר: החזירה תמיד בזמן, מבקשת ל-10 ימים, עם אישור מפקד.", "רוני: השאלה ראשונה, מבקשת ל-5 ימים, בלי אישור מפקד."],
+      "choices": ["1", "2", "3", "4"], "correct": "b",
+      "explanation": "איתי מבקש 11 ימים, יותר מ-10, ולכן נפסל. מאיה מבקשת 6 ימים בלי אישור, ולכן נפסלת. אלון איחר בעבר, ולכן נפסל. תמר מבקשת בדיוק 10 ימים עם אישור, ומקבלת. רוני מבקשת 5 ימים בהשאלה ראשונה, ומקבלת. סך הכול 2.",
+      "verify": { "kind": "instructions", "query": { "type": "count-eligible", "candidates": [
+        { "name": "איתי", "attrs": { "onTime": false, "first": true, "days": 11, "approval": true } },
+        { "name": "מאיה", "attrs": { "onTime": true, "first": false, "days": 6, "approval": false } },
+        { "name": "אלון", "attrs": { "onTime": false, "first": false, "days": 1, "approval": true } },
+        { "name": "תמר", "attrs": { "onTime": true, "first": false, "days": 10, "approval": true } },
+        { "name": "רוני", "attrs": { "onTime": false, "first": true, "days": 5, "approval": false } }
+      ] } }
+    },
+
+    {
+      "id": "instr-calls-1", "passageId": "call-center", "subtopic": "scheduling", "difficulty": "easy",
+      "prompt": "באיזו פנייה יטפלו ראשונה?",
+      "choices": ["פנייה ב", "פנייה ד", "פנייה א", "פנייה ה"], "correct": "c",
+      "explanation": "פנייה א רגילה, אבל היא ממתינה מ-09:30, כלומר שעתיים וחצי, ולכן היא נחשבת דחופה. מבין כל הפניות הדחופות היא הגיעה הכי מוקדם, ולכן מטפלים בה ראשונה.",
+      "verify": { "kind": "instructions", "query": { "type": "position", "n": 1 } }
+    },
+    {
+      "id": "instr-calls-2", "passageId": "call-center", "subtopic": "scheduling", "difficulty": "medium",
+      "prompt": "באיזו פנייה יטפלו שלישית?",
+      "choices": ["פנייה ב", "פנייה ג", "פנייה ה", "פנייה ד"], "correct": "d",
+      "explanation": "הפניות הדחופות בפועל הן ב ו-ד (דחופות מלכתחילה), וגם א ו-ה (רגילות שממתינות יותר משעתיים). לפי שעת ההגעה: א (09:30), ה (09:50), ד (10:50), ב (11:10). השלישית היא פנייה ד.",
+      "verify": { "kind": "instructions", "query": { "type": "position", "n": 3 } }
+    },
+    {
+      "id": "instr-calls-3", "passageId": "call-center", "subtopic": "scheduling", "difficulty": "hard",
+      "prompt": "באיזה מקום יטפלו בפנייה ג?",
+      "choices": ["2", "3", "4", "5"], "correct": "d",
+      "explanation": "פנייה ג הגיעה ב-10:30, כלומר היא ממתינה שעה וחצי בלבד, ולכן היא נשארת רגילה. לפניה מטפלים בארבע הפניות הדחופות (א, ה, ד, ב). בין הרגילות, ג הגיעה לפני ו, ולכן מטפלים בה במקום ה-5.",
+      "verify": { "kind": "instructions", "query": { "type": "position-of", "name": "פנייה ג" } }
+    },
+
+    {
+      "id": "instr-rooms-1", "passageId": "team-rooms", "subtopic": "scheduling", "difficulty": "easy",
+      "prompt": "ידוע שהצוות האדום בחדר 1. באיזה חדר נמצא הצוות הירוק?",
+      "choices": ["חדר 1", "חדר 2", "חדר 3", "חדר 4"], "correct": "d",
+      "explanation": "אם האדום בחדר 1, הכחול בחדר 3 (גדול ב-2). נשארו חדרים 2 ו-4 לירוק ולצהוב. הצהוב לא יכול להיות בחדר 4, ולכן הצהוב בחדר 2 והירוק בחדר 4.",
+      "verify": { "kind": "instructions", "query": { "type": "slot-of", "person": "ירוק", "extra": [{ "type": "is", "person": "אדום", "slot": 1 }] } }
+    },
+    {
+      "id": "instr-rooms-2", "passageId": "team-rooms", "subtopic": "scheduling", "difficulty": "medium",
+      "prompt": "ידוע שהצוות הצהוב בחדר 1. איזה צוות נמצא בחדר 2?",
+      "choices": ["אדום", "כחול", "ירוק", "צהוב"], "correct": "a",
+      "explanation": "אם הצהוב בחדר 1, האדום והכחול צריכים שני חדרים שההפרש ביניהם 2. מבין חדרים 2, 3 ו-4 האפשרות היחידה היא אדום בחדר 2 וכחול בחדר 4. לכן בחדר 2 נמצא הצוות האדום, והירוק בחדר 3.",
+      "verify": { "kind": "instructions", "query": { "type": "who-in", "slot": 2, "extra": [{ "type": "is", "person": "צהוב", "slot": 1 }] } }
+    },
+    {
+      "id": "instr-rooms-3", "passageId": "team-rooms", "subtopic": "scheduling", "difficulty": "hard",
+      "prompt": "איזה מהמשפטים הבאים חייב להיות נכון?",
+      "choices": ["הצוות הירוק בחדר 4.", "הצוות האדום בחדר 2.", "הצוות הכחול לא בחדר 4.", "הצוות הצהוב לא בחדר 3."], "correct": "d",
+      "explanation": "יש שני סידורים אפשריים: (1) אדום 1, צהוב 2, כחול 3, ירוק 4; (2) צהוב 1, אדום 2, ירוק 3, כחול 4. הצוות הצהוב נמצא בחדר 2 או בחדר 1, ולכן אף פעם לא בחדר 3. כל אחד מהמשפטים האחרים נכון רק באחד הסידורים.",
+      "verify": { "kind": "instructions", "query": { "type": "must-be-true", "options": [
+        { "person": "ירוק", "slot": 4 }, { "person": "אדום", "slot": 2 }, { "person": "כחול", "notSlot": 4 }, { "person": "צהוב", "notSlot": 3 }
+      ] } }
+    }
+  ]
+}

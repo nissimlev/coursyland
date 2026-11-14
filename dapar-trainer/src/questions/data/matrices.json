@@ -1,0 +1,1781 @@
+[
+ {
+  "id": "matrix-easy-01",
+  "subtopic": "rotation",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 0,
+    "step": 90,
+    "rowStep": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1000
+ },
+ {
+  "id": "matrix-easy-02",
+  "subtopic": "add-element",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 0,
+    "step": 1,
+    "rowStep": 0
+   }
+  },
+  "seed": 1037
+ },
+ {
+  "id": "matrix-easy-03",
+  "subtopic": "count",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "square"
+   },
+   "count": {
+    "type": "progression",
+    "start": 3,
+    "step": -1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "none"
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1074
+ },
+ {
+  "id": "matrix-easy-04",
+  "subtopic": "fill-color",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "violet",
+     "emerald",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1111
+ },
+ {
+  "id": "matrix-easy-05",
+  "subtopic": "rotation",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 180,
+    "step": 90,
+    "rowStep": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1148
+ },
+ {
+  "id": "matrix-easy-06",
+  "subtopic": "add-element",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 0,
+    "step": 1,
+    "rowStep": 0
+   }
+  },
+  "seed": 1185
+ },
+ {
+  "id": "matrix-easy-07",
+  "subtopic": "count",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "circle"
+   },
+   "count": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1222
+ },
+ {
+  "id": "matrix-easy-08",
+  "subtopic": "fill-color",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "pentagon"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "none"
+   },
+   "color": {
+    "type": "colConst",
+    "values": [
+     "amber",
+     "rose",
+     "emerald"
+    ]
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1259
+ },
+ {
+  "id": "matrix-easy-09",
+  "subtopic": "rotation",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 90,
+    "step": 90,
+    "rowStep": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1296
+ },
+ {
+  "id": "matrix-easy-10",
+  "subtopic": "add-element",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "violet"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   }
+  },
+  "seed": 1333
+ },
+ {
+  "id": "matrix-easy-11",
+  "subtopic": "count",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "amber"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1370
+ },
+ {
+  "id": "matrix-easy-12",
+  "subtopic": "fill-color",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "circle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "striped",
+     "solid",
+     "none"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1407
+ },
+ {
+  "id": "matrix-easy-13",
+  "subtopic": "fill-color",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "circle"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "sky",
+     "rose",
+     "violet"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1444
+ },
+ {
+  "id": "matrix-easy-14",
+  "subtopic": "rotation",
+  "difficulty": "easy",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "arrow"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "violet"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 0,
+    "step": 90,
+    "rowStep": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1481
+ },
+ {
+  "id": "matrix-medium-01",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "circle"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "striped",
+     "none",
+     "solid"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "colConst",
+    "values": [
+     "sky",
+     "emerald",
+     "violet"
+    ]
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1518
+ },
+ {
+  "id": "matrix-medium-02",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "flag"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "none"
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 270,
+    "step": 45,
+    "rowStep": 90
+   },
+   "dots": {
+    "type": "progression",
+    "start": 0,
+    "step": 1,
+    "rowStep": 0
+   }
+  },
+  "seed": 1555
+ },
+ {
+  "id": "matrix-medium-03",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "circle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "rowConst",
+    "values": [
+     "none",
+     "striped",
+     "solid"
+    ]
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "rose",
+     "emerald",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1592
+ },
+ {
+  "id": "matrix-medium-04",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "arrow"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "amber",
+     "sky",
+     "emerald"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 270,
+    "step": 90,
+    "rowStep": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1629
+ },
+ {
+  "id": "matrix-medium-05",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "star"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "none"
+   },
+   "color": {
+    "type": "colConst",
+    "values": [
+     "amber",
+     "violet",
+     "rose"
+    ]
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 0,
+    "step": 1,
+    "rowStep": 1
+   }
+  },
+  "seed": 1666
+ },
+ {
+  "id": "matrix-medium-06",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "arrow"
+   },
+   "count": {
+    "type": "latin",
+    "values": [
+     1,
+     2,
+     3
+    ],
+    "shift": 2
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "amber"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 270,
+    "step": 45,
+    "rowStep": 90
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1703
+ },
+ {
+  "id": "matrix-medium-07",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "const",
+    "value": 2
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "none",
+     "striped",
+     "solid"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   }
+  },
+  "seed": 1740
+ },
+ {
+  "id": "matrix-medium-08",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "diamond"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "rowConst",
+    "values": [
+     "solid",
+     "none",
+     "striped"
+    ]
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "violet",
+     "emerald",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1777
+ },
+ {
+  "id": "matrix-medium-09",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "emerald",
+     "amber",
+     "rose"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1814
+ },
+ {
+  "id": "matrix-medium-10",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "cross"
+   },
+   "count": {
+    "type": "progression",
+    "start": 3,
+    "step": -1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "solid",
+     "none",
+     "striped"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1851
+ },
+ {
+  "id": "matrix-medium-11",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "latin",
+    "values": [
+     1,
+     2,
+     3
+    ],
+    "shift": 2
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "solid",
+     "striped",
+     "none"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "rose"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1888
+ },
+ {
+  "id": "matrix-medium-12",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "pentagon"
+   },
+   "count": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "amber"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 0,
+    "step": 1,
+    "rowStep": 1
+   }
+  },
+  "seed": 1925
+ },
+ {
+  "id": "matrix-medium-13",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "flag"
+   },
+   "count": {
+    "type": "progression",
+    "start": 3,
+    "step": -1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "emerald"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 180,
+    "step": 45,
+    "rowStep": 90
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1962
+ },
+ {
+  "id": "matrix-medium-14",
+  "subtopic": "combined",
+  "difficulty": "medium",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "circle",
+     "hexagon",
+     "star"
+    ],
+    "shift": 1
+   },
+   "count": {
+    "type": "progression",
+    "start": 3,
+    "step": -1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "amber"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 1999
+ },
+ {
+  "id": "matrix-hard-01",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "diamond",
+     "triangle",
+     "star"
+    ],
+    "shift": 2
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "const",
+    "value": "rose"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   }
+  },
+  "seed": 2036
+ },
+ {
+  "id": "matrix-hard-02",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "star"
+   },
+   "count": {
+    "type": "progression",
+    "start": 3,
+    "step": -1,
+    "rowStep": 0
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "colConst",
+    "values": [
+     "sky",
+     "violet",
+     "amber"
+    ]
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   }
+  },
+  "seed": 2073
+ },
+ {
+  "id": "matrix-hard-03",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "flag"
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "sky",
+     "rose",
+     "violet"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 90,
+    "step": 45,
+    "rowStep": 180
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2110
+ },
+ {
+  "id": "matrix-hard-04",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "pentagon",
+     "triangle",
+     "hexagon"
+    ],
+    "shift": 2
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "amber",
+     "emerald",
+     "sky"
+    ],
+    "shift": 2
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2147
+ },
+ {
+  "id": "matrix-hard-05",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "hexagon",
+     "cross",
+     "triangle"
+    ],
+    "shift": 1
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "solid",
+     "striped",
+     "none"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "violet"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2184
+ },
+ {
+  "id": "matrix-hard-06",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "cross"
+   },
+   "count": {
+    "type": "latin",
+    "values": [
+     1,
+     2,
+     3
+    ],
+    "shift": 1
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "solid",
+     "striped",
+     "none"
+    ],
+    "shift": 2
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "rose",
+     "violet",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2221
+ },
+ {
+  "id": "matrix-hard-07",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "emerald",
+     "violet",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 270,
+    "step": 90,
+    "rowStep": 45
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   }
+  },
+  "seed": 2258
+ },
+ {
+  "id": "matrix-hard-08",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "striped",
+     "solid",
+     "none"
+    ],
+    "shift": 2
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 90,
+    "step": 45,
+    "rowStep": 45
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   }
+  },
+  "seed": 2295
+ },
+ {
+  "id": "matrix-hard-09",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "triangle"
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      3,
+      1
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "amber"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 0,
+    "step": 90,
+    "rowStep": 90
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      3,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   }
+  },
+  "seed": 2332
+ },
+ {
+  "id": "matrix-hard-10",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "flag"
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      3,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   },
+   "fill": {
+    "type": "const",
+    "value": "striped"
+   },
+   "color": {
+    "type": "const",
+    "value": "sky"
+   },
+   "rotation": {
+    "type": "progression",
+    "start": 90,
+    "step": 90,
+    "rowStep": 90
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  "seed": 2369
+ },
+ {
+  "id": "matrix-hard-11",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "const",
+    "value": "hexagon"
+   },
+   "count": {
+    "type": "sum",
+    "firsts": [
+     [
+      2,
+      2
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "none",
+     "solid",
+     "striped"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "colConst",
+    "values": [
+     "sky",
+     "rose",
+     "violet"
+    ]
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2406
+ },
+ {
+  "id": "matrix-hard-12",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "triangle",
+     "diamond",
+     "pentagon"
+    ],
+    "shift": 1
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "const",
+    "value": "solid"
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "violet",
+     "amber",
+     "rose"
+    ],
+    "shift": 2
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "progression",
+    "start": 1,
+    "step": 1,
+    "rowStep": 1
+   }
+  },
+  "seed": 2443
+ },
+ {
+  "id": "matrix-hard-13",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "hexagon",
+     "diamond",
+     "star"
+    ],
+    "shift": 2
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "solid",
+     "none",
+     "striped"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "latin",
+    "values": [
+     "emerald",
+     "rose",
+     "sky"
+    ],
+    "shift": 1
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "const",
+    "value": 0
+   }
+  },
+  "seed": 2480
+ },
+ {
+  "id": "matrix-hard-14",
+  "subtopic": "combined",
+  "difficulty": "hard",
+  "spec": {
+   "shape": {
+    "type": "latin",
+    "values": [
+     "cross",
+     "triangle",
+     "square"
+    ],
+    "shift": 2
+   },
+   "count": {
+    "type": "const",
+    "value": 1
+   },
+   "fill": {
+    "type": "latin",
+    "values": [
+     "striped",
+     "none",
+     "solid"
+    ],
+    "shift": 1
+   },
+   "color": {
+    "type": "const",
+    "value": "rose"
+   },
+   "rotation": {
+    "type": "const",
+    "value": 0
+   },
+   "dots": {
+    "type": "sum",
+    "firsts": [
+     [
+      2,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  "seed": 2517
+ }
+]
