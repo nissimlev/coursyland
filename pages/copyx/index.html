@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מדריך הצטרפות ל-Copy X</title>
+<meta name="description" content="המדריך המלא למצטרפים חדשים: פתיחת חשבון ב-Copy X וב-TAG Markets, רכישת קריפטו, ארנק Kraken והפקדה.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f2;
+  --card:#ffffff;
+  --ink:#141a14;
+  --muted:#5b645b;
+  --line:#e2e6dc;
+  --dark:#0f140f;
+  --lime:#a6e22e;
+  --lime-deep:#5f8f00;
+  --lime-soft:#eef8d9;
+  --blue:#2f80ed;
+  --blue-soft:#e7f0fd;
+  --gold:#f2b705;
+  --gold-soft:#fff6d6;
+  --warn:#c2410c;
+  --warn-soft:#fff1e8;
+  --radius:20px;
+  --shadow:0 10px 30px rgba(20,26,20,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Heebo",system-ui,sans-serif;font-size:18px;line-height:1.7;text-align:center;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+
+/* ---------- top nav ---------- */
+.nav{position:sticky;top:0;z-index:20;background:rgba(15,20,15,.94);backdrop-filter:blur(8px)}
+.nav a:first-child{margin-inline-start:auto}
+.nav a:last-child{margin-inline-end:auto}
+.nav .wrap{display:flex;gap:6px;justify-content:flex-start;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+.nav a{flex:0 0 auto;color:#d9e6cf;text-decoration:none;font-size:15px;font-weight:500;padding:6px 14px;border-radius:999px;white-space:nowrap}
+.nav a:hover,.nav a.on{background:var(--lime);color:var(--dark)}
+
+/* ---------- hero ---------- */
+.hero{background:var(--dark);color:#fff;padding:72px 0 88px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:auto -20% -60% -20%;height:420px;background:radial-gradient(closest-side,rgba(166,226,46,.28),transparent);pointer-events:none}
+.hero h1{font-size:clamp(38px,7vw,64px);line-height:1.1;font-weight:900;margin:0 0 22px}
+.hero h1 span{color:var(--lime)}
+.hero p{font-size:clamp(19px,2.4vw,22px);color:#d6ddd2;max-width:680px;margin:0 auto 16px}
+.hero .sign{color:var(--lime);font-weight:700;font-size:20px;margin-top:26px}
+
+/* ---------- sections ---------- */
+section{padding:72px 0;scroll-margin-top:40px}
+[id]{scroll-margin-top:64px}
+.kicker{font-size:clamp(22px,3vw,28px);font-weight:800;color:var(--lime-deep);margin:0 0 4px}
+h2{font-size:clamp(32px,5vw,46px);line-height:1.15;font-weight:900;margin:0 0 16px}
+h3{font-size:clamp(23px,3vw,28px);line-height:1.3;font-weight:800;margin:0 0 10px}
+.lead{font-size:20px;color:var(--muted);max-width:680px;margin:0 auto 34px}
+
+/* ---------- flow diagram ---------- */
+.flow{display:grid;gap:0;max-width:640px;margin:0 auto}
+.node{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:22px 22px 20px;box-shadow:var(--shadow);text-decoration:none;display:block;transition:transform .15s,border-color .15s}
+.node:hover{transform:translateY(-2px);border-color:var(--lime)}
+.node .n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--dark);color:var(--lime);font-weight:900;font-size:21px;margin-bottom:8px}
+.node .t{font-weight:800;font-size:22px;line-height:1.3}
+.node .d{color:var(--muted);font-size:16px;margin-top:4px}
+.node.welcome{background:var(--lime);border-color:var(--lime)}
+.node.welcome .d{color:#2c3d10}
+.node.done{background:var(--dark);border-color:var(--dark);color:#fff}
+.node.done .d{color:#bfc9b9}
+.arrow{height:44px;display:grid;place-items:center}
+.arrow:before{content:"";width:3px;height:100%;background:repeating-linear-gradient(to bottom,var(--lime-deep) 0 6px,transparent 6px 11px)}
+.arrow{position:relative}
+.arrow:after{content:"";position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top:10px solid var(--lime-deep);border-bottom:0}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.opt{border-radius:14px;padding:14px 12px;font-size:16px;line-height:1.45}
+.opt b{display:block;font-size:17px;margin-bottom:4px}
+.opt.a{background:var(--blue-soft)}
+.opt.b{background:var(--gold-soft)}
+.chain{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin-top:6px}
+.chip{background:#fff;border-radius:8px;padding:2px 9px;font-weight:700;font-size:14px;white-space:nowrap}
+.chain i{font-style:normal;color:var(--muted)}
+
+/* ---------- stage header ---------- */
+.stage-head{margin-bottom:40px}
+.stage-num{display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--dark);color:var(--lime);font-size:40px;font-weight:900;margin-bottom:14px}
+.alt{background:#fff}
+
+/* ---------- step cards ---------- */
+.part{margin:56px 0 22px}
+.part h3{font-size:clamp(26px,3.4vw,32px)}
+.steps{display:grid;gap:22px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 22px 22px}
+.alt .step{background:var(--bg)}
+.step .no{display:inline-grid;place-items:center;min-width:36px;height:36px;padding:0 10px;border-radius:999px;background:var(--lime);color:var(--dark);font-weight:900;font-size:17px;margin-bottom:10px}
+.step p{margin:0 auto 10px;max-width:640px}
+.step .shot{margin:16px auto 0;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;background:#fff;max-height:520px;width:auto}
+.shots{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.shots .shot{max-width:calc(50% - 7px);max-height:440px}
+.phone .shot{max-height:460px}
+.hint{font-size:14px;color:var(--muted);margin-top:8px}
+ol.fields{list-style:none;padding:0;margin:14px auto 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;counter-reset:f}
+ol.fields li{counter-increment:f;background:var(--lime-soft);border-radius:10px;padding:4px 12px;font-size:16px}
+ol.fields li:before{content:counter(f) ". ";font-weight:800;color:var(--lime-deep)}
+.en{direction:ltr;unicode-bidi:isolate;font-weight:700;background:#f0f2ec;border-radius:6px;padding:0 6px;white-space:nowrap}
+.code{direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,Menlo,monospace;font-weight:800;font-size:20px;background:var(--dark);color:var(--lime);border-radius:8px;padding:2px 12px}
+
+/* ---------- callouts ---------- */
+.note{border-radius:16px;padding:18px 20px;margin:18px auto 0;max-width:680px;font-size:17px}
+.note.warn{background:var(--warn-soft);color:#7a2c0a}
+.note.tip{background:var(--lime-soft);color:#2c3d10}
+.note.info{background:var(--blue-soft);color:#173d70}
+.note b{display:block;font-size:19px;margin-bottom:4px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-block;background:var(--lime);color:var(--dark);font-weight:900;font-size:21px;text-decoration:none;padding:16px 34px;border-radius:14px;box-shadow:0 8px 20px rgba(95,143,0,.28);margin-top:12px;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.dark{background:var(--dark);color:var(--lime);box-shadow:none}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+/* ---------- options (stage 2) ---------- */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
+.option{border-radius:var(--radius);padding:28px 22px;text-decoration:none;display:block}
+.option.a{background:var(--blue-soft)}
+.option.b{background:var(--gold-soft)}
+.option .big{font-size:24px;font-weight:900;line-height:1.3;margin-bottom:8px}
+.option p{margin:0;color:#333}
+.option .go{display:inline-block;margin-top:14px;font-weight:800;text-decoration:underline}
+
+/* ---------- video ---------- */
+.video{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;margin:16px auto 0;max-width:760px;box-shadow:var(--shadow)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vids{display:grid;gap:22px}
+.vlabel{font-weight:800;font-size:19px;margin-top:6px}
+
+/* ---------- kraken ---------- */
+.brand{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:8px}
+.brand img{width:92px;height:92px;border-radius:22px;box-shadow:var(--shadow)}
+.stores{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:12px}
+.store{display:flex;align-items:center;gap:10px;background:var(--dark);color:#fff;text-decoration:none;border-radius:12px;padding:10px 18px;font-weight:700;font-size:16px}
+.store svg{width:22px;height:22px;fill:#fff}
+ul.clean{list-style:none;padding:0;margin:12px auto 0;max-width:600px}
+ul.clean li{padding:8px 0;border-bottom:1px dashed var(--line)}
+ul.clean li:last-child{border:0}
+
+/* ---------- finish ---------- */
+.finish{background:var(--dark);color:#fff}
+.finish h2 span{color:var(--lime)}
+.finish p{color:#cfd8ca;font-size:20px;max-width:640px;margin:0 auto 12px}
+footer{background:var(--dark);color:#8c9887;font-size:14px;padding:28px 0 40px;border-top:1px solid #222a22}
+footer p{max-width:720px;margin:0 auto}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;place-items:center;z-index:50;padding:16px;cursor:zoom-out}
+.lb.open{display:grid}
+.lb img{max-width:100%;max-height:92vh;border-radius:10px}
+
+@media (max-width:640px){
+  body{font-size:17px}
+  section{padding:56px 0}
+  .hero{padding:56px 0 64px}
+  .split,.options{grid-template-columns:1fr}
+  .shots .shot{max-width:100%}
+  .step{padding:22px 16px 18px}
+  .btn{font-size:19px;padding:14px 26px}
+}
+</style>
+<!-- Analytics -->
+<script src="/assets/analytics.js" defer></script>
+</head>
+<body>
+
+<nav class="nav" aria-label="ניווט בשלבים">
+  <div class="wrap">
+    <a href="#welcome">ברוכים הבאים</a>
+    <a href="#map">המסלול</a>
+    <a href="#stage1">1. פתיחת חשבונות</a>
+    <a href="#stage2">2. קריפטו</a>
+    <a href="#stage3">3. הפקדה</a>
+    <a href="#stage4">4. חיבור לאסטרטגיה</a>
+  </div>
+</nav>
+
+<!-- ============ WELCOME ============ -->
+<header class="hero" id="welcome">
+  <div class="wrap">
+    <h1>ברוכים הבאים<br><span>למשפחת Copy X</span></h1>
+    <p>קודם כל, כל הכבוד. ההחלטה להצטרף היא הצעד הכי קשה, ועשיתם אותו.</p>
+    <p>מכאן הכול פשוט: מדריך אחד, צעד אחרי צעד, עם צילומי מסך לכל לחיצה. לא צריך ידע מוקדם בקריפטו ולא צריך להבין במסחר. צריך רק לעבור את השלבים לפי הסדר.</p>
+    <p>שמרו את הדף הזה. אם נתקעתם באמצע, חוזרים לכאן וממשיכים מאותה נקודה.</p>
+    <div class="sign">יאללה, מתחילים 👇</div>
+  </div>
+</header>
+
+<!-- ============ MAP / DIAGRAM ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="kicker">המסלול בתמונה אחת</div>
+    <h2>4 שלבים, וזהו</h2>
+    <p class="lead">לחצו על כל שלב כדי לקפוץ אליו.</p>
+
+    <div class="flow">
+      <a class="node welcome" href="#welcome">
+        <div class="t">👋 ברוכים הבאים</div>
+        <div class="d">החלטתם להצטרף. מכאן רק עוברים את השלבים.</div>
+      </a>
+      <div class="arrow"></div>
+
+      <a class="node" href="#stage1">
+        <div class="n">1</div>
+        <div class="t">פותחים חשבונות</div>
+        <div class="d">נרשמים ל-Copy X, ומתוכו פותחים חשבון ב-TAG Markets ומאמתים זהות</div>
+      </a>
+      <div class="arrow"></div>
+
+      <a class="node" href="#stage2">
+        <div class="n">2</div>
+        <div class="t">משיגים קריפטו</div>
+        <div class="d">ההפקדה נעשית רק במטבע קריפטו</div>
+        <div class="split">
+          <div class="opt a"><b>כבר יש לי קריפטו</b>מדלגים ישר לשלב 3</div>
+          <div class="opt b"><b>אין לי עדיין</b>
+            <div class="chain"><span class="chip">Bit2C</span><i>←</i><span class="chip">USDC</span><i>←</i><span class="chip">ארנק Kraken</span></div>
+          </div>
+        </div>
+      </a>
+      <div class="arrow"></div>
+
+      <a class="node" href="#stage3">
+        <div class="n">3</div>
+        <div class="t">מפקידים ל-TAG Markets</div>
+        <div class="d">מעבירים את הקריפטו מהארנק לחשבון</div>
+      </a>
+      <div class="arrow"></div>
+
+      <a class="node done" href="#stage4">
+        <div class="n">4</div>
+        <div class="t">מתחברים לאסטרטגיה 🎉</div>
+        <div class="d">בוחרים אסטרטגיה ב-Copy X, וממשיכים מכאן</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAGE 1 ============ -->
+<section id="stage1" class="alt">
+  <div class="wrap">
+    <div class="stage-head">
+      <div class="stage-num">1</div>
+      <h2>פותחים חשבון ב-Copy X וב-TAG Markets</h2>
+      <p class="lead">קודם נרשמים ל-Copy X, ואז מתוך Copy X פותחים את החשבון ב-TAG Markets, הפלטפורמה שבה הכסף נמצא בפועל.</p>
+    </div>
+
+    <div class="part"><h3>חלק א׳: הרשמה ל-Copy X</h3></div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">1</div>
+        <p><strong>נרשמים דרך הקישור הזה בלבד.</strong></p>
+        <a class="btn" href="https://copyxapp.com/auth/register?e=xJu908SDEMhgLEoUqVvKk-cQXp2kDLqH9XHTFtaoKZA&a=1" target="_blank" rel="noopener">להרשמה ל-Copy X ←</a>
+        <div class="note warn"><b>חשוב!</b>רק ההרשמה דרך הקישור הזה מחברת אתכם לקבוצה ונותנת לכם את חשבון ה-24X. אל תירשמו דרך האתר הרגיל.</div>
+      </div>
+
+      <div class="step">
+        <div class="no">2</div>
+        <p>ממלאים את כל השדות <strong>באותיות באנגלית בלבד</strong>:</p>
+        <ol class="fields">
+          <li>פרטי (Individual) או חברה</li>
+          <li>שם פרטי</li>
+          <li>שם משפחה</li>
+          <li>אימייל</li>
+          <li>סיסמה</li>
+          <li>מדינה</li>
+          <li>מספר טלפון</li>
+          <li>מסמנים את 2 התיבות</li>
+          <li>לוחצים <span class="en">Register Now</span></li>
+        </ol>
+        <img class="shot" src="images/s1-02.jpg" alt="טופס ההרשמה ל-Copy X" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">3</div>
+        <p>בודקים את המייל. <strong>אם לא הגיע, מחפשים גם בספאם.</strong></p>
+        <img class="shot" src="images/s1-03.jpg" alt="מייל האימות מ-Copy X" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">4</div>
+        <p>במייל לוחצים על <span class="en">Verify Account</span></p>
+        <img class="shot" src="images/s1-04.jpg" alt="כפתור Verify Account במייל" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">5</div>
+        <p>לוחצים <span class="en">Continue to Login</span> ומתחברים עם המייל והסיסמה.</p>
+        <img class="shot" src="images/s1-05.jpg" alt="מסך המעבר להתחברות" loading="lazy">
+      </div>
+    </div>
+
+    <div class="part"><h3>חלק ב׳: פתיחת חשבון ב-TAG Markets</h3></div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">6</div>
+        <p>מתחברים ל-Copy X. נפתח עמוד הפרופיל שלכם.</p>
+        <img class="shot" src="images/s2-02.jpg" alt="עמוד הפרופיל ב-Copy X" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">7</div>
+        <p>גוללים למטה ולוחצים על <span class="en">Register COPY X</span></p>
+        <img class="shot" src="images/s2-03.jpg" alt="כפתור Register COPY X" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">8</div>
+        <p>נפתח חלון. בוחרים <strong>סיסמה ל-TAG Markets</strong> ולוחצים <span class="en">Sync Account</span></p>
+        <div class="shots">
+          <img class="shot" src="images/s2-04.jpg" alt="בחירת סיסמה ל-TAG Markets" loading="lazy">
+          <img class="shot" src="images/s2-05.jpg" alt="כפתור Sync Account" loading="lazy">
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="no">9</div>
+        <p>מופיע חלון אישור. אפשר לסגור אותו ולעבור למייל.</p>
+        <img class="shot" src="images/s2-06.jpg" alt="חלון האישור" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">10</div>
+        <p>מחכה לכם מייל מ-TAG Markets. פותחים ולוחצים על <span class="en">Confirm Email Address</span></p>
+        <img class="shot" src="images/s2-07.jpg" alt="מייל אישור מ-TAG Markets" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">11</div>
+        <p>אתם כבר בתוך הפלטפורמה של TAG Markets. ממלאים את הפרטים הפיננסיים ולוחצים <span class="en">Submit</span></p>
+        <div class="shots">
+          <img class="shot" src="images/s2-08.jpg" alt="מסך הפרטים הפיננסיים" loading="lazy">
+          <img class="shot" src="images/s2-09.jpg" alt="כפתור Submit" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <div class="part"><h3>חלק ג׳: אימות זהות (KYC)</h3>
+      <p class="lead" style="margin-bottom:0">צריך תעודה מזהה וטלפון עם מצלמה. לוקח בערך 5 דקות.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">12</div>
+        <p>בעמוד הבית של TAG Markets לוחצים <span class="en">Upload documents</span></p>
+        <img class="shot" src="images/s2-10.jpg" alt="כפתור Upload documents" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">13</div>
+        <p>האימות נעשה דרך חברת Sumsub. לוחצים <span class="en">Continue</span></p>
+        <img class="shot" src="images/s2-11.jpg" alt="מסך הפתיחה של Sumsub" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">14</div>
+        <p>לוחצים <span class="en">Agree and Continue</span></p>
+        <img class="shot" src="images/s2-12.jpg" alt="אישור התנאים" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">15</div>
+        <p>האימות כולל שני חלקים: צילום תעודה מזהה, וסריקת פנים קצרה. לוחצים <span class="en">Start verification</span></p>
+        <img class="shot" src="images/s2-13.jpg" alt="תחילת האימות" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">16</div>
+        <p>ממלאים את הפרטים ולוחצים <span class="en">Continue on phone</span>. בטלפון הרבה יותר קל לצלם את התעודה.</p>
+        <img class="shot" src="images/s2-14.jpg" alt="בחירה בהמשך בטלפון" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">17</div>
+        <p>מופיע קוד QR. סורקים אותו עם מצלמת הטלפון, והתהליך עובר לטלפון. אפשר גם להשתמש בקישור שמופיע מתחת.</p>
+        <img class="shot" src="images/s2-15.jpg" alt="קוד QR למעבר לטלפון" loading="lazy">
+      </div>
+
+      <div class="step phone">
+        <div class="no">18</div>
+        <p>בטלפון: ממלאים ולוחצים <span class="en">Continue</span>, ושוב <span class="en">Continue</span></p>
+        <div class="shots">
+          <img class="shot" src="images/s2-16.jpg" alt="מילוי פרטים בטלפון" loading="lazy">
+          <img class="shot" src="images/s2-17.jpg" alt="המשך בטלפון" loading="lazy">
+        </div>
+      </div>
+
+      <div class="step phone">
+        <div class="no">19</div>
+        <p>מצלמים את התעודה. <strong>היא צריכה להיות קריאה, בלי השתקפויות ובלי פינות חתוכות.</strong> אם מבקשים, מצלמים גם את הצד השני.</p>
+        <img class="shot" src="images/s2-18.jpg" alt="צילום התעודה" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">20</div>
+        <p>סריקת פנים: מכניסים את הפנים למסגרת ומסובבים את הראש לפי ההוראות. זה רק כדי לוודא שאדם אמיתי עושה את האימות.</p>
+        <p>הבדיקה לוקחת בדרך כלל כ-2 דקות. אחר כך חוזרים למחשב.</p>
+        <img class="shot" src="images/s2-19.jpg" alt="4 וי ירוקים בפרופיל" loading="lazy">
+        <div class="note tip"><b>איך יודעים שסיימתם?</b>מרעננים את הדף, נכנסים ל-My Profile ומאשרים את התנאים (Terms &amp; Conditions). כשמופיעים <strong>4 וי ירוקים</strong>, החשבון מוכן. אימות דו-שלבי (MFA) הוא רשות, לא חובה.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAGE 2 ============ -->
+<section id="stage2">
+  <div class="wrap">
+    <div class="stage-head">
+      <div class="stage-num">2</div>
+      <h2>משיגים קריפטו להפקדה</h2>
+      <p class="lead">ההפקדה ל-TAG Markets נעשית במטבע קריפטו. יש שתי אפשרויות, תלוי איפה אתם עומדים.</p>
+    </div>
+
+    <div class="options">
+      <a class="option a" href="#stage3">
+        <div class="big">כבר יש לי קריפטו בארנק</div>
+        <p>מעולה, אתם כמעט שם. דלגו ישר להפקדה.</p>
+        <span class="go">לשלב 3 ←</span>
+      </a>
+      <a class="option b" href="#buy">
+        <div class="big">אין לי עדיין קריפטו</div>
+        <p>אין בעיה. קונים ב-Bit2C, פותחים ארנק Kraken ומעבירים אליו. 3 צעדים.</p>
+        <span class="go">בואו נתחיל ←</span>
+      </a>
+    </div>
+
+    <div class="part" id="buy"><h3>צעד א׳: קונים קריפטו ב-Bit2C</h3>
+      <p class="lead" style="margin-bottom:0">Bit2C היא בורסת קריפטו ישראלית. מפקידים בשקלים מחשבון הבנק וקונים. <strong>מומלץ לקנות USDC</strong>, מטבע שערכו צמוד לדולר.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">1</div>
+        <h3>נרשמים</h3>
+        <p>נכנסים לאתר Bit2C ונרשמים עם אימייל ומספר טלפון.</p>
+        <a class="btn dark" href="https://bit2c.co.il/" target="_blank" rel="noopener">לאתר Bit2C ←</a>
+      </div>
+      <div class="step">
+        <div class="no">2</div>
+        <h3>מאמתים זהות</h3>
+        <p>ממלאים שאלון "הכר את הלקוח", מעלים צילום תעודת זהות ישראלית, עוברים זיהוי וידאו ומגדירים אימות דו-שלבי לאבטחת החשבון.</p>
+      </div>
+      <div class="step">
+        <div class="no">3</div>
+        <h3>מחברים חשבון בנק</h3>
+        <p>מחברים ומאמתים את חשבון הבנק הישראלי שממנו תעבירו את הכסף.</p>
+      </div>
+      <div class="step">
+        <div class="no">4</div>
+        <h3>מפקידים שקלים</h3>
+        <p>מעבירים כסף מחשבון הבנק אל יתרת השקלים שלכם ב-Bit2C.</p>
+      </div>
+      <div class="step">
+        <div class="no">5</div>
+        <h3>קונים USDC</h3>
+        <p>הדרך הכי פשוטה: <strong>שירות הברוקר (קנייה מיידית)</strong>. בוחרים USDC, מקלידים סכום וקונים.</p>
+        <p class="hint">יש גם זירת מסחר Pro עם פקודות Market ו-Limit, אבל למתחילים הברוקר מספיק.</p>
+      </div>
+
+      <div class="step">
+        <h3>🎬 סרטונים: איך נרשמים ל-Bit2C</h3>
+        <div class="vids">
+          <div>
+            <div class="vlabel">סרטון קצר: ההרשמה</div>
+            <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/Lp-rpiut2z4" title="איך נרשמים ל-Bit2C" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+          </div>
+          <div>
+            <div class="vlabel">סרטון מעמיק יותר</div>
+            <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/sVcCyq8nMdI" title="מדריך מעמיק ל-Bit2C" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="part"><h3>צעד ב׳: פותחים ארנק Kraken</h3>
+      <p class="lead" style="margin-bottom:0">ארנק הוא המקום שבו הקריפטו שלכם נמצא, בטלפון שלכם.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="brand">
+          <img src="images/kraken-logo.png" alt="הלוגו של Kraken Wallet">
+          <h3 style="margin:0">Kraken Wallet</h3>
+        </div>
+        <p>מחפשים בחנות האפליקציות <span class="en">Kraken Wallet</span>, האפליקציה של Kraken:</p>
+        <div class="stores">
+          <a class="store" href="https://apps.apple.com/search?term=Kraken%20Wallet" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3-2.5 1-1.4 1.4-2.8 1.4-2.8 0-.1-2.6-1-2.6-4.1zM13.9 5.1c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+            App Store (אייפון)
+          </a>
+          <a class="store" href="https://play.google.com/store/search?q=Kraken%20Wallet&c=apps" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2-10-10.2zm11.1 11.3 2.8 2.8-11.6 6.6c-.4.2-.8.3-1.1.2l9.9-9.6zm4.2-4.2 2.6 1.5c.9.5.9 1.4 0 1.9l-2.7 1.5-3-3 3.1-1.9zM5.9 1.3l11.6 6.6-2.8 2.8L4.8 1.1c.3-.1.7 0 1.1.2z"/></svg>
+            Google Play (אנדרואיד)
+          </a>
+        </div>
+        <div class="note warn"><b>זהירות מחיקויים</b>ודאו שהשם הוא <span class="en">Kraken Wallet</span> ושהמפתח הוא Kraken (Payward). יש באפליקציות הרבה חיקויים.</div>
+      </div>
+
+      <div class="step">
+        <div class="no">1</div>
+        <p>מורידים ומתקינים את האפליקציה, ופותחים אותה.</p>
+      </div>
+      <div class="step">
+        <div class="no">2</div>
+        <p>בוחרים <strong>יצירת ארנק חדש</strong> (Create a new wallet).</p>
+      </div>
+      <div class="step">
+        <div class="no">3</div>
+        <p>האפליקציה תציג לכם <strong>רשימת מילים לשחזור</strong> (Seed phrase). כותבים אותה על דף, לפי הסדר, ושומרים במקום בטוח.</p>
+        <div class="note warn"><b>הכלל הכי חשוב בקריפטו</b>מי שיש לו את המילים האלה, יש לו את הכסף. לא שולחים אותן לאף אחד, לא מצלמים ולא שומרים בוואטסאפ או במייל. אף נציג אמיתי לא יבקש אותן לעולם.</div>
+      </div>
+      <div class="step">
+        <div class="no">4</div>
+        <p>מגדירים קוד גישה או Face ID. זהו, יש לכם ארנק.</p>
+      </div>
+    </div>
+
+    <div class="part"><h3>צעד ג׳: מעבירים מ-Bit2C לארנק</h3></div>
+    <div class="steps">
+      <div class="step">
+        <div class="no">1</div>
+        <p>בארנק Kraken לוחצים <span class="en">Receive</span> (קבלה), בוחרים USDC ומעתיקים את <strong>כתובת הארנק</strong>.</p>
+      </div>
+      <div class="step">
+        <div class="no">2</div>
+        <p>ב-Bit2C נכנסים למשיכת USDC, מדביקים את הכתובת, בוחרים סכום ומאשרים.</p>
+        <div class="note warn"><b>רשת זהה בשני הצדדים</b>בכל העברת קריפטו בוחרים "רשת" (למשל Ethereum). הרשת בצד השולח חייבת להיות זהה לרשת בצד המקבל. אם לא, הכסף יכול ללכת לאיבוד.</div>
+        <div class="note tip"><b>טיפ של מקצוענים</b>בפעם הראשונה שולחים סכום קטן לבדיקה. כשהוא מגיע, שולחים את השאר.</div>
+      </div>
+      <div class="step">
+        <div class="no">3</div>
+        <p><strong>זהו! עכשיו הקריפטו אצלכם בכיס.</strong> 💪</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAGE 3 ============ -->
+<section id="stage3" class="alt">
+  <div class="wrap">
+    <div class="stage-head">
+      <div class="stage-num">3</div>
+      <h2>מפקידים מהארנק ל-TAG Markets</h2>
+      <p class="lead">השלב שבו הכסף מגיע לחשבון. צפו בסרטון, ואז עקבו אחרי הצעדים.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <h3>🎬 סרטון: הפקדה מהארנק ל-TAG Markets</h3>
+        <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/L-U2eRuiQuc" title="הפקדה מהארנק ל-TAG Markets" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+      </div>
+
+      <div class="step">
+        <div class="no">1</div>
+        <p>ב-TAG Markets, למעלה בצד ימין, לוחצים <span class="en">Deposit</span></p>
+        <p>אפשרויות ההפקדה בקריפטו: Bitcoin, Ethereum, USDT, <strong>USDC</strong>, BNB. הפקדה בקריפטו היא המהירה והפשוטה ביותר.</p>
+        <div class="shots">
+          <img class="shot" src="images/s3-01.jpg" alt="כפתור Deposit" loading="lazy">
+          <img class="shot" src="images/s3-02.jpg" alt="בחירת מטבע להפקדה" loading="lazy">
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="no">2</div>
+        <p>TAG Markets ייתן לכם <strong>כתובת הפקדה</strong>. מעתיקים אותה, ובארנק Kraken לוחצים <span class="en">Send</span>, מדביקים, בוחרים סכום ושולחים.</p>
+        <div class="note warn"><b>שוב: אותה רשת</b>המטבע והרשת שבחרתם ב-TAG Markets חייבים להיות זהים למה ששולחים מהארנק.</div>
+      </div>
+
+      <div class="step">
+        <div class="no">3</div>
+        <p>ברגע שההעברה מגיעה, היתרה תופיע למעלה בדף. 🎉</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAGE 4 ============ -->
+<section id="stage4">
+  <div class="wrap">
+    <div class="stage-head">
+      <div class="stage-num">4</div>
+      <h2>מתחברים לאסטרטגיה</h2>
+      <p class="lead">יש כסף בחשבון. עכשיו בוחרים אסטרטגיה ופותחים חשבון מסחר ישירות דרך Copy X.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="no">1</div>
+        <p>בתפריט, למטה בצד שמאל, לוחצים על <span class="en">Copy X</span> ובוחרים אסטרטגיה.</p>
+        <img class="shot" src="images/s3-03.jpg" alt="רשימת האסטרטגיות ב-Copy X" loading="lazy">
+        <div class="note info"><b>תבדקו לפני שבוחרים</b>קראו על כל אסטרטגיה וקבלו החלטה מושכלת. אסטרטגיית SONIC מופיעה כאן כדוגמה בלבד, לא כהמלצה.</div>
+      </div>
+
+      <div class="step">
+        <div class="no">2</div>
+        <p>לוחצים <span class="en">Connect</span>. נפתח חלון שבו פותחים חשבון ומחברים אותו לאסטרטגיה, בתהליך אחד.</p>
+        <p>בוחרים סכום לפי תנאי האסטרטגיה (הסכום חייב להיות זמין ביתרה).</p>
+        <img class="shot" src="images/s3-04.jpg" alt="חלון Connect" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">3</div>
+        <p><strong>פותחים חשבון 24X</strong> עם הקוד וההאש:</p>
+        <ul class="clean">
+          <li>מורידים את הסימון מ-<span class="en">Community Token</span></li>
+          <li>בשדה Code מקלידים <span class="code">#AiTech</span> ולוחצים <span class="en">Verify</span></li>
+          <li>בשדה Hash מקלידים <span class="code">00000</span> ולוחצים <span class="en">Submit</span></li>
+        </ul>
+        <div class="shots">
+          <img class="shot" src="images/s3-05.jpg" alt="הזנת קוד" loading="lazy">
+          <img class="shot" src="images/s3-06.jpg" alt="וי כחול: חשבון 24X נוצר" loading="lazy">
+        </div>
+        <div class="note tip"><b>וי כחול = הצלחה</b>הוא מסמן שחשבון ה-24X נוצר.</div>
+      </div>
+
+      <div class="step">
+        <div class="no">4</div>
+        <p>מסמנים את שני ה-וי בשדות הירוקים ולוחצים <span class="en">Copy Now</span>. מהעסקה הבאה, ה-24X פועל אצלכם.</p>
+        <img class="shot" src="images/s3-07.jpg" alt="כפתור Copy Now" loading="lazy">
+      </div>
+
+      <div class="step">
+        <div class="no">5</div>
+        <p>רוצים לבדוק את האסטרטגיה שלכם? 3 לחיצות:</p>
+        <p><span class="en">Copy X</span> (למטה בתפריט) ← <span class="en">Follower Hub</span> ← <span class="en">Strategies</span></p>
+        <p>שם אפשר גם להשקיע מחדש, למשוך או להפקיד שוב.</p>
+        <img class="shot" src="images/s3-08.jpg" alt="Follower Hub" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINISH ============ -->
+<section class="finish">
+  <div class="wrap">
+    <h2>סיימתם. <span>ברוכים הבאים באמת.</span></h2>
+    <p>עברתם את כל השלבים. מכאן ממשיכים יחד.</p>
+    <p>נתקעתם בשלב כלשהו? חזרו לתרשים למעלה, מצאו את השלב ופנו אלינו עם צילום מסך.</p>
+    <a class="btn" href="#map">חזרה לתרשים ↑</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>המידע בדף הוא מדריך טכני להצטרפות בלבד ואינו ייעוץ השקעות. מסחר ב-CFD ושימוש במינוף כרוכים בסיכון גבוה ועלולים להוביל להפסד של כל הסכום שהושקע. השקיעו רק כסף שאתם יכולים להרשות לעצמכם להפסיד.</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-label="תמונה מוגדלת"><img alt=""></div>
+
+<script>
+(function(){
+  var lb=document.getElementById('lb'), lbImg=lb.querySelector('img');
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.classList&&t.classList.contains('shot')){lbImg.src=t.src;lbImg.alt=t.alt;lb.classList.add('open');}
+    else if(lb.classList.contains('open')&&lb.contains(t)){lb.classList.remove('open');}
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open');});
+
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function onScroll(){
+    var y=window.scrollY+120, idx=0;
+    secs.forEach(function(s,i){if(s&&s.offsetTop<=y)idx=i;});
+    links.forEach(function(a,i){a.classList.toggle('on',i===idx);});
+    if(idx!==last){
+      last=idx;
+      var nav=links[idx].parentNode, r=links[idx].getBoundingClientRect(), n=nav.getBoundingClientRect();
+      nav.scrollBy({left:(r.left+r.width/2)-(n.left+n.width/2),behavior:'smooth'});
+    }
+  }
+  var last=-1;
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
