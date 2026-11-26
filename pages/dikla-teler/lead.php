@@ -3,8 +3,9 @@
  * Lead form for "מתנת הפערים" (present-of-gaps.html).
  *
  * Receives name / email / phone from the page and emails them to Dikla and to
- * Valead. Uses the same Brevo SMTP settings as the dashboard mailer
- * (dashboard/includes/config_load.php reads dashboard/config.php, read-only).
+ * Valead. Uses Brevo SMTP if dashboard/config.php has its keys (read-only,
+ * via config_load.php); otherwise Hostinger's own mail(). As of Nov 2026 the
+ * server has no Brevo keys, so mail() is the path in use.
  *
  * Recipients are fixed here on purpose: the browser never chooses where mail
  * goes, so this endpoint can't be used as an open relay.
@@ -85,16 +86,23 @@ $body = "ליד חדש מדף הנחיתה \"מתנת הפערים\"\n\n"
 
 $mail = new PHPMailer(true);
 try {
-    $mail->isSMTP();
-    $mail->Host       = 'smtp-relay.brevo.com';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = BREVO_SMTP_LOGIN;
-    $mail->Password   = BREVO_SMTP_KEY;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
-    $mail->CharSet    = 'UTF-8';
-
-    $mail->setFrom(GMAIL_USER, MAIL_FROM_NAME);
+    $mail->CharSet = 'UTF-8';
+    if (BREVO_SMTP_LOGIN !== '' && BREVO_SMTP_KEY !== '' && GMAIL_USER !== '') {
+        // Brevo, when the dashboard config has its keys.
+        $mail->isSMTP();
+        $mail->Host       = 'smtp-relay.brevo.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = BREVO_SMTP_LOGIN;
+        $mail->Password   = BREVO_SMTP_KEY;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+        $mail->setFrom(GMAIL_USER, MAIL_FROM_NAME);
+    } else {
+        // No SMTP keys on the server: send through Hostinger's own mail().
+        // The domain's SPF includes Hostinger, so a @coursyland.com sender passes.
+        $mail->isMail();
+        $mail->setFrom('no-reply@coursyland.com', 'CoursyLand', true);
+    }
     foreach (LEAD_RECIPIENTS as $to) {
         $mail->addAddress($to);
     }

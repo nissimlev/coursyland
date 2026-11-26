@@ -108,7 +108,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://coursyland.com/<הנתיב>
 ## 6. הדשבורד — `dashboard/`
 
 PHP + MySQL ב-`admin.coursyland.com`. מנהל לקוחות, קורסים, מכירות ודוחות.
-משולב עם **iCount** (חשבוניות) ו-**Gmail SMTP** (מיילים), ומייצר PDF עם mpdf.
+משולב עם **iCount** (חשבוניות) ו-**Brevo SMTP** (מיילים, ראה §8 על טופס לידים), ומייצר PDF עם mpdf.
 
 ### 🔴 חוק קשיח: לא נוגעים ב-`dashboard/config.php`
 
@@ -379,9 +379,11 @@ MCP של Cloudflare זמין בסביבה הזו לביצוע purge ישיר.
 ### טופס לידים שנשלח במייל (במקום טופס מוטמע)
 
 דוגמה: `pages/dikla-teler/lead.php` לצד `present-of-gaps.html`. הדף שולח
-`fetch` ל-`lead.php` שליד הדף, וה-PHP שולח מייל דרך אותו Brevo SMTP של הדשבורד
-(`dashboard/includes/config_load.php` + `dashboard/vendor/autoload.php`, קריאה
-בלבד של `config.php`). הנמענים **קבועים בקובץ ה-PHP**, לא נשלחים מהדפדפן, כדי
+`fetch` ל-`lead.php` שליד הדף, וה-PHP שולח מייל דרך Brevo SMTP אם יש מפתחות
+ב-`config.php` (קריאה בלבד, דרך `config_load.php`), ואחרת דרך `mail()` של
+Hostinger מ-`no-reply@coursyland.com` (ה-SPF של הדומיין כולל את Hostinger).
+**נכון לנובמבר 2026 אין בשרת מפתחות Brevo ו-`GMAIL_APP_PASSWORD` הוא placeholder**,
+כלומר גם `dashboard/includes/mailer.php` (שליחת דוחות) לא יכול לשלוח כרגע. הנמענים **קבועים בקובץ ה-PHP**, לא נשלחים מהדפדפן, כדי
 שה-endpoint לא יהפוך ל-open relay. יש שדה מלכודת (`website`) והגבלה של 5 שליחות
 ל-10 דקות לכל IP. אחרי השליחה הדף ממשיך לעמוד התשלום, וגם אם המייל נתקע הקונה
 מועבר אחרי 8 שניות. בדיקה מקומית: `php -S 127.0.0.1:8765` (לא `http.server`,
